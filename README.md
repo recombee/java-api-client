@@ -8,8 +8,14 @@ Documentation of the API can be found at [docs.recombee.com](https://docs.recomb
 
 ## Installation
 
-The client shall be available in the Maven Central Repository within days.
-Until then, you can use [jitpack](https://jitpack.io/#Recombee/java-api-client) for an easy install.
+The client is available in the [Maven Central Repository](https://mvnrepository.com/artifact/com.recombee/api-client/), so you need only to add the following `<dependency>` entry to your project's POM:
+```xml
+    <dependency>
+        <groupId>com.recombee</groupId>
+        <artifactId>api-client</artifactId>
+        <version>1.2.3</version>
+    </dependency>
+```
 
 ## Examples
 
