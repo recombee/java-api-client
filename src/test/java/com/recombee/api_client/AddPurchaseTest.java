@@ -34,6 +34,14 @@ public class AddPurchaseTest extends RecombeeTestCase {
         req = new AddPurchase("entity_id","entity_id").setTimestamp(parseDate("2013-10-29T09:38:41.341Z"));
         resp = this.client.send(req);
         // it 'fails with nonexisting item id'
+        req = new AddPurchase("entity_id","nonex_id");
+        try {
+            this.client.send(req);
+            fail("No exception thrown");
+        } catch (ResponseException ex) {
+            assertEquals(404,ex.getStatusCode());
+        }
+        // it 'fails with nonexisting user id'
         req = new AddPurchase("nonex_id","entity_id");
         try {
             this.client.send(req);

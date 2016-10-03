@@ -6,8 +6,7 @@
 
     <groupId>com.recombee</groupId>
     <artifactId>api-client</artifactId>
-    <version>1.2.3</version>
-
+    <version>1.2.4</version>
     <name>Recombee API Client</name>
     <description>A client library for easy use of the Recombee recommendation API</description>
     <url>http://recombee.com</url>
@@ -28,12 +27,12 @@
 
     <developers>
         <developer>
-        <id>ondra_fiedler</id>
-        <name>Ondrej Fiedler</name>
-        <email>ondrj.fiedler@recombee.com</email>
-        <url>https://github.com/OndraFiedler</url>
-        <organization>Recombee</organization>
-        <organizationUrl>http://recombee.com</organizationUrl>
+            <id>ondra_fiedler</id>
+            <name>Ondrej Fiedler</name>
+            <email>ondrj.fiedler@recombee.com</email>
+            <url>https://github.com/OndraFiedler</url>
+            <organization>Recombee</organization>
+            <organizationUrl>http://recombee.com</organizationUrl>
         </developer>
     </developers>
 
@@ -64,4 +63,81 @@
             <version>2.6</version>
         </dependency>
     </dependencies>
+
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
 </project>
