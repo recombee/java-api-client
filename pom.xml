@@ -6,7 +6,7 @@
 
     <groupId>com.recombee</groupId>
     <artifactId>api-client</artifactId>
-    <version>1.2.4</version>
+    <version>1.2.4.1</version>
     <name>Recombee API Client</name>
     <description>A client library for easy use of the Recombee recommendation API</description>
     <url>http://recombee.com</url>
@@ -29,7 +29,7 @@
         <developer>
             <id>ondra_fiedler</id>
             <name>Ondrej Fiedler</name>
-            <email>ondrj.fiedler@recombee.com</email>
+            <email>ondrej.fiedler@recombee.com</email>
             <url>https://github.com/OndraFiedler</url>
             <organization>Recombee</organization>
             <organizationUrl>http://recombee.com</organizationUrl>

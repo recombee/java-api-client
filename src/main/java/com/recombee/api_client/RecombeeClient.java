@@ -3,6 +3,8 @@ package com.recombee.api_client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import java.text.SimpleDateFormat;
+
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -73,6 +75,8 @@ public class RecombeeClient {
         this.databaseId = databaseId;
         this.token = token;
         this.mapper = new ObjectMapper();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        this.mapper.setDateFormat(df);
 
         if (System.getenv("RAPI_URI") != null)
             this.baseUri = System.getenv("RAPI_URI");
@@ -605,7 +609,7 @@ public class RecombeeClient {
 
     private HttpRequest post(String url, Request req) {
         try {
-            String json = new ObjectMapper().writeValueAsString(req.getBodyParameters());
+            String json = this.mapper.writeValueAsString(req.getBodyParameters());
             return Unirest.post(url).header("Content-Type", "application/json").
                     body(json.getBytes()).getHttpRequest();
         } catch (JsonProcessingException e) {
