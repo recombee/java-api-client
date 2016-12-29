@@ -33,6 +33,14 @@ class RecombeeTestCase {
                     put("int_property", 42);
                     put("str_property", "hello");
                 }
+                }),
+                new AddUserProperty("int_property", "int"),
+                new AddUserProperty("str_property", "string"),
+                new SetUserValues("entity_id", new HashMap<String, Object>() {
+                {
+                    put("int_property", 42);
+                    put("str_property", "hello");
+                }
                 })
         });
 

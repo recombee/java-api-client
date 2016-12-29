@@ -9,7 +9,7 @@ import com.recombee.api_client.util.HTTPMethod;
 /**
  * Set/update (some) property values of a given item. The properties (columns) must be previously created by [Add item property](https://docs.recombee.com/api.html#add-item-property).
  */
-public class SetItemValues extends Request {
+public class SetItemValues extends SetValues {
 
     /**
      * ID of the item which will be modified.
@@ -26,28 +26,24 @@ public class SetItemValues extends Request {
     /**
      * Construct the request
      * @param itemId ID of the item which will be modified.
-     * @param values The values for the individual properties. Key in the Map is the name of the property and value is the value to be set
+     * @param values The values for the individual properties. Key in the Map is the name of the property and value is the value to be set.
      */
     public SetItemValues (String itemId, Map<String, Object> values) {
+        super(values);
         this.itemId = itemId;
-        this.values = values;
     }
-
 
     public String getItemId() {
          return this.itemId;
     }
 
-    public Map<String, Object> getValues() {
-         return this.values;
-    }
-
     /**
-     * @return Used HTTP method
+     * @param cascadeCreate Sets whether the entity should be created if not present in the database.
      */
     @Override
-    public HTTPMethod getHTTPMethod() {
-        return HTTPMethod.POST;
+    public SetItemValues setCascadeCreate(boolean cascadeCreate) {
+         this.cascadeCreate = cascadeCreate;
+         return this;
     }
 
     /**
@@ -56,23 +52,5 @@ public class SetItemValues extends Request {
     @Override
     public String getPath() {
         return String.format("/items/%s", this.itemId);
-    }
-
-    /**
-     * Get query parameters
-     * @return Values of query parameters (name of parameter: value of the parameter)
-     */
-    @Override
-    public Map<String, Object> getQueryParameters() {
-        return new HashMap<String, Object>();
-    }
-
-    /**
-     * Get body parameters
-     * @return Values of body parameters (name of parameter: value of the parameter)
-     */
-    @Override
-    public Map<String, Object> getBodyParameters() {
-        return this.values;
     }
 }

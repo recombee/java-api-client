@@ -43,10 +43,9 @@ public class ItemPropertiesExample {
                         put("price", 600.0 + 400*rand.nextDouble());
                         put("num-cores", 1 + rand.nextInt(7));
                         put("description", "Great computer");
-                        put("!cascadeCreate", true); // Use !cascadeCreate for creating item
-                                                     // with given itemId, if it doesn't exist
                     }}
-                );
+                ).setCascadeCreate(true);  // Use cascadeCreate for creating item
+                                           // with given itemId, if it doesn't exist;
                 requests.add(req);
             }
             client.send(new Batch(requests)); // Send catalog to the recommender system

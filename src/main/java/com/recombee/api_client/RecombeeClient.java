@@ -21,6 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -44,7 +45,10 @@ import com.recombee.api_client.api_requests.ListSeries;
 import com.recombee.api_client.api_requests.ListSeriesItems;
 import com.recombee.api_client.api_requests.ListGroups;
 import com.recombee.api_client.api_requests.ListGroupItems;
+import com.recombee.api_client.api_requests.GetUserValues;
 import com.recombee.api_client.api_requests.ListUsers;
+import com.recombee.api_client.api_requests.GetUserPropertyInfo;
+import com.recombee.api_client.api_requests.ListUserProperties;
 import com.recombee.api_client.api_requests.ListItemDetailViews;
 import com.recombee.api_client.api_requests.ListUserDetailViews;
 import com.recombee.api_client.api_requests.ListItemPurchases;
@@ -70,6 +74,8 @@ public class RecombeeClient {
     NetworkApplicationProtocol defaultProtocol = NetworkApplicationProtocol.HTTP;
     String baseUri = "rapi.recombee.com";
     ObjectMapper mapper;
+
+    final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
     public RecombeeClient(String databaseId, String token) {
         this.databaseId = databaseId;
@@ -164,6 +170,26 @@ public class RecombeeClient {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, User[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public PropertyInfo send(GetUserPropertyInfo request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, PropertyInfo.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public PropertyInfo[] send(ListUserProperties request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, PropertyInfo[].class);
         } catch (IOException e) {
             e.printStackTrace();
          }
@@ -273,6 +299,11 @@ public class RecombeeClient {
     /* End of the generated code */
 
     public BatchResponse[] send(Batch batchRequest) throws ApiException {
+
+        if(batchRequest.getRequests().size() > this.BATCH_MAX_SIZE) {
+            return sendMultipartBatchRequest(batchRequest);
+        }
+
         String responseStr = sendRequest(batchRequest);
 
         try {
@@ -376,6 +407,20 @@ public class RecombeeClient {
                         parsedResponse = ar;
                     }
 
+                    else if (request instanceof GetUserPropertyInfo)
+                    {
+                        Map<String, Object> obj = (Map<String, Object>) parsedResponse;
+                        parsedResponse = new PropertyInfo(obj);
+                    }
+
+                    else if (request instanceof ListUserProperties)
+                    {
+                        ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
+                        PropertyInfo[] ar = new PropertyInfo[array.size()];
+                        for(int j=0;j<ar.length;j++) ar[j] = new PropertyInfo(array.get(j));
+                        parsedResponse = ar;
+                    }
+
                     else if (request instanceof ListItemDetailViews)
                     {
                         ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
@@ -467,7 +512,51 @@ public class RecombeeClient {
         }
         return null;
     }
-    /* End of the generated code */
+
+
+
+    private BatchResponse[] sendMultipartBatchRequest(Batch batchRequest) throws ApiException {
+
+        List<List<Request>> requestChunks = getRequestsChunks(batchRequest);
+        ArrayList<BatchResponse[]> responses = new ArrayList<BatchResponse[]>();
+
+        for(List<Request> rqs: requestChunks)
+            responses.add(send(new Batch(rqs)));
+
+        return concatenateResponses(responses);
+    }
+
+    private List<List<Request>> getRequestsChunks(Batch batchRequest) {
+
+        ArrayList<List<Request>> result = new ArrayList<List<Request>>();
+        List<Request> requests = batchRequest.getRequests();
+        int fullparts = requests.size() / this.BATCH_MAX_SIZE;
+
+        for(int i=0;i<fullparts;i++)
+            result.add(requests.subList(i * this.BATCH_MAX_SIZE, (i+1) * this.BATCH_MAX_SIZE));
+
+        if(fullparts * this.BATCH_MAX_SIZE < requests.size())
+            result.add(requests.subList(fullparts * this.BATCH_MAX_SIZE, requests.size()));
+
+        return result;
+    }
+
+    private BatchResponse[] concatenateResponses(ArrayList<BatchResponse[]> responses)
+    {
+        int size = 0, i = 0;
+
+        for(BatchResponse[] rsps: responses) {
+            size += rsps.length;
+        }
+
+        BatchResponse[] result = new BatchResponse[size];
+
+        for(BatchResponse[] rsps: responses) {
+            for(BatchResponse rsp: rsps)
+                result[i++] = rsp;
+        }
+        return result;
+    }    /* End of the generated code */
 
     public Map<String, Object> send(GetItemValues request) throws ApiException {
         String responseStr = sendRequest(request);
@@ -481,6 +570,21 @@ public class RecombeeClient {
         }
         return null;
     }
+
+
+    public Map<String, Object> send(GetUserValues request) throws ApiException {
+        String responseStr = sendRequest(request);
+
+        TypeReference<HashMap<String,Object>> typeRef 
+                = new TypeReference<HashMap<String,Object>>() {};
+        try {
+            return this.mapper.readValue(responseStr, typeRef);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public Recommendation[] send(UserBasedRecommendation request) throws ApiException {
         return sendRecomm(request);

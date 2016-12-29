@@ -13,32 +13,24 @@ public class BasicExample {
 
         RecombeeClient client = new RecombeeClient("client-test", "jGGQ6ZKa8rQ1zTAyxTc0EMn55YPF7FJLUtaMLhbsGxmvwxgTwXYqmUk5xVZFw98L");
         try {
+            client.send(new ResetDatabase());
             final int NUM = 100;
-            //Create some users and send them to Recombee, use Batch for faster processing
-            ArrayList<Request> addUserRequests = new ArrayList<Request>();
-            for (int i = 0; i < NUM; i++) addUserRequests.add(new AddUser(String.format("user-%s", i)));
-
-            System.out.println("Send users");
-            client.send(new Batch(addUserRequests));
-
-            //Now create some items
-            ArrayList<Request> addItemRequests = new ArrayList<Request>();
-            for (int i = 0; i < NUM; i++) addItemRequests.add(new AddItem(String.format("item-%s", i)));
-
-            System.out.println("Send items");
-            client.send(new Batch(addItemRequests));
-
             // Generate some random purchases of items by users
-            final double PROBABILITY_PURCHASED = 0.01;
+            final double PROBABILITY_PURCHASED = 0.1;
             Random r = new Random();
             ArrayList<Request> addPurchaseRequests = new ArrayList<Request>();
             for (int i = 0; i < NUM; i++)
                 for (int j = 0; j < NUM; j++)
-                    if (r.nextDouble() < PROBABILITY_PURCHASED)
-                        addPurchaseRequests.add(new AddPurchase(String.format("user-%s", i),String.format("item-%s", j)));
+                    if (r.nextDouble() < PROBABILITY_PURCHASED) {
+
+                        AddPurchase request = new AddPurchase(String.format("user-%s", i),String.format("item-%s", j))
+                                                    .setCascadeCreate(true); // Use cascadeCreate parameter to create
+                                                                             // the yet non-existing users and items
+                        addPurchaseRequests.add(request);
+                    }
 
             System.out.println("Send purchases");
-            client.send(new Batch(addPurchaseRequests));
+            client.send(new Batch(addPurchaseRequests)); //Use Batch for faster processing of larger data
 
             // Get 5 recommendations for user 'user-25'
             Recommendation[] recommended = client.send(new UserBasedRecommendation("user-25", 5));
