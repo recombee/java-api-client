@@ -8,12 +8,12 @@ Documentation of the API can be found at [docs.recombee.com](https://docs.recomb
 
 ## Installation
 
-The client is available in the [Maven Central Repository](https://mvnrepository.com/artifact/com.recombee/api-client/), so you need only to add the following `<dependency>` entry to your project's POM:
+The client is available in the [Maven Central Repository](https://mvnrepository.com/artifact/com.recombee/api-client/), so you just need to add the following `<dependency>` entry to your project's POM:
 ```xml
     <dependency>
         <groupId>com.recombee</groupId>
         <artifactId>api-client</artifactId>
-        <version>1.3</version>
+        <version>1.4.0</version>
     </dependency>
 ```
 

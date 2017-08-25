@@ -28,5 +28,9 @@ public class ListItemsTest extends RecombeeTestCase {
         req = new ListItems();
         resp = this.client.send(req);
         assertArrayEquals (new Item[]{new Item("entity_id")},resp);
+        // it 'return properties'
+        req = new ListItems();
+        resp = this.client.send(req);
+        assertEquals(1, resp.length);
     }
 }

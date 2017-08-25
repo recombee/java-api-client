@@ -1,15 +1,10 @@
 package com.recombee.api_client.bindings;
 
-/*
- This file is auto-generated, do not edit
-*/
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import java.util.Map;
-import java.util.Date;
 
-public class Item extends RecombeeBinding {
+public class Item extends Entity {
     /**
      * Id of the item
      */
@@ -17,12 +12,13 @@ public class Item extends RecombeeBinding {
 
     public Item () {}
 
-    public Item (String itemId) {
+    public Item(String itemId) {
         this.itemId = itemId;
     }
 
-    public Item (Map<String, Object> jsonObject) {
-        this.itemId = (String) jsonObject.get("itemId");
+    public Item (String itemId,Map<String, Object> values) {
+        super(values);
+        this.itemId = itemId;
     }
 
     public String getItemId() {
@@ -32,6 +28,7 @@ public class Item extends RecombeeBinding {
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
+        append(super.hashCode()).
         append(this.itemId).
         toHashCode();
     }
@@ -46,6 +43,7 @@ public class Item extends RecombeeBinding {
          Item rhs = (Item) obj;
          return new EqualsBuilder().
             append(this.itemId, rhs.itemId).
+            append(this.values, rhs.values).
             isEquals();
     }
 }

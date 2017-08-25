@@ -23,7 +23,7 @@ public class AddUserBatchTest extends RecombeeTestCase {
     public void testAddUser() throws ApiException {
         Request[] requests = new Request[] {
             new AddUser("valid_id"),
-            new AddUser("not_valid_id-*.?!"),
+            new AddUser("...not_valid..."),
             new AddUser("valid_id2"),
             new AddUser("valid_id2")
         };

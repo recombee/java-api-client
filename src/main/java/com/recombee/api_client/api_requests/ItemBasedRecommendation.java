@@ -12,11 +12,12 @@ import com.recombee.api_client.util.HTTPMethod;
 
 /**
  * Recommends set of items that are somehow related to one given item, *X*. Typical scenario for using item-based recommendation is when user *A* is viewing *X*. Then you may display items to the user that he might be also interested in. Item-recommendation request gives you Top-N such items, optionally taking the target user *A* into account.
+ *  It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
  */
 public class ItemBasedRecommendation extends Request {
 
     /**
-     * ID of the item recommendations for which are to be generated.
+     * ID of the item for which the recommendations are to be generated.
      */
     protected String itemId;
     /**
@@ -27,11 +28,13 @@ public class ItemBasedRecommendation extends Request {
      * ID of the user who will see the recommendations.
      * Specifying the *targetUserId* is beneficial because:
      * * It makes the recommendations personalized
-     * * Allows calculations of Actions and Conversions in the graphical user interface, as Recombee can pair the user who got recommendations and who afterwards viewed/purchased an item.
+     * * Allows the calculation of Actions and Conversions in the graphical user interface,
+     *   as Recombee can pair the user who got recommendations and who afterwards viewed/purchased an item.
+     * For the above reasons, we encourage you to set the *targetUserId* even for anonymous/unregistered users (i.e. use their session ID).
      */
     protected String targetUserId;
     /**
-     * If *targetUserId* parameter is present, the recommendations are biased towards the user given. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get user-based recommendation. The default value is `0.1`
+     * If *targetUserId* parameter is present, the recommendations are biased towards the user given. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get user-based recommendation. The default value is `0`.
      */
     protected Double userImpact;
     /**
@@ -51,7 +54,7 @@ public class ItemBasedRecommendation extends Request {
      */
     protected Boolean cascadeCreate;
     /**
-     * Scenario defines a particular application of recommendations. It can be for example "homepage" or "cart". The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
+     * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
     protected String scenario;
     /**
@@ -109,13 +112,17 @@ public class ItemBasedRecommendation extends Request {
      */
     protected Double rotationRate;
     /**
-     * **Expert option** If the *targetUserId* is provided: Taking *rotationRate* into account, specifies how long time it takes to an item to fully recover from the penalization. For example, `rotationTime=7200.0` means that items recommended more than 2 hours ago are definitely not penalized anymore. Currently, the penalization is linear, so for `rotationTime=7200.0`, an item is still penalized by `0.5` to the user after 1 hour.
+     * **Expert option** If the *targetUserId* is provided: Taking *rotationRate* into account, specifies how long time it takes to an item to recover from the penalization. For example, `rotationTime=7200.0` means that items recommended less than 2 hours ago are penalized.
      */
     protected Double rotationTime;
+    /**
+     * Dictionary of custom options.
+     */
+    protected Map<String, Object> expertSettings;
 
     /**
      * Construct the request
-     * @param itemId ID of the item recommendations for which are to be generated.
+     * @param itemId ID of the item for which the recommendations are to be generated.
      * @param count Number of items to be recommended (N for the top-N recommendation).
      */
     public ItemBasedRecommendation (String itemId,long count) {
@@ -128,7 +135,9 @@ public class ItemBasedRecommendation extends Request {
      * @param targetUserId ID of the user who will see the recommendations.
      * Specifying the *targetUserId* is beneficial because:
      * * It makes the recommendations personalized
-     * * Allows calculations of Actions and Conversions in the graphical user interface, as Recombee can pair the user who got recommendations and who afterwards viewed/purchased an item.
+     * * Allows the calculation of Actions and Conversions in the graphical user interface,
+     *   as Recombee can pair the user who got recommendations and who afterwards viewed/purchased an item.
+     * For the above reasons, we encourage you to set the *targetUserId* even for anonymous/unregistered users (i.e. use their session ID).
      */
     public ItemBasedRecommendation setTargetUserId(String targetUserId) {
          this.targetUserId = targetUserId;
@@ -136,7 +145,7 @@ public class ItemBasedRecommendation extends Request {
     }
 
     /**
-     * @param userImpact If *targetUserId* parameter is present, the recommendations are biased towards the user given. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get user-based recommendation. The default value is `0.1`
+     * @param userImpact If *targetUserId* parameter is present, the recommendations are biased towards the user given. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get user-based recommendation. The default value is `0`.
      */
     public ItemBasedRecommendation setUserImpact(double userImpact) {
          this.userImpact = userImpact;
@@ -176,7 +185,7 @@ public class ItemBasedRecommendation extends Request {
     }
 
     /**
-     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage" or "cart". The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
+     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
     public ItemBasedRecommendation setScenario(String scenario) {
          this.scenario = scenario;
@@ -258,10 +267,18 @@ public class ItemBasedRecommendation extends Request {
     }
 
     /**
-     * @param rotationTime **Expert option** If the *targetUserId* is provided: Taking *rotationRate* into account, specifies how long time it takes to an item to fully recover from the penalization. For example, `rotationTime=7200.0` means that items recommended more than 2 hours ago are definitely not penalized anymore. Currently, the penalization is linear, so for `rotationTime=7200.0`, an item is still penalized by `0.5` to the user after 1 hour.
+     * @param rotationTime **Expert option** If the *targetUserId* is provided: Taking *rotationRate* into account, specifies how long time it takes to an item to recover from the penalization. For example, `rotationTime=7200.0` means that items recommended less than 2 hours ago are penalized.
      */
     public ItemBasedRecommendation setRotationTime(double rotationTime) {
          this.rotationTime = rotationTime;
+         return this;
+    }
+
+    /**
+     * @param expertSettings Dictionary of custom options.
+     */
+    public ItemBasedRecommendation setExpertSettings(Map<String, Object> expertSettings) {
+         this.expertSettings = expertSettings;
          return this;
     }
 
@@ -328,12 +345,16 @@ public class ItemBasedRecommendation extends Request {
          return this.rotationTime;
     }
 
+    public Map<String, Object> getExpertSettings() {
+         return this.expertSettings;
+    }
+
     /**
      * @return Used HTTP method
      */
     @Override
     public HTTPMethod getHTTPMethod() {
-        return HTTPMethod.GET;
+        return HTTPMethod.POST;
     }
 
     /**
@@ -351,48 +372,6 @@ public class ItemBasedRecommendation extends Request {
     @Override
     public Map<String, Object> getQueryParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("count", this.count.toString());
-        if (this.targetUserId!=null) {
-            params.put("targetUserId", this.targetUserId.toString());
-        }
-        if (this.userImpact!=null) {
-            params.put("userImpact", this.userImpact.toString());
-        }
-        if (this.filter!=null) {
-            params.put("filter", this.filter.toString());
-        }
-        if (this.booster!=null) {
-            params.put("booster", this.booster.toString());
-        }
-        if (this.allowNonexistent!=null) {
-            params.put("allowNonexistent", this.allowNonexistent.toString());
-        }
-        if (this.cascadeCreate!=null) {
-            params.put("cascadeCreate", this.cascadeCreate.toString());
-        }
-        if (this.scenario!=null) {
-            params.put("scenario", this.scenario.toString());
-        }
-        if (this.returnProperties!=null) {
-            params.put("returnProperties", this.returnProperties.toString());
-        }
-        if (this.includedProperties!=null) {
-            String includedPropertiesStr = "";
-            for(String el: this.includedProperties) includedPropertiesStr += ((includedPropertiesStr.equals(""))?"":",") + el;
-            params.put("includedProperties", includedPropertiesStr);
-        }
-        if (this.diversity!=null) {
-            params.put("diversity", this.diversity.toString());
-        }
-        if (this.minRelevance!=null) {
-            params.put("minRelevance", this.minRelevance.toString());
-        }
-        if (this.rotationRate!=null) {
-            params.put("rotationRate", this.rotationRate.toString());
-        }
-        if (this.rotationTime!=null) {
-            params.put("rotationTime", this.rotationTime.toString());
-        }
         return params;
     }
 
@@ -403,6 +382,49 @@ public class ItemBasedRecommendation extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("count", this.count);
+        if (this.targetUserId!=null) {
+            params.put("targetUserId", this.targetUserId);
+        }
+        if (this.userImpact!=null) {
+            params.put("userImpact", this.userImpact);
+        }
+        if (this.filter!=null) {
+            params.put("filter", this.filter);
+        }
+        if (this.booster!=null) {
+            params.put("booster", this.booster);
+        }
+        if (this.allowNonexistent!=null) {
+            params.put("allowNonexistent", this.allowNonexistent);
+        }
+        if (this.cascadeCreate!=null) {
+            params.put("cascadeCreate", this.cascadeCreate);
+        }
+        if (this.scenario!=null) {
+            params.put("scenario", this.scenario);
+        }
+        if (this.returnProperties!=null) {
+            params.put("returnProperties", this.returnProperties);
+        }
+        if (this.includedProperties!=null) {
+            params.put("includedProperties", this.includedProperties);
+        }
+        if (this.diversity!=null) {
+            params.put("diversity", this.diversity);
+        }
+        if (this.minRelevance!=null) {
+            params.put("minRelevance", this.minRelevance);
+        }
+        if (this.rotationRate!=null) {
+            params.put("rotationRate", this.rotationRate);
+        }
+        if (this.rotationTime!=null) {
+            params.put("rotationTime", this.rotationTime);
+        }
+        if (this.expertSettings!=null) {
+            params.put("expertSettings", this.expertSettings);
+        }
         return params;
     }
 

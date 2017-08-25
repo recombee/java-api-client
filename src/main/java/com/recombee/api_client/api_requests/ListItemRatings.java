@@ -26,7 +26,7 @@ public class ListItemRatings extends Request {
      */
     public ListItemRatings (String itemId) {
         this.itemId = itemId;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

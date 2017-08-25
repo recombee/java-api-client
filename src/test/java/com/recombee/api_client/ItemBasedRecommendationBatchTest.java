@@ -22,11 +22,17 @@ public class ItemBasedRecommendationBatchTest extends RecommendationTestCase {
     @Test
     public void testItemBasedRecommendation() throws ApiException {
         Request[] requests = new Request[] {
-            new ItemBasedRecommendation("entity_id",9)
+            new ItemBasedRecommendation("entity_id",9),
+            new ItemBasedRecommendation("nonexisting",9).setCascadeCreate(true),
+            new ItemBasedRecommendation("nonexisting2",9).setCascadeCreate(true).setExpertSettings(new HashMap<String, Object>(){{}})
         };
 
         BatchResponse[] responses = this.client.send(new Batch(requests));
         assertEquals(200,responses[0].getStatusCode());
         assertEquals(9, ((Recommendation []) responses[0].getResponse()).length);
+        assertEquals(200,responses[1].getStatusCode());
+        assertEquals(9, ((Recommendation []) responses[1].getResponse()).length);
+        assertEquals(200,responses[2].getStatusCode());
+        assertEquals(9, ((Recommendation []) responses[2].getResponse()).length);
     }
 }

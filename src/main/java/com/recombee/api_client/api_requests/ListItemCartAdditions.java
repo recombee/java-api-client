@@ -26,7 +26,7 @@ public class ListItemCartAdditions extends Request {
      */
     public ListItemCartAdditions (String itemId) {
         this.itemId = itemId;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

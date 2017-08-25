@@ -23,7 +23,7 @@ public class AddGroupBatchTest extends RecombeeTestCase {
     public void testAddGroup() throws ApiException {
         Request[] requests = new Request[] {
             new AddGroup("valid_id"),
-            new AddGroup("not_valid_id-*.?!"),
+            new AddGroup("...not_valid..."),
             new AddGroup("valid_id2"),
             new AddGroup("valid_id2")
         };

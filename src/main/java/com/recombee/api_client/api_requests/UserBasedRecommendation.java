@@ -12,6 +12,7 @@ import com.recombee.api_client.util.HTTPMethod;
 
 /**
  * Based on user's past interactions (purchases, ratings, etc.) with the items, recommends top-N items that are most likely to be of high value for a given user.
+ * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
  */
 public class UserBasedRecommendation extends Request {
 
@@ -40,7 +41,7 @@ public class UserBasedRecommendation extends Request {
      */
     protected Boolean cascadeCreate;
     /**
-     * Scenario defines a particular application of recommendations. It can be for example "homepage" or "cart". The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
+     * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
     protected String scenario;
     /**
@@ -98,9 +99,13 @@ public class UserBasedRecommendation extends Request {
      */
     protected Double rotationRate;
     /**
-     * **Expert option** Taking *rotationRate* into account, specifies how long time it takes to an item to fully recover from the penalization. For example, `rotationTime=7200.0` means that items recommended more than 2 hours ago are definitely not penalized anymore. Currently, the penalization is linear, so for `rotationTime=7200.0`, an item is still penalized by `0.5` to the user after 1 hour.
+     * **Expert option** Taking *rotationRate* into account, specifies how long time it takes to an item to recover from the penalization. For example, `rotationTime=7200.0` means that items recommended less than 2 hours ago are penalized.
      */
     protected Double rotationTime;
+    /**
+     * Dictionary of custom options.
+     */
+    protected Map<String, Object> expertSettings;
 
     /**
      * Construct the request
@@ -146,7 +151,7 @@ public class UserBasedRecommendation extends Request {
     }
 
     /**
-     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage" or "cart". The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
+     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
     public UserBasedRecommendation setScenario(String scenario) {
          this.scenario = scenario;
@@ -228,10 +233,18 @@ public class UserBasedRecommendation extends Request {
     }
 
     /**
-     * @param rotationTime **Expert option** Taking *rotationRate* into account, specifies how long time it takes to an item to fully recover from the penalization. For example, `rotationTime=7200.0` means that items recommended more than 2 hours ago are definitely not penalized anymore. Currently, the penalization is linear, so for `rotationTime=7200.0`, an item is still penalized by `0.5` to the user after 1 hour.
+     * @param rotationTime **Expert option** Taking *rotationRate* into account, specifies how long time it takes to an item to recover from the penalization. For example, `rotationTime=7200.0` means that items recommended less than 2 hours ago are penalized.
      */
     public UserBasedRecommendation setRotationTime(double rotationTime) {
          this.rotationTime = rotationTime;
+         return this;
+    }
+
+    /**
+     * @param expertSettings Dictionary of custom options.
+     */
+    public UserBasedRecommendation setExpertSettings(Map<String, Object> expertSettings) {
+         this.expertSettings = expertSettings;
          return this;
     }
 
@@ -290,12 +303,16 @@ public class UserBasedRecommendation extends Request {
          return this.rotationTime;
     }
 
+    public Map<String, Object> getExpertSettings() {
+         return this.expertSettings;
+    }
+
     /**
      * @return Used HTTP method
      */
     @Override
     public HTTPMethod getHTTPMethod() {
-        return HTTPMethod.GET;
+        return HTTPMethod.POST;
     }
 
     /**
@@ -313,42 +330,6 @@ public class UserBasedRecommendation extends Request {
     @Override
     public Map<String, Object> getQueryParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("count", this.count.toString());
-        if (this.filter!=null) {
-            params.put("filter", this.filter.toString());
-        }
-        if (this.booster!=null) {
-            params.put("booster", this.booster.toString());
-        }
-        if (this.allowNonexistent!=null) {
-            params.put("allowNonexistent", this.allowNonexistent.toString());
-        }
-        if (this.cascadeCreate!=null) {
-            params.put("cascadeCreate", this.cascadeCreate.toString());
-        }
-        if (this.scenario!=null) {
-            params.put("scenario", this.scenario.toString());
-        }
-        if (this.returnProperties!=null) {
-            params.put("returnProperties", this.returnProperties.toString());
-        }
-        if (this.includedProperties!=null) {
-            String includedPropertiesStr = "";
-            for(String el: this.includedProperties) includedPropertiesStr += ((includedPropertiesStr.equals(""))?"":",") + el;
-            params.put("includedProperties", includedPropertiesStr);
-        }
-        if (this.diversity!=null) {
-            params.put("diversity", this.diversity.toString());
-        }
-        if (this.minRelevance!=null) {
-            params.put("minRelevance", this.minRelevance.toString());
-        }
-        if (this.rotationRate!=null) {
-            params.put("rotationRate", this.rotationRate.toString());
-        }
-        if (this.rotationTime!=null) {
-            params.put("rotationTime", this.rotationTime.toString());
-        }
         return params;
     }
 
@@ -359,6 +340,43 @@ public class UserBasedRecommendation extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("count", this.count);
+        if (this.filter!=null) {
+            params.put("filter", this.filter);
+        }
+        if (this.booster!=null) {
+            params.put("booster", this.booster);
+        }
+        if (this.allowNonexistent!=null) {
+            params.put("allowNonexistent", this.allowNonexistent);
+        }
+        if (this.cascadeCreate!=null) {
+            params.put("cascadeCreate", this.cascadeCreate);
+        }
+        if (this.scenario!=null) {
+            params.put("scenario", this.scenario);
+        }
+        if (this.returnProperties!=null) {
+            params.put("returnProperties", this.returnProperties);
+        }
+        if (this.includedProperties!=null) {
+            params.put("includedProperties", this.includedProperties);
+        }
+        if (this.diversity!=null) {
+            params.put("diversity", this.diversity);
+        }
+        if (this.minRelevance!=null) {
+            params.put("minRelevance", this.minRelevance);
+        }
+        if (this.rotationRate!=null) {
+            params.put("rotationRate", this.rotationRate);
+        }
+        if (this.rotationTime!=null) {
+            params.put("rotationTime", this.rotationTime);
+        }
+        if (this.expertSettings!=null) {
+            params.put("expertSettings", this.expertSettings);
+        }
         return params;
     }
 

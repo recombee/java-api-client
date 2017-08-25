@@ -25,10 +25,6 @@ public class MergeUsers extends Request {
      */
     protected String sourceUserId;
     /**
-     * If true, the source user will not be deleted, but also kept in the database.
-     */
-    protected String keepSourceUser;
-    /**
      * Sets whether the user *targetUserId* should be created if not present in the database.
      */
     protected Boolean cascadeCreate;
@@ -41,15 +37,7 @@ public class MergeUsers extends Request {
     public MergeUsers (String targetUserId,String sourceUserId) {
         this.targetUserId = targetUserId;
         this.sourceUserId = sourceUserId;
-        this.timeout = 1000;
-    }
-
-    /**
-     * @param keepSourceUser If true, the source user will not be deleted, but also kept in the database.
-     */
-    public MergeUsers setKeepSourceUser(String keepSourceUser) {
-         this.keepSourceUser = keepSourceUser;
-         return this;
+        this.timeout = 10000;
     }
 
     /**
@@ -66,10 +54,6 @@ public class MergeUsers extends Request {
 
     public String getSourceUserId() {
          return this.sourceUserId;
-    }
-
-    public String getKeepSourceUser() {
-         return this.keepSourceUser;
     }
 
     public boolean getCascadeCreate() {
@@ -100,9 +84,6 @@ public class MergeUsers extends Request {
     @Override
     public Map<String, Object> getQueryParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
-        if (this.keepSourceUser!=null) {
-            params.put("keepSourceUser", this.keepSourceUser.toString());
-        }
         if (this.cascadeCreate!=null) {
             params.put("cascadeCreate", this.cascadeCreate.toString());
         }

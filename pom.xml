@@ -6,7 +6,7 @@
 
     <groupId>com.recombee</groupId>
     <artifactId>api-client</artifactId>
-    <version>1.3</version>
+    <version>1.4.0</version>
     <name>Recombee API Client</name>
     <description>A client library for easy use of the Recombee recommendation API</description>
     <url>http://recombee.com</url>

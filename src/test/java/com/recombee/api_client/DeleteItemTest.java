@@ -34,7 +34,7 @@ public class DeleteItemTest extends RecombeeTestCase {
             assertEquals(404,ex.getStatusCode());
         }
         // it 'fails with invalid entity id'
-        req = new DeleteItem("not_valid_id-*.?!");
+        req = new DeleteItem("...not_valid...");
         try {
             this.client.send(req);
             fail("No exception thrown");

@@ -26,7 +26,7 @@ public class ListUserBookmarks extends Request {
      */
     public ListUserBookmarks (String userId) {
         this.userId = userId;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

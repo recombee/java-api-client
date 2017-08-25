@@ -26,7 +26,7 @@ public class ListItemBookmarks extends Request {
      */
     public ListItemBookmarks (String itemId) {
         this.itemId = itemId;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

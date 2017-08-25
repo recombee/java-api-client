@@ -24,7 +24,7 @@ public class DeleteGroupBatchTest extends RecombeeTestCase {
         Request[] requests = new Request[] {
             new DeleteGroup("entity_id"),
             new DeleteGroup("entity_id"),
-            new DeleteGroup("not_valid_id-*.?!"),
+            new DeleteGroup("...not_valid..."),
             new DeleteGroup("valid_id")
         };
 

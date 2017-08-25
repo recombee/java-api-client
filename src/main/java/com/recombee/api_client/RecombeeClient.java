@@ -77,6 +77,8 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
+    final String USER_AGENT = "recombee-java-api-client/1.4.0";
+
     public RecombeeClient(String databaseId, String token) {
         this.databaseId = databaseId;
         this.token = token;
@@ -96,16 +98,6 @@ public class RecombeeClient {
         this.defaultProtocol = defaultProtocol;
     }
     /* Start of the generated code */
-    public Item[] send(ListItems request) throws ApiException {
-        String responseStr = sendRequest(request);
-        try {
-            return this.mapper.readValue(responseStr, Item[].class);
-        } catch (IOException e) {
-            e.printStackTrace();
-         }
-         return null;
-    }
-
     public PropertyInfo send(GetItemPropertyInfo request) throws ApiException {
         String responseStr = sendRequest(request);
         try {
@@ -160,16 +152,6 @@ public class RecombeeClient {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, GroupItem[].class);
-        } catch (IOException e) {
-            e.printStackTrace();
-         }
-         return null;
-    }
-
-    public User[] send(ListUsers request) throws ApiException {
-        String responseStr = sendRequest(request);
-        try {
-            return this.mapper.readValue(responseStr, User[].class);
         } catch (IOException e) {
             e.printStackTrace();
          }
@@ -344,15 +326,43 @@ public class RecombeeClient {
                             parsedResponse = ar;
                         }
                     }
-                    /* Start of the generated code */
                     else if (request instanceof ListItems)
                     {
-                        ArrayList<String> array = (ArrayList<String>) parsedResponse;
-                        Item[] ar = new Item[array.size()];
-                        for(int j=0;j<ar.length;j++) ar[j] = new Item(array.get(j));
-                        parsedResponse = ar;
+                        boolean returnProperties = ((ListItems) request).getReturnProperties();
+                        if(returnProperties)
+                        {
+                            ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
+                            Item[] ar = new Item[array.size()];
+                            for(int j=0;j<ar.length;j++) ar[j] = new Item((String)array.get(j).get("itemId"), array.get(j));
+                            parsedResponse = ar;
+                        }
+                        else
+                        {
+                            ArrayList<String> array = (ArrayList<String>) parsedResponse;
+                            Item[] ar = new Item[array.size()];
+                            for(int j=0;j<ar.length;j++) ar[j] = new Item(array.get(j));
+                            parsedResponse = ar;
+                        }
                     }
-
+                    else if (request instanceof ListUsers)
+                    {
+                        boolean returnProperties = ((ListUsers) request).getReturnProperties();
+                        if(returnProperties)
+                        {
+                            ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
+                            User[] ar = new User[array.size()];
+                            for(int j=0;j<ar.length;j++) ar[j] = new User((String)array.get(j).get("userId"), array.get(j));
+                            parsedResponse = ar;
+                        }
+                        else
+                        {
+                            ArrayList<String> array = (ArrayList<String>) parsedResponse;
+                            User[] ar = new User[array.size()];
+                            for(int j=0;j<ar.length;j++) ar[j] = new User(array.get(j));
+                            parsedResponse = ar;
+                        }
+                    }
+                    /* Start of the generated code */
                     else if (request instanceof GetItemPropertyInfo)
                     {
                         Map<String, Object> obj = (Map<String, Object>) parsedResponse;
@@ -396,14 +406,6 @@ public class RecombeeClient {
                         ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
                         GroupItem[] ar = new GroupItem[array.size()];
                         for(int j=0;j<ar.length;j++) ar[j] = new GroupItem(array.get(j));
-                        parsedResponse = ar;
-                    }
-
-                    else if (request instanceof ListUsers)
-                    {
-                        ArrayList<String> array = (ArrayList<String>) parsedResponse;
-                        User[] ar = new User[array.size()];
-                        for(int j=0;j<ar.length;j++) ar[j] = new User(array.get(j));
                         parsedResponse = ar;
                     }
 
@@ -616,6 +618,50 @@ public class RecombeeClient {
          return null;
     }
 
+    public Item[] send(ListItems request) throws ApiException {
+        String responseStr = sendRequest(request);
+
+        try {
+            return this.mapper.readValue(responseStr, Item[].class);
+        } catch (IOException e) {
+            //might have failed because it returned also the item properties
+            TypeReference<HashMap<String,Object>[]> typeRef 
+                    = new TypeReference<HashMap<String,Object>[]>() {};
+            try {
+                Map<String, Object>[] valsArray = this.mapper.readValue(responseStr, typeRef);
+                Item [] recomms = new Item[valsArray.length];
+                for(int i=0;i<valsArray.length;i++)
+                    recomms[i] = new Item((String)valsArray[i].get("itemId"), valsArray[i]);
+                return recomms;
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+         }
+         return null;
+    }
+
+
+    public User[] send(ListUsers request) throws ApiException {
+        String responseStr = sendRequest(request);
+
+        try {
+            return this.mapper.readValue(responseStr, User[].class);
+        } catch (IOException e) {
+            //might have failed because it returned also the user properties
+            TypeReference<HashMap<String,Object>[]> typeRef 
+                    = new TypeReference<HashMap<String,Object>[]>() {};
+            try {
+                Map<String, Object>[] valsArray = this.mapper.readValue(responseStr, typeRef);
+                User [] recomms = new User[valsArray.length];
+                for(int i=0;i<valsArray.length;i++)
+                    recomms[i] = new User((String)valsArray[i].get("userId"), valsArray[i]);
+                return recomms;
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+         }
+         return null;
+    }
 
     public String send(Request request) throws ApiException {
         return sendRequest(request);
@@ -636,7 +682,7 @@ public class RecombeeClient {
                 httpRequest = post(uri, request);
                 break;
             case PUT:
-                httpRequest = put(uri);
+                httpRequest = put(uri, request);
                 break;
             case DELETE:
                 httpRequest = delete(uri);
@@ -700,21 +746,30 @@ public class RecombeeClient {
     }
 
     private HttpRequest get(String url) {
-        return Unirest.get(url);
+        return Unirest.get(url).header("User-Agent", this.USER_AGENT);
     }
 
-    private HttpRequest put(String url) {
-        return Unirest.put(url);
+    private HttpRequest put(String url, Request req) {
+        try {
+            String json = this.mapper.writeValueAsString(req.getBodyParameters());
+            return Unirest.put(url).header("Content-Type", "application/json").
+                    header("User-Agent", this.USER_AGENT).
+                    body(json.getBytes()).getHttpRequest();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private HttpRequest delete(String url) {
-        return Unirest.delete(url);
+        return Unirest.delete(url).header("User-Agent", this.USER_AGENT);
     }
 
     private HttpRequest post(String url, Request req) {
         try {
             String json = this.mapper.writeValueAsString(req.getBodyParameters());
             return Unirest.post(url).header("Content-Type", "application/json").
+                    header("User-Agent", this.USER_AGENT).
                     body(json.getBytes()).getHttpRequest();
         } catch (JsonProcessingException e) {
             e.printStackTrace();

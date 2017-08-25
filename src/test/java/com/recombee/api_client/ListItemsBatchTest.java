@@ -22,11 +22,14 @@ public class ListItemsBatchTest extends RecombeeTestCase {
     @Test
     public void testListItems() throws ApiException {
         Request[] requests = new Request[] {
+            new ListItems(),
             new ListItems()
         };
 
         BatchResponse[] responses = this.client.send(new Batch(requests));
         assertEquals(200,responses[0].getStatusCode());
         assertArrayEquals (new Item[]{new Item("entity_id")},((Item []) responses[0].getResponse()));
+        assertEquals(200,responses[1].getStatusCode());
+        assertEquals(1, ((Item []) responses[1].getResponse()).length);
     }
 }

@@ -24,7 +24,7 @@ public class DeleteUserPropertyBatchTest extends RecombeeTestCase {
         Request[] requests = new Request[] {
             new DeleteUserProperty("int_property"),
             new DeleteUserProperty("int_property"),
-            new DeleteUserProperty("not_valid_id-*.?!"),
+            new DeleteUserProperty("...not_valid..."),
             new DeleteUserProperty("not_existing")
         };
 
