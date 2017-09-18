@@ -59,6 +59,8 @@ import com.recombee.api_client.api_requests.ListItemCartAdditions;
 import com.recombee.api_client.api_requests.ListUserCartAdditions;
 import com.recombee.api_client.api_requests.ListItemBookmarks;
 import com.recombee.api_client.api_requests.ListUserBookmarks;
+import com.recombee.api_client.api_requests.ListItemViewPortions;
+import com.recombee.api_client.api_requests.ListUserViewPortions;
 import com.recombee.api_client.api_requests.UserBasedRecommendation;
 import com.recombee.api_client.api_requests.ItemBasedRecommendation;
 
@@ -77,7 +79,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/1.4.0";
+    final String USER_AGENT = "recombee-java-api-client/1.5.0";
 
     public RecombeeClient(String databaseId, String token) {
         this.databaseId = databaseId;
@@ -272,6 +274,26 @@ public class RecombeeClient {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, Bookmark[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public ViewPortion[] send(ListItemViewPortions request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, ViewPortion[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public ViewPortion[] send(ListUserViewPortions request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, ViewPortion[].class);
         } catch (IOException e) {
             e.printStackTrace();
          }
@@ -500,6 +522,22 @@ public class RecombeeClient {
                         ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
                         Bookmark[] ar = new Bookmark[array.size()];
                         for(int j=0;j<ar.length;j++) ar[j] = new Bookmark(array.get(j));
+                        parsedResponse = ar;
+                    }
+
+                    else if (request instanceof ListItemViewPortions)
+                    {
+                        ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
+                        ViewPortion[] ar = new ViewPortion[array.size()];
+                        for(int j=0;j<ar.length;j++) ar[j] = new ViewPortion(array.get(j));
+                        parsedResponse = ar;
+                    }
+
+                    else if (request instanceof ListUserViewPortions)
+                    {
+                        ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
+                        ViewPortion[] ar = new ViewPortion[array.size()];
+                        for(int j=0;j<ar.length;j++) ar[j] = new ViewPortion(array.get(j));
                         parsedResponse = ar;
                     }
                 /* End of the generated code */

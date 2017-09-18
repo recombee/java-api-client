@@ -24,7 +24,8 @@ public abstract class InteractionsTestCase extends  RecombeeTestCase {
             new AddPurchase("user", "item").setTimestamp(new Date(0)),
             new AddRating("user", "item", 1).setTimestamp(new Date(0)),
             new AddCartAddition("user", "item").setTimestamp(new Date(0)),
-            new AddBookmark("user", "item").setTimestamp(new Date(0))
+            new AddBookmark("user", "item").setTimestamp(new Date(0)),
+            new SetViewPortion("user", "item", 1).setTimestamp(new Date(0))
 
         };
         this.client.send(new Batch(requests));
