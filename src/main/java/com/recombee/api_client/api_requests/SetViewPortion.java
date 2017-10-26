@@ -26,6 +26,10 @@ public class SetViewPortion extends Request {
      */
     protected String itemId;
     /**
+     * Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ).
+     */
+    protected Double portion;
+    /**
      * Id of session in which the user viewed the item
      */
     protected String sessionId;
@@ -33,10 +37,6 @@ public class SetViewPortion extends Request {
      * UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
      */
     protected Date timestamp;
-    /**
-     * Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ).
-     */
-    protected Double portion;
     /**
      * Sets whether the given user/item should be created if not present in the database.
      */
@@ -87,16 +87,16 @@ public class SetViewPortion extends Request {
          return this.itemId;
     }
 
+    public double getPortion() {
+         return this.portion;
+    }
+
     public String getSessionId() {
          return this.sessionId;
     }
 
     public Date getTimestamp() {
          return this.timestamp;
-    }
-
-    public double getPortion() {
-         return this.portion;
     }
 
     public boolean getCascadeCreate() {

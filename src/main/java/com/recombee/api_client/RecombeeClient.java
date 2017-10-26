@@ -61,6 +61,10 @@ import com.recombee.api_client.api_requests.ListItemBookmarks;
 import com.recombee.api_client.api_requests.ListUserBookmarks;
 import com.recombee.api_client.api_requests.ListItemViewPortions;
 import com.recombee.api_client.api_requests.ListUserViewPortions;
+import com.recombee.api_client.api_requests.RecommendItemsToUser;
+import com.recombee.api_client.api_requests.RecommendUsersToUser;
+import com.recombee.api_client.api_requests.RecommendItemsToItem;
+import com.recombee.api_client.api_requests.RecommendUsersToItem;
 import com.recombee.api_client.api_requests.UserBasedRecommendation;
 import com.recombee.api_client.api_requests.ItemBasedRecommendation;
 
@@ -79,7 +83,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/1.5.0";
+    final String USER_AGENT = "recombee-java-api-client/1.6.0";
 
     public RecombeeClient(String databaseId, String token) {
         this.databaseId = databaseId;
@@ -300,6 +304,46 @@ public class RecombeeClient {
          return null;
     }
 
+    public RecommendationResponse send(RecommendItemsToUser request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public RecommendationResponse send(RecommendUsersToUser request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public RecommendationResponse send(RecommendItemsToItem request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public RecommendationResponse send(RecommendUsersToItem request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
     /* End of the generated code */
 
     public BatchResponse[] send(Batch batchRequest) throws ApiException {
@@ -383,6 +427,13 @@ public class RecombeeClient {
                             for(int j=0;j<ar.length;j++) ar[j] = new User(array.get(j));
                             parsedResponse = ar;
                         }
+                    }
+                    else if ((request instanceof RecommendItemsToUser) ||
+                            (request instanceof RecommendUsersToUser) ||
+                            (request instanceof RecommendItemsToItem) ||
+                            (request instanceof RecommendUsersToItem))
+                    {
+                        parsedResponse = mapper.convertValue(parsedResponse, RecommendationResponse.class);
                     }
                     /* Start of the generated code */
                     else if (request instanceof GetItemPropertyInfo)
@@ -627,14 +678,14 @@ public class RecombeeClient {
 
 
     public Recommendation[] send(UserBasedRecommendation request) throws ApiException {
-        return sendRecomm(request);
+        return sendDeprecatedRecomm(request);
     }
 
     public Recommendation[] send(ItemBasedRecommendation request) throws ApiException {
-        return sendRecomm(request);
+        return sendDeprecatedRecomm(request);
     }
 
-    protected Recommendation[] sendRecomm(Request request) throws ApiException {
+    protected Recommendation[] sendDeprecatedRecomm(Request request) throws ApiException {
         String responseStr = sendRequest(request);
 
         try {

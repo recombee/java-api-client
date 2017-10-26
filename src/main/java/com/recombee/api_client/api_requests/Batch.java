@@ -76,6 +76,15 @@ public class Batch extends Request {
     }
 
     /**
+     * Returns true if HTTPS must be chosen over HTTP for this request
+     * @return True if HTTPS must be chosen
+     */
+    @Override
+    public boolean getEnsureHttps() {
+        return true;
+    }
+
+    /**
      * @return URI to the endpoint
      */
     @Override

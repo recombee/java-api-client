@@ -20,7 +20,7 @@ public class ListSeries extends Request {
      * Construct the request
      */
     public ListSeries () {
-        this.timeout = 239000;
+        this.timeout = 100000;
     }
 
 

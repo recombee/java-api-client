@@ -20,7 +20,7 @@ public class ListGroups extends Request {
      * Construct the request
      */
     public ListGroups () {
-        this.timeout = 239000;
+        this.timeout = 100000;
     }
 
 

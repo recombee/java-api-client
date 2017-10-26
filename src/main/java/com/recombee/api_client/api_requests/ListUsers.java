@@ -68,7 +68,7 @@ public class ListUsers extends Request {
      * Construct the request
      */
     public ListUsers () {
-        this.timeout = 239000;
+        this.timeout = 100000;
     }
 
     /**

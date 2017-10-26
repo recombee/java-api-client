@@ -74,7 +74,7 @@ public class ListItems extends Request {
      * Construct the request
      */
     public ListItems () {
-        this.timeout = 600000;
+        this.timeout = 100000;
     }
 
     /**

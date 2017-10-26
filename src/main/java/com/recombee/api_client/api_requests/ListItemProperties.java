@@ -20,7 +20,7 @@ public class ListItemProperties extends Request {
      * Construct the request
      */
     public ListItemProperties () {
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

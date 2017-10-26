@@ -20,7 +20,7 @@ public class ResetDatabase extends Request {
      * Construct the request
      */
     public ResetDatabase () {
-        this.timeout = 239000;
+        this.timeout = 100000;
     }
 
 

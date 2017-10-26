@@ -26,7 +26,7 @@ public class ListGroupItems extends Request {
      */
     public ListGroupItems (String groupId) {
         this.groupId = groupId;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

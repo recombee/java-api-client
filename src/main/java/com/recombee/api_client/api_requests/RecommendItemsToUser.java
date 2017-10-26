@@ -11,13 +11,14 @@ import java.util.HashMap;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
+ * This feature is currently in beta.
  * Based on user's past interactions (purchases, ratings, etc.) with the items, recommends top-N items that are most likely to be of high value for a given user.
  * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
  */
-public class UserBasedRecommendation extends Request {
+public class RecommendItemsToUser extends Request {
 
     /**
-     * ID of the user for which the personalized recommendations are to be generated.
+     * ID of the user for which personalized recommendations are to be generated.
      */
     protected String userId;
     /**
@@ -33,10 +34,6 @@ public class UserBasedRecommendation extends Request {
      */
     protected String booster;
     /**
-     * If the user does not exist in the database, returns a list of non-personalized recommendations instead of causing HTTP 404 error. It doesn't create the user in the database.
-     */
-    protected Boolean allowNonexistent;
-    /**
      * If the user does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows for example rotations in the following recommendations for that user, as the user will be already known to the system.
      */
     protected Boolean cascadeCreate;
@@ -48,22 +45,30 @@ public class UserBasedRecommendation extends Request {
      * With `returnProperties=true`, property values of the recommended items are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying of the recommended items to the user. 
      * Example response:
      * ```
-     *   [
-     *     {
-     *       "itemId": "tv-178",
-     *       "description": "4K TV with 3D feature",
-     *       "categories":   ["Electronics", "Televisions"],
-     *       "price": 342,
-     *       "url": "myshop.com/tv-178"
-     *     },
-     *     {
-     *       "itemId": "mixer-42",
-     *       "description": "Stainless Steel Mixer",
-     *       "categories":   ["Home & Kitchen"],
-     *       "price": 39,
-     *       "url": "myshop.com/mixer-42"
-     *     }
-     *   ]
+     *   {
+     *     "recommId": "1644e7b31759a08480da5f3b0a13045b",
+     *     "recomms": 
+     *       [
+     *         {
+     *           "id": "tv-178",
+     *           "values": {
+     *             "description": "4K TV with 3D feature",
+     *             "categories":   ["Electronics", "Televisions"],
+     *             "price": 342,
+     *             "url": "myshop.com/tv-178"
+     *           }
+     *         },
+     *         {
+     *           "id": "mixer-42",
+     *           "values": {
+     *             "description": "Stainless Steel Mixer",
+     *             "categories":   ["Home & Kitchen"],
+     *             "price": 39,
+     *             "url": "myshop.com/mixer-42"
+     *           }
+     *         }
+     *       ]
+     *   }
      * ```
      */
     protected Boolean returnProperties;
@@ -71,18 +76,26 @@ public class UserBasedRecommendation extends Request {
      * Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
      * Example response for `includedProperties=description,price`:
      * ```
-     *   [
-     *     {
-     *       "itemId": "tv-178",
-     *       "description": "4K TV with 3D feature",
-     *       "price": 342
-     *     },
-     *     {
-     *       "itemId": "mixer-42",
-     *       "description": "Stainless Steel Mixer",
-     *       "price": 39
-     *     }
-     *   ]
+     *   {
+     *     "recommId": "e3ba43af1a4e59dd08a00adced1729a7",
+     *     "recomms":
+     *       [
+     *         {
+     *           "id": "tv-178",
+     *           "values": {
+     *             "description": "4K TV with 3D feature",
+     *             "price": 342
+     *           }
+     *         },
+     *         {
+     *           "id": "mixer-42",
+     *           "values": {
+     *             "description": "Stainless Steel Mixer",
+     *             "price": 39
+     *           }
+     *         }
+     *       ]
+     *   }
      * ```
      */
     protected String[] includedProperties;
@@ -91,7 +104,7 @@ public class UserBasedRecommendation extends Request {
      */
     protected Double diversity;
     /**
-     * **Expert option** Specifies the threshold of how much relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of items equal to *count* at any cost. If there are not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested qualit, and may return less than *count* items when there is not enough data to fulfill it.
+     * **Expert option** Specifies the threshold of how much relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of items equal to *count* at any cost. If there are not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested relevancy, and may return less than *count* items when there is not enough data to fulfill it.
      */
     protected String minRelevance;
     /**
@@ -109,10 +122,10 @@ public class UserBasedRecommendation extends Request {
 
     /**
      * Construct the request
-     * @param userId ID of the user for which the personalized recommendations are to be generated.
+     * @param userId ID of the user for which personalized recommendations are to be generated.
      * @param count Number of items to be recommended (N for the top-N recommendation).
      */
-    public UserBasedRecommendation (String userId,long count) {
+    public RecommendItemsToUser (String userId,long count) {
         this.userId = userId;
         this.count = count;
         this.timeout = 3000;
@@ -121,7 +134,7 @@ public class UserBasedRecommendation extends Request {
     /**
      * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
      */
-    public UserBasedRecommendation setFilter(String filter) {
+    public RecommendItemsToUser setFilter(String filter) {
          this.filter = filter;
          return this;
     }
@@ -129,23 +142,15 @@ public class UserBasedRecommendation extends Request {
     /**
      * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
      */
-    public UserBasedRecommendation setBooster(String booster) {
+    public RecommendItemsToUser setBooster(String booster) {
          this.booster = booster;
-         return this;
-    }
-
-    /**
-     * @param allowNonexistent If the user does not exist in the database, returns a list of non-personalized recommendations instead of causing HTTP 404 error. It doesn't create the user in the database.
-     */
-    public UserBasedRecommendation setAllowNonexistent(boolean allowNonexistent) {
-         this.allowNonexistent = allowNonexistent;
          return this;
     }
 
     /**
      * @param cascadeCreate If the user does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows for example rotations in the following recommendations for that user, as the user will be already known to the system.
      */
-    public UserBasedRecommendation setCascadeCreate(boolean cascadeCreate) {
+    public RecommendItemsToUser setCascadeCreate(boolean cascadeCreate) {
          this.cascadeCreate = cascadeCreate;
          return this;
     }
@@ -153,7 +158,7 @@ public class UserBasedRecommendation extends Request {
     /**
      * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
-    public UserBasedRecommendation setScenario(String scenario) {
+    public RecommendItemsToUser setScenario(String scenario) {
          this.scenario = scenario;
          return this;
     }
@@ -162,25 +167,33 @@ public class UserBasedRecommendation extends Request {
      * @param returnProperties With `returnProperties=true`, property values of the recommended items are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying of the recommended items to the user. 
      * Example response:
      * ```
-     *   [
-     *     {
-     *       "itemId": "tv-178",
-     *       "description": "4K TV with 3D feature",
-     *       "categories":   ["Electronics", "Televisions"],
-     *       "price": 342,
-     *       "url": "myshop.com/tv-178"
-     *     },
-     *     {
-     *       "itemId": "mixer-42",
-     *       "description": "Stainless Steel Mixer",
-     *       "categories":   ["Home & Kitchen"],
-     *       "price": 39,
-     *       "url": "myshop.com/mixer-42"
-     *     }
-     *   ]
+     *   {
+     *     "recommId": "1644e7b31759a08480da5f3b0a13045b",
+     *     "recomms": 
+     *       [
+     *         {
+     *           "id": "tv-178",
+     *           "values": {
+     *             "description": "4K TV with 3D feature",
+     *             "categories":   ["Electronics", "Televisions"],
+     *             "price": 342,
+     *             "url": "myshop.com/tv-178"
+     *           }
+     *         },
+     *         {
+     *           "id": "mixer-42",
+     *           "values": {
+     *             "description": "Stainless Steel Mixer",
+     *             "categories":   ["Home & Kitchen"],
+     *             "price": 39,
+     *             "url": "myshop.com/mixer-42"
+     *           }
+     *         }
+     *       ]
+     *   }
      * ```
      */
-    public UserBasedRecommendation setReturnProperties(boolean returnProperties) {
+    public RecommendItemsToUser setReturnProperties(boolean returnProperties) {
          this.returnProperties = returnProperties;
          return this;
     }
@@ -189,21 +202,29 @@ public class UserBasedRecommendation extends Request {
      * @param includedProperties Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
      * Example response for `includedProperties=description,price`:
      * ```
-     *   [
-     *     {
-     *       "itemId": "tv-178",
-     *       "description": "4K TV with 3D feature",
-     *       "price": 342
-     *     },
-     *     {
-     *       "itemId": "mixer-42",
-     *       "description": "Stainless Steel Mixer",
-     *       "price": 39
-     *     }
-     *   ]
+     *   {
+     *     "recommId": "e3ba43af1a4e59dd08a00adced1729a7",
+     *     "recomms":
+     *       [
+     *         {
+     *           "id": "tv-178",
+     *           "values": {
+     *             "description": "4K TV with 3D feature",
+     *             "price": 342
+     *           }
+     *         },
+     *         {
+     *           "id": "mixer-42",
+     *           "values": {
+     *             "description": "Stainless Steel Mixer",
+     *             "price": 39
+     *           }
+     *         }
+     *       ]
+     *   }
      * ```
      */
-    public UserBasedRecommendation setIncludedProperties(String[] includedProperties) {
+    public RecommendItemsToUser setIncludedProperties(String[] includedProperties) {
          this.includedProperties = includedProperties;
          return this;
     }
@@ -211,15 +232,15 @@ public class UserBasedRecommendation extends Request {
     /**
      * @param diversity **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended items be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
-    public UserBasedRecommendation setDiversity(double diversity) {
+    public RecommendItemsToUser setDiversity(double diversity) {
          this.diversity = diversity;
          return this;
     }
 
     /**
-     * @param minRelevance **Expert option** Specifies the threshold of how much relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of items equal to *count* at any cost. If there are not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested qualit, and may return less than *count* items when there is not enough data to fulfill it.
+     * @param minRelevance **Expert option** Specifies the threshold of how much relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of items equal to *count* at any cost. If there are not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested relevancy, and may return less than *count* items when there is not enough data to fulfill it.
      */
-    public UserBasedRecommendation setMinRelevance(String minRelevance) {
+    public RecommendItemsToUser setMinRelevance(String minRelevance) {
          this.minRelevance = minRelevance;
          return this;
     }
@@ -227,7 +248,7 @@ public class UserBasedRecommendation extends Request {
     /**
      * @param rotationRate **Expert option** If your users browse the system in real-time, it may easily happen that you wish to offer them recommendations multiple times. Here comes the question: how much should the recommendations change? Should they remain the same, or should they rotate? Recombee API allows you to control this per-request in backward fashion. You may penalize an item for being recommended in the near past. For the specific user, `rotationRate=1` means maximal rotation, `rotationRate=0` means absolutely no rotation. You may also use, for example `rotationRate=0.2` for only slight rotation of recommended items.
      */
-    public UserBasedRecommendation setRotationRate(double rotationRate) {
+    public RecommendItemsToUser setRotationRate(double rotationRate) {
          this.rotationRate = rotationRate;
          return this;
     }
@@ -235,7 +256,7 @@ public class UserBasedRecommendation extends Request {
     /**
      * @param rotationTime **Expert option** Taking *rotationRate* into account, specifies how long time it takes to an item to recover from the penalization. For example, `rotationTime=7200.0` means that items recommended less than 2 hours ago are penalized.
      */
-    public UserBasedRecommendation setRotationTime(double rotationTime) {
+    public RecommendItemsToUser setRotationTime(double rotationTime) {
          this.rotationTime = rotationTime;
          return this;
     }
@@ -243,7 +264,7 @@ public class UserBasedRecommendation extends Request {
     /**
      * @param expertSettings Dictionary of custom options.
      */
-    public UserBasedRecommendation setExpertSettings(Map<String, Object> expertSettings) {
+    public RecommendItemsToUser setExpertSettings(Map<String, Object> expertSettings) {
          this.expertSettings = expertSettings;
          return this;
     }
@@ -262,11 +283,6 @@ public class UserBasedRecommendation extends Request {
 
     public String getBooster() {
          return this.booster;
-    }
-
-    public boolean getAllowNonexistent() {
-         if (this.allowNonexistent==null) return false;
-         return this.allowNonexistent;
     }
 
     public boolean getCascadeCreate() {
@@ -320,7 +336,7 @@ public class UserBasedRecommendation extends Request {
      */
     @Override
     public String getPath() {
-        return String.format("/users/%s/recomms/", this.userId);
+        return String.format("/recomms/users/%s/items/", this.userId);
     }
 
     /**
@@ -346,9 +362,6 @@ public class UserBasedRecommendation extends Request {
         }
         if (this.booster!=null) {
             params.put("booster", this.booster);
-        }
-        if (this.allowNonexistent!=null) {
-            params.put("allowNonexistent", this.allowNonexistent);
         }
         if (this.cascadeCreate!=null) {
             params.put("cascadeCreate", this.cascadeCreate);

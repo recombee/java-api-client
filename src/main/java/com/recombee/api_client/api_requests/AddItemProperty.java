@@ -32,7 +32,7 @@ public class AddItemProperty extends Request {
     public AddItemProperty (String propertyName,String type) {
         this.propertyName = propertyName;
         this.type = type;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

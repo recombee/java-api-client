@@ -26,7 +26,7 @@ public class DeleteUserProperty extends Request {
      */
     public DeleteUserProperty (String propertyName) {
         this.propertyName = propertyName;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

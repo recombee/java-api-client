@@ -26,7 +26,7 @@ public class GetUserPropertyInfo extends Request {
      */
     public GetUserPropertyInfo (String propertyName) {
         this.propertyName = propertyName;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

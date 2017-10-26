@@ -19,6 +19,10 @@ public class ViewPortion extends RecombeeBinding {
      */
     protected String itemId;
     /**
+     * Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ).
+     */
+    protected Double portion;
+    /**
      * Id of session in which the user viewed the item
      */
     protected String sessionId;
@@ -26,26 +30,22 @@ public class ViewPortion extends RecombeeBinding {
      * UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
      */
     protected Date timestamp;
-    /**
-     * Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ).
-     */
-    protected Double portion;
 
     public ViewPortion () {}
 
-    public ViewPortion (String userId,String itemId,String sessionId,Date timestamp,double portion) {
+    public ViewPortion (String userId,String itemId,double portion,String sessionId,Date timestamp) {
         this.userId = userId;
         this.itemId = itemId;
+        this.portion = portion;
         this.sessionId = sessionId;
         this.timestamp = timestamp;
-        this.portion = portion;
     }
 
     public ViewPortion (Map<String, Object> jsonObject) {
         this.userId = (String) jsonObject.get("userId");
         this.itemId = (String) jsonObject.get("itemId");
-        this.sessionId = (String) jsonObject.get("sessionId");
         this.portion = (Double) jsonObject.get("portion");
+        this.sessionId = (String) jsonObject.get("sessionId");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -63,6 +63,10 @@ public class ViewPortion extends RecombeeBinding {
          return this.itemId;
     }
 
+    public double getPortion() {
+         return this.portion;
+    }
+
     public String getSessionId() {
          return this.sessionId;
     }
@@ -71,18 +75,14 @@ public class ViewPortion extends RecombeeBinding {
          return this.timestamp;
     }
 
-    public double getPortion() {
-         return this.portion;
-    }
-
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
         append(this.userId).
         append(this.itemId).
+        append(this.portion).
         append(this.sessionId).
         append(this.timestamp).
-        append(this.portion).
         toHashCode();
     }
 
@@ -97,9 +97,9 @@ public class ViewPortion extends RecombeeBinding {
          return new EqualsBuilder().
             append(this.userId, rhs.userId).
             append(this.itemId, rhs.itemId).
+            append(this.portion, rhs.portion).
             append(this.sessionId, rhs.sessionId).
             append(this.timestamp, rhs.timestamp).
-            append(this.portion, rhs.portion).
             isEquals();
     }
 }

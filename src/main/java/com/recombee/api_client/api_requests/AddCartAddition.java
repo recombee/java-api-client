@@ -31,6 +31,14 @@ public class AddCartAddition extends Request {
      * Sets whether the given user/item should be created if not present in the database.
      */
     protected Boolean cascadeCreate;
+    /**
+     * Amount (number) added to cart. The default is 1. For example if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal to 2.
+     */
+    protected Double amount;
+    /**
+     * Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.
+     */
+    protected Double price;
 
     /**
      * Construct the request
@@ -59,6 +67,22 @@ public class AddCartAddition extends Request {
          return this;
     }
 
+    /**
+     * @param amount Amount (number) added to cart. The default is 1. For example if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal to 2.
+     */
+    public AddCartAddition setAmount(double amount) {
+         this.amount = amount;
+         return this;
+    }
+
+    /**
+     * @param price Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.
+     */
+    public AddCartAddition setPrice(double price) {
+         this.price = price;
+         return this;
+    }
+
     public String getUserId() {
          return this.userId;
     }
@@ -74,6 +98,14 @@ public class AddCartAddition extends Request {
     public boolean getCascadeCreate() {
          if (this.cascadeCreate==null) return false;
          return this.cascadeCreate;
+    }
+
+    public double getAmount() {
+         return this.amount;
+    }
+
+    public double getPrice() {
+         return this.price;
     }
 
     /**
@@ -116,6 +148,12 @@ public class AddCartAddition extends Request {
         }
         if (this.cascadeCreate!=null) {
             params.put("cascadeCreate", this.cascadeCreate);
+        }
+        if (this.amount!=null) {
+            params.put("amount", this.amount);
+        }
+        if (this.price!=null) {
+            params.put("price", this.price);
         }
         return params;
     }

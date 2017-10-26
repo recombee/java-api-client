@@ -26,7 +26,7 @@ public class ListSeriesItems extends Request {
      */
     public ListSeriesItems (String seriesId) {
         this.seriesId = seriesId;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 
