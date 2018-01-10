@@ -34,7 +34,7 @@ public class DeleteUserPropertyTest extends RecombeeTestCase {
             assertEquals(404,ex.getStatusCode());
         }
         // it 'fails with invalid property'
-        req = new DeleteUserProperty("...not_valid...");
+        req = new DeleteUserProperty("$$$not_valid$$$");
         try {
             this.client.send(req);
             fail("No exception thrown");

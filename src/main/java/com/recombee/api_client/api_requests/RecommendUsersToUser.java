@@ -46,7 +46,7 @@ public class RecommendUsersToUser extends Request {
      * Example response:
      * ```
      *   {
-     *     "recommId": "32fc671480eb29d843e47def43503992",
+     *     "recommId": "9cb9c55d-50ba-4478-84fd-ab456136156e",
      *     "recomms": 
      *       [
      *         {
@@ -73,7 +73,7 @@ public class RecommendUsersToUser extends Request {
      * Example response for `includedProperties=country`:
      * ```
      *   {
-     *     "recommId": "27d81ade643621f45cc6ba5d30d7d683",
+     *     "recommId": "b326d82d-5d57-4b45-b362-c9d6f0895855",
      *     "recomms":
      *       [
      *         {
@@ -122,7 +122,7 @@ public class RecommendUsersToUser extends Request {
     public RecommendUsersToUser (String userId,long count) {
         this.userId = userId;
         this.count = count;
-        this.timeout = 3000;
+        this.timeout = 50000;
     }
 
     /**
@@ -162,7 +162,7 @@ public class RecommendUsersToUser extends Request {
      * Example response:
      * ```
      *   {
-     *     "recommId": "32fc671480eb29d843e47def43503992",
+     *     "recommId": "9cb9c55d-50ba-4478-84fd-ab456136156e",
      *     "recomms": 
      *       [
      *         {
@@ -193,7 +193,7 @@ public class RecommendUsersToUser extends Request {
      * Example response for `includedProperties=country`:
      * ```
      *   {
-     *     "recommId": "27d81ade643621f45cc6ba5d30d7d683",
+     *     "recommId": "b326d82d-5d57-4b45-b362-c9d6f0895855",
      *     "recomms":
      *       [
      *         {

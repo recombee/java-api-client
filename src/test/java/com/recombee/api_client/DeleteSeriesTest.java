@@ -34,7 +34,7 @@ public class DeleteSeriesTest extends RecombeeTestCase {
             assertEquals(404,ex.getStatusCode());
         }
         // it 'fails with invalid entity id'
-        req = new DeleteSeries("...not_valid...");
+        req = new DeleteSeries("$$$not_valid$$$");
         try {
             this.client.send(req);
             fail("No exception thrown");

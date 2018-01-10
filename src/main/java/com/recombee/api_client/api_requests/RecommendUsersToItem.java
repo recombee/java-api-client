@@ -46,7 +46,7 @@ public class RecommendUsersToItem extends Request {
      * Example response:
      * ```
      *   {
-     *     "recommId": "9eeebc318508302529e3241f4570834d",
+     *     "recommId": "039b71dc-b9cc-4645-a84f-62b841eecfce",
      *     "recomms":
      *       [
      *         {
@@ -73,7 +73,7 @@ public class RecommendUsersToItem extends Request {
      * Example response for `includedProperties=country`:
      * ```
      *   {
-     *     "recommId": "d4c826635efc3e01a83470008c5697f1",
+     *     "recommId": "b2b355dd-972a-4728-9c6b-2dc229db0678",
      *     "recomms":
      *       [
      *         {
@@ -110,7 +110,7 @@ public class RecommendUsersToItem extends Request {
     public RecommendUsersToItem (String itemId,long count) {
         this.itemId = itemId;
         this.count = count;
-        this.timeout = 3000;
+        this.timeout = 50000;
     }
 
     /**
@@ -150,7 +150,7 @@ public class RecommendUsersToItem extends Request {
      * Example response:
      * ```
      *   {
-     *     "recommId": "9eeebc318508302529e3241f4570834d",
+     *     "recommId": "039b71dc-b9cc-4645-a84f-62b841eecfce",
      *     "recomms":
      *       [
      *         {
@@ -181,7 +181,7 @@ public class RecommendUsersToItem extends Request {
      * Example response for `includedProperties=country`:
      * ```
      *   {
-     *     "recommId": "d4c826635efc3e01a83470008c5697f1",
+     *     "recommId": "b2b355dd-972a-4728-9c6b-2dc229db0678",
      *     "recomms":
      *       [
      *         {

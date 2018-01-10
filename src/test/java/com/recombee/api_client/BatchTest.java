@@ -45,7 +45,7 @@ public class BatchTest extends RecombeeTestCase {
 
         //Wait for asynchronous storing
         try {
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

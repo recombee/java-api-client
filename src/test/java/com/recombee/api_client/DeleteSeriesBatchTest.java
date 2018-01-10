@@ -24,7 +24,7 @@ public class DeleteSeriesBatchTest extends RecombeeTestCase {
         Request[] requests = new Request[] {
             new DeleteSeries("entity_id"),
             new DeleteSeries("entity_id"),
-            new DeleteSeries("...not_valid..."),
+            new DeleteSeries("$$$not_valid$$$"),
             new DeleteSeries("valid_id")
         };
 

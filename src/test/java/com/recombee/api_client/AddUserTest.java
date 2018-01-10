@@ -28,7 +28,7 @@ public class AddUserTest extends RecombeeTestCase {
         req = new AddUser("valid_id");
         resp = this.client.send(req);
         // it 'fails with invalid entity id'
-        req = new AddUser("...not_valid...");
+        req = new AddUser("$$$not_valid$$$");
         try {
             this.client.send(req);
             fail("No exception thrown");

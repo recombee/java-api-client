@@ -23,7 +23,7 @@ public class AddSeriesBatchTest extends RecombeeTestCase {
     public void testAddSeries() throws ApiException {
         Request[] requests = new Request[] {
             new AddSeries("valid_id"),
-            new AddSeries("...not_valid..."),
+            new AddSeries("$$$not_valid$$$"),
             new AddSeries("valid_id2"),
             new AddSeries("valid_id2")
         };

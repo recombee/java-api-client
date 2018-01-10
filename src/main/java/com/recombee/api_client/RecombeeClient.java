@@ -3,20 +3,21 @@ package com.recombee.api_client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
-import java.text.SimpleDateFormat;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.HttpRequest;
-
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import org.apache.commons.codec.binary.Hex;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.text.SimpleDateFormat;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import com.recombee.api_client.api_requests.Request;
 import com.recombee.api_client.exceptions.ApiException;
@@ -83,7 +85,9 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/1.6.0";
+    final String USER_AGENT = "recombee-java-api-client/1.6.1";
+
+    private final OkHttpClient httpClient = new OkHttpClient();
 
     public RecombeeClient(String databaseId, String token) {
         this.databaseId = databaseId;
@@ -756,40 +760,49 @@ public class RecombeeClient {
         return sendRequest(request);
     }
 
-    protected String sendRequest(Request request) throws ApiException {
+    private String sendRequest(Request request) throws ApiException {
         String signedUri = signUrl(processRequestUri(request));
         String protocolStr = request.getEnsureHttps() ? "https" : this.defaultProtocol.name().toLowerCase();
         String uri = protocolStr + "://" + this.baseUri + "/" + signedUri;
-        Unirest.setTimeouts(request.getTimeout(), request.getTimeout());
 
-        HttpRequest httpRequest = null;
+        OkHttpClient tempClient = this.httpClient.newBuilder()
+                .connectTimeout(request.getTimeout(), TimeUnit.MILLISECONDS)
+                .readTimeout(request.getTimeout(), TimeUnit.MILLISECONDS)
+                .writeTimeout(request.getTimeout(), TimeUnit.MILLISECONDS)
+                .build();
+
+
+        okhttp3.Request.Builder httpRequestBuilder = new okhttp3.Request.Builder()
+                .url(uri)
+                .addHeader("User-Agent", this.USER_AGENT);
+
+
         switch (request.getHTTPMethod()) {
             case GET:
-                httpRequest = get(uri);
                 break;
             case POST:
-                httpRequest = post(uri, request);
+                httpRequestBuilder = post(httpRequestBuilder, request);
                 break;
             case PUT:
-                httpRequest = put(uri, request);
+                httpRequestBuilder = put(httpRequestBuilder, request);
                 break;
             case DELETE:
-                httpRequest = delete(uri);
+                httpRequestBuilder.delete();
                 break;
         }
 
+
         try {
-            HttpResponse<String> response = httpRequest.asString();
+            Response response = tempClient.newCall(httpRequestBuilder.build()).execute();
             checkErrors(response, request);
-            return response.getBody();
-        } catch (UnirestException e) {
-            if(e.getCause() != null && (e.getCause() instanceof org.apache.http.conn.ConnectTimeoutException
-                    ||e.getCause() instanceof java.net.SocketTimeoutException)) {
-                throw new ApiTimeoutException(request);
-            }
+            return response.body().string();
+        }
+        catch (InterruptedIOException e) {
+            throw new ApiTimeoutException(request);
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -834,41 +847,39 @@ public class RecombeeClient {
         }
     }
 
-    private HttpRequest get(String url) {
-        return Unirest.get(url).header("User-Agent", this.USER_AGENT);
-    }
-
-    private HttpRequest put(String url, Request req) {
+    private okhttp3.Request.Builder put(okhttp3.Request.Builder reqBuilder, Request req) {
         try {
             String json = this.mapper.writeValueAsString(req.getBodyParameters());
-            return Unirest.put(url).header("Content-Type", "application/json").
-                    header("User-Agent", this.USER_AGENT).
-                    body(json.getBytes()).getHttpRequest();
+            final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            reqBuilder.put(RequestBody.create(JSON, json))
+            .addHeader("Content-Type", "application/json; charset=utf-8");
+            return reqBuilder;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private HttpRequest delete(String url) {
-        return Unirest.delete(url).header("User-Agent", this.USER_AGENT);
-    }
-
-    private HttpRequest post(String url, Request req) {
+    private okhttp3.Request.Builder post(okhttp3.Request.Builder reqBuilder, Request req) {
         try {
             String json = this.mapper.writeValueAsString(req.getBodyParameters());
-            return Unirest.post(url).header("Content-Type", "application/json").
-                    header("User-Agent", this.USER_AGENT).
-                    body(json.getBytes()).getHttpRequest();
+            final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            reqBuilder.post(RequestBody.create(JSON, json))
+                    .addHeader("Content-Type", "application/json; charset=utf-8");
+            return reqBuilder;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private void checkErrors(HttpResponse<String> response, Request request) throws ResponseException {
-        if(response.getStatus() == 200 || response.getStatus() == 201) return;
-        throw new ResponseException(request, response.getStatus(), response.getBody());
-
+    private void checkErrors(Response response, Request request) throws ResponseException {
+        if(response.code() == 200 || response.code() == 201) return;
+        try {
+            throw new ResponseException(request, response.code(), response.body().string());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new ResponseException(request, response.code(), "Failed to read the error from response");
+        }
     }
 }

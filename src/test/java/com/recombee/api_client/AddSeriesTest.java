@@ -28,7 +28,7 @@ public class AddSeriesTest extends RecombeeTestCase {
         req = new AddSeries("valid_id");
         resp = this.client.send(req);
         // it 'fails with invalid entity id'
-        req = new AddSeries("...not_valid...");
+        req = new AddSeries("$$$not_valid$$$");
         try {
             this.client.send(req);
             fail("No exception thrown");
