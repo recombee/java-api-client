@@ -11,7 +11,6 @@ import java.util.HashMap;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * This feature is currently in beta.
  * Get similar users as some given user, based on the user's past interactions (purchases, ratings, etc.) and values of properties.
  * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
  */

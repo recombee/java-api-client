@@ -11,7 +11,6 @@ import java.util.HashMap;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * This feature is currently in beta.
  * Recommends set of items that are somehow related to one given item, *X*. Typical scenario  is when user *A* is viewing *X*. Then you may display items to the user that he might be also interested in. Recommend items to item request gives you Top-N such items, optionally taking the target user *A* into account.
  * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
  */
@@ -32,8 +31,8 @@ public class RecommendItemsToItem extends Request {
      * If you insist on not specifying the user, pass `null`
      * (`None`, `nil`, `NULL` etc. depending on language) to *targetUserId*.
      * Do not create some special dummy user for getting recommendations,
-     * as it could cause  mislead the recommendation models,
-     * leading to wrong recommendations.
+     * as it could mislead the recommendation models,
+     * and result in wrong recommendations.
      * For anonymous/unregistered users it is possible to use for example their session ID.
      */
     protected String targetUserId;
@@ -153,8 +152,8 @@ public class RecommendItemsToItem extends Request {
      * If you insist on not specifying the user, pass `null`
      * (`None`, `nil`, `NULL` etc. depending on language) to *targetUserId*.
      * Do not create some special dummy user for getting recommendations,
-     * as it could cause  mislead the recommendation models,
-     * leading to wrong recommendations.
+     * as it could mislead the recommendation models,
+     * and result in wrong recommendations.
      * For anonymous/unregistered users it is possible to use for example their session ID.
      * @param count Number of items to be recommended (N for the top-N recommendation).
      */
