@@ -12,7 +12,6 @@ public class Recommendation extends RecombeeBinding {
     * Property values of the recommended item (only if the recommendation requested was set to return property values)
     */
     protected Map<String, Object> values;
-    protected boolean valuesAreSet;
 
     public Recommendation() {}
 
@@ -25,7 +24,6 @@ public class Recommendation extends RecombeeBinding {
     {
         this.id = id;
         this.values = values;
-        this.valuesAreSet = true;
     }
 
     public String getId() {
@@ -34,7 +32,7 @@ public class Recommendation extends RecombeeBinding {
 
     public Map<String, Object> getValues() {
 
-        if(!this.valuesAreSet)
+        if(values == null)
             throw new IllegalStateException("getValues() is possible only if the recommendation requested was set to return property values (invoke setReturnProperties(true))");
 
         return this.values;

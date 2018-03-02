@@ -13,7 +13,7 @@ The client is available in the [Maven Central Repository](https://mvnrepository.
     <dependency>
         <groupId>com.recombee</groupId>
         <artifactId>api-client</artifactId>
-        <version>2.0.0</version>
+        <version>2.0.1</version>
     </dependency>
 ```
 
