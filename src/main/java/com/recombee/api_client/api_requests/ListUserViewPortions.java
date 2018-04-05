@@ -11,7 +11,6 @@ import java.util.HashMap;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * The view portions feature is currently experimental.
  * List all the view portions ever submitted by a given user.
  */
 public class ListUserViewPortions extends Request {

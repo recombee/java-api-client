@@ -17,11 +17,11 @@ import com.recombee.api_client.util.HTTPMethod;
 public class MergeUsers extends Request {
 
     /**
-     * ID of the source user.
+     * ID of the targer user.
      */
     protected String targetUserId;
     /**
-     * ID of the target user.
+     * ID of the source user.
      */
     protected String sourceUserId;
     /**
@@ -31,8 +31,8 @@ public class MergeUsers extends Request {
 
     /**
      * Construct the request
-     * @param targetUserId ID of the source user.
-     * @param sourceUserId ID of the target user.
+     * @param targetUserId ID of the targer user.
+     * @param sourceUserId ID of the source user.
      */
     public MergeUsers (String targetUserId,String sourceUserId) {
         this.targetUserId = targetUserId;

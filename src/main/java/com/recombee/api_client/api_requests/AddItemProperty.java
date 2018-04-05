@@ -20,14 +20,14 @@ public class AddItemProperty extends Request {
      */
     protected String propertyName;
     /**
-     * Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`
+     * Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`, `image` or `imageList`.
      */
     protected String type;
 
     /**
      * Construct the request
      * @param propertyName Name of the item property to be created. Currently, the following names are reserved:`id`, `itemid`, case insensitively. Also, the length of the property name must not exceed 63 characters.
-     * @param type Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`
+     * @param type Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`, `image` or `imageList`.
      */
     public AddItemProperty (String propertyName,String type) {
         this.propertyName = propertyName;

@@ -11,7 +11,6 @@ import java.util.HashMap;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * The view portions feature is currently experimental.
  * Sets viewed portion of an item (for example a video or article) by a user (at a session).
  * If you send new request with the same (`userId`, `itemId`, `sessionId`), the portion gets updated.
  */
@@ -26,11 +25,11 @@ public class SetViewPortion extends Request {
      */
     protected String itemId;
     /**
-     * Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ).
+     * Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ). It should be the really viewed part of the item, no matter seeking, so for example if the user seeked immediately to half of the item and then viewed 10% of the item, the `portion` should still be `0.1`.
      */
     protected Double portion;
     /**
-     * Id of session in which the user viewed the item
+     * ID of session in which the user viewed the item. Default is `null` (`None`, `nil`, `NULL` etc. depending on language).
      */
     protected String sessionId;
     /**
@@ -46,7 +45,7 @@ public class SetViewPortion extends Request {
      * Construct the request
      * @param userId User who viewed a portion of the item
      * @param itemId Viewed item
-     * @param portion Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ).
+     * @param portion Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ). It should be the really viewed part of the item, no matter seeking, so for example if the user seeked immediately to half of the item and then viewed 10% of the item, the `portion` should still be `0.1`.
      */
     public SetViewPortion (String userId,String itemId,double portion) {
         this.userId = userId;
@@ -56,7 +55,7 @@ public class SetViewPortion extends Request {
     }
 
     /**
-     * @param sessionId Id of session in which the user viewed the item
+     * @param sessionId ID of session in which the user viewed the item. Default is `null` (`None`, `nil`, `NULL` etc. depending on language).
      */
     public SetViewPortion setSessionId(String sessionId) {
          this.sessionId = sessionId;

@@ -13,7 +13,7 @@ The client is available in the [Maven Central Repository](https://mvnrepository.
     <dependency>
         <groupId>com.recombee</groupId>
         <artifactId>api-client</artifactId>
-        <version>2.0.1</version>
+        <version>2.1.0</version>
     </dependency>
 ```
 
@@ -90,22 +90,24 @@ import java.util.Random;
 public class ItemPropertiesExample {
     public static void main(String[] args) {
 
-        RecombeeClient client = new RecombeeClient("client-test", "jGGQ6ZKa8rQ1zTAyxTc0EMn55YPF7FJLUtaMLhbsGxmvwxgTwXYqmUk5xVZFw98L");
+        RecombeeClient client = new RecombeeClient("--my-database-id--", "--my-secret-token--");
 
         try {
             client.send(new ResetDatabase()); //Clear everything from the database
 
             /*
             We will use computers as items in this example
-            Computers have three properties
+            Computers have four properties
               - price (floating point number)
               - number of processor cores (integer number)
               - description (string)
+              - image (url of computer's photo)
             */
 
             client.send(new AddItemProperty("price", "double"));
             client.send(new AddItemProperty("num-cores", "int"));
             client.send(new AddItemProperty("description", "string"));
+            client.send(new AddItemProperty("image", "image"));
 
             // Prepare requests for setting a catalog of computers
             final ArrayList<Request> requests = new ArrayList<Request>();
@@ -114,13 +116,15 @@ public class ItemPropertiesExample {
 
             for(int i=0; i<NUM; i++)
             {
+                final String itemId = String.format("computer-%s",i);
                 final SetItemValues req = new SetItemValues(
-                        String.format("computer-%s",i), //itemId
+                        itemId,
                         //values:
                         new HashMap<String, Object>() {{
                             put("price", 600.0 + 400*rand.nextDouble());
                             put("num-cores", 1 + rand.nextInt(7));
                             put("description", "Great computer");
+                            put("image", String.format("http://examplesite.com/products/%s.jpg", itemId));
                         }}
                 ).setCascadeCreate(true);  // Use cascadeCreate for creating item
                 // with given itemId, if it doesn't exist;

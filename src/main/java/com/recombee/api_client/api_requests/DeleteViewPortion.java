@@ -11,7 +11,6 @@ import java.util.HashMap;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * The view portions feature is currently experimental.
  * Deletes an existing view portion specified by (`userId`, `itemId`, `sessionId`) from the database.
  */
 public class DeleteViewPortion extends Request {
