@@ -85,7 +85,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/2.1.0";
+    final String USER_AGENT = "recombee-java-api-client/2.1.1";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -763,7 +763,7 @@ public class RecombeeClient {
     private String sendRequest(Request request) throws ApiException {
         String signedUri = signUrl(processRequestUri(request));
         String protocolStr = request.getEnsureHttps() ? "https" : this.defaultProtocol.name().toLowerCase();
-        String uri = protocolStr + "://" + this.baseUri + "/" + signedUri;
+        String uri = protocolStr + "://" + this.baseUri + signedUri;
 
         OkHttpClient tempClient = this.httpClient.newBuilder()
                 .connectTimeout(request.getTimeout(), TimeUnit.MILLISECONDS)

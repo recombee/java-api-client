@@ -21,6 +21,14 @@ public class AddItemProperty extends Request {
     protected String propertyName;
     /**
      * Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`, `image` or `imageList`.
+     * * `int`- Signed integer number.
+     * * `double` - Floating point number. It uses 64-bit base-2 format (IEEE 754 standard).
+     * * `string` - UTF-8 string.
+     * * `boolean` - *true* / *false*
+     * * `timestamp` - Value representing date and time.
+     * * `set` - Set of strings.
+     * * `image` - URL of an image (`jpeg`, `png` or `gif`).
+     * * `imageList` - List of URLs that refer to images. 
      */
     protected String type;
 
@@ -28,6 +36,14 @@ public class AddItemProperty extends Request {
      * Construct the request
      * @param propertyName Name of the item property to be created. Currently, the following names are reserved:`id`, `itemid`, case insensitively. Also, the length of the property name must not exceed 63 characters.
      * @param type Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`, `image` or `imageList`.
+     * * `int`- Signed integer number.
+     * * `double` - Floating point number. It uses 64-bit base-2 format (IEEE 754 standard).
+     * * `string` - UTF-8 string.
+     * * `boolean` - *true* / *false*
+     * * `timestamp` - Value representing date and time.
+     * * `set` - Set of strings.
+     * * `image` - URL of an image (`jpeg`, `png` or `gif`).
+     * * `imageList` - List of URLs that refer to images. 
      */
     public AddItemProperty (String propertyName,String type) {
         this.propertyName = propertyName;
