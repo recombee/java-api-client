@@ -34,16 +34,21 @@ public class Purchase extends RecombeeBinding {
      * Your profit from the purchased item. The profit is natural in e-commerce domain (for example if `user-x` purchases `item-y` for $100 and the gross margin is 30 %, then the profit is $30), but is applicable also in other domains (for example at a news company it may be income from displayed advertisement on article page). If `amount` is greater than 1, sum of profit of all the items should be given.
      */
     protected Double profit;
+    /**
+     * If this purchase is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    protected String recommId;
 
     public Purchase () {}
 
-    public Purchase (String userId,String itemId,Date timestamp,double amount,double price,double profit) {
+    public Purchase (String userId,String itemId,Date timestamp,double amount,double price,double profit,String recommId) {
         this.userId = userId;
         this.itemId = itemId;
         this.timestamp = timestamp;
         this.amount = amount;
         this.price = price;
         this.profit = profit;
+        this.recommId = recommId;
     }
 
     public Purchase (Map<String, Object> jsonObject) {
@@ -52,6 +57,7 @@ public class Purchase extends RecombeeBinding {
         this.amount = (Double) jsonObject.get("amount");
         this.price = (Double) jsonObject.get("price");
         this.profit = (Double) jsonObject.get("profit");
+        this.recommId = (String) jsonObject.get("recommId");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -85,6 +91,10 @@ public class Purchase extends RecombeeBinding {
          return this.profit;
     }
 
+    public String getRecommId() {
+         return this.recommId;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -94,6 +104,7 @@ public class Purchase extends RecombeeBinding {
         append(this.amount).
         append(this.price).
         append(this.profit).
+        append(this.recommId).
         toHashCode();
     }
 
@@ -112,6 +123,7 @@ public class Purchase extends RecombeeBinding {
             append(this.amount, rhs.amount).
             append(this.price, rhs.price).
             append(this.profit, rhs.profit).
+            append(this.recommId, rhs.recommId).
             isEquals();
     }
 }

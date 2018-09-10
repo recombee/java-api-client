@@ -26,20 +26,26 @@ public class Rating extends RecombeeBinding {
      * Rating rescaled to interval [-1.0,1.0], where -1.0 means the worst rating possible, 0.0 means neutral, and 1.0 means absolutely positive rating. For example, in the case of 5-star evaluations, rating = (numStars-3)/2 formula may be used for the conversion.
      */
     protected Double rating;
+    /**
+     * If this rating is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    protected String recommId;
 
     public Rating () {}
 
-    public Rating (String userId,String itemId,Date timestamp,double rating) {
+    public Rating (String userId,String itemId,Date timestamp,double rating,String recommId) {
         this.userId = userId;
         this.itemId = itemId;
         this.timestamp = timestamp;
         this.rating = rating;
+        this.recommId = recommId;
     }
 
     public Rating (Map<String, Object> jsonObject) {
         this.userId = (String) jsonObject.get("userId");
         this.itemId = (String) jsonObject.get("itemId");
         this.rating = (Double) jsonObject.get("rating");
+        this.recommId = (String) jsonObject.get("recommId");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -65,6 +71,10 @@ public class Rating extends RecombeeBinding {
          return this.rating;
     }
 
+    public String getRecommId() {
+         return this.recommId;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -72,6 +82,7 @@ public class Rating extends RecombeeBinding {
         append(this.itemId).
         append(this.timestamp).
         append(this.rating).
+        append(this.recommId).
         toHashCode();
     }
 
@@ -88,6 +99,7 @@ public class Rating extends RecombeeBinding {
             append(this.itemId, rhs.itemId).
             append(this.timestamp, rhs.timestamp).
             append(this.rating, rhs.rating).
+            append(this.recommId, rhs.recommId).
             isEquals();
     }
 }

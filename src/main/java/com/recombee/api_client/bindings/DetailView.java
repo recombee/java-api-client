@@ -26,20 +26,26 @@ public class DetailView extends RecombeeBinding {
      * Duration of the view
      */
     protected Long duration;
+    /**
+     * If this detail view is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    protected String recommId;
 
     public DetailView () {}
 
-    public DetailView (String userId,String itemId,Date timestamp,long duration) {
+    public DetailView (String userId,String itemId,Date timestamp,long duration,String recommId) {
         this.userId = userId;
         this.itemId = itemId;
         this.timestamp = timestamp;
         this.duration = duration;
+        this.recommId = recommId;
     }
 
     public DetailView (Map<String, Object> jsonObject) {
         this.userId = (String) jsonObject.get("userId");
         this.itemId = (String) jsonObject.get("itemId");
         this.duration = (Long) jsonObject.get("duration");
+        this.recommId = (String) jsonObject.get("recommId");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -65,6 +71,10 @@ public class DetailView extends RecombeeBinding {
          return this.duration;
     }
 
+    public String getRecommId() {
+         return this.recommId;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -72,6 +82,7 @@ public class DetailView extends RecombeeBinding {
         append(this.itemId).
         append(this.timestamp).
         append(this.duration).
+        append(this.recommId).
         toHashCode();
     }
 
@@ -88,6 +99,7 @@ public class DetailView extends RecombeeBinding {
             append(this.itemId, rhs.itemId).
             append(this.timestamp, rhs.timestamp).
             append(this.duration, rhs.duration).
+            append(this.recommId, rhs.recommId).
             isEquals();
     }
 }

@@ -30,15 +30,20 @@ public class ViewPortion extends RecombeeBinding {
      * UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
      */
     protected Date timestamp;
+    /**
+     * If this view portion is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    protected String recommId;
 
     public ViewPortion () {}
 
-    public ViewPortion (String userId,String itemId,double portion,String sessionId,Date timestamp) {
+    public ViewPortion (String userId,String itemId,double portion,String sessionId,Date timestamp,String recommId) {
         this.userId = userId;
         this.itemId = itemId;
         this.portion = portion;
         this.sessionId = sessionId;
         this.timestamp = timestamp;
+        this.recommId = recommId;
     }
 
     public ViewPortion (Map<String, Object> jsonObject) {
@@ -46,6 +51,7 @@ public class ViewPortion extends RecombeeBinding {
         this.itemId = (String) jsonObject.get("itemId");
         this.portion = (Double) jsonObject.get("portion");
         this.sessionId = (String) jsonObject.get("sessionId");
+        this.recommId = (String) jsonObject.get("recommId");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -75,6 +81,10 @@ public class ViewPortion extends RecombeeBinding {
          return this.timestamp;
     }
 
+    public String getRecommId() {
+         return this.recommId;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -83,6 +93,7 @@ public class ViewPortion extends RecombeeBinding {
         append(this.portion).
         append(this.sessionId).
         append(this.timestamp).
+        append(this.recommId).
         toHashCode();
     }
 
@@ -100,6 +111,7 @@ public class ViewPortion extends RecombeeBinding {
             append(this.portion, rhs.portion).
             append(this.sessionId, rhs.sessionId).
             append(this.timestamp, rhs.timestamp).
+            append(this.recommId, rhs.recommId).
             isEquals();
     }
 }

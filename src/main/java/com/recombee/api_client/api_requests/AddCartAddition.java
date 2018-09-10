@@ -39,6 +39,10 @@ public class AddCartAddition extends Request {
      * Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.
      */
     protected Double price;
+    /**
+     * If this cart addition is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    protected String recommId;
 
     /**
      * Construct the request
@@ -83,6 +87,14 @@ public class AddCartAddition extends Request {
          return this;
     }
 
+    /**
+     * @param recommId If this cart addition is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    public AddCartAddition setRecommId(String recommId) {
+         this.recommId = recommId;
+         return this;
+    }
+
     public String getUserId() {
          return this.userId;
     }
@@ -106,6 +118,10 @@ public class AddCartAddition extends Request {
 
     public double getPrice() {
          return this.price;
+    }
+
+    public String getRecommId() {
+         return this.recommId;
     }
 
     /**
@@ -154,6 +170,9 @@ public class AddCartAddition extends Request {
         }
         if (this.price!=null) {
             params.put("price", this.price);
+        }
+        if (this.recommId!=null) {
+            params.put("recommId", this.recommId);
         }
         return params;
     }

@@ -35,6 +35,10 @@ public class AddRating extends Request {
      * Sets whether the given user/item should be created if not present in the database.
      */
     protected Boolean cascadeCreate;
+    /**
+     * If this rating is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    protected String recommId;
 
     /**
      * Construct the request
@@ -65,6 +69,14 @@ public class AddRating extends Request {
          return this;
     }
 
+    /**
+     * @param recommId If this rating is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    public AddRating setRecommId(String recommId) {
+         this.recommId = recommId;
+         return this;
+    }
+
     public String getUserId() {
          return this.userId;
     }
@@ -84,6 +96,10 @@ public class AddRating extends Request {
     public boolean getCascadeCreate() {
          if (this.cascadeCreate==null) return false;
          return this.cascadeCreate;
+    }
+
+    public String getRecommId() {
+         return this.recommId;
     }
 
     /**
@@ -127,6 +143,9 @@ public class AddRating extends Request {
         }
         if (this.cascadeCreate!=null) {
             params.put("cascadeCreate", this.cascadeCreate);
+        }
+        if (this.recommId!=null) {
+            params.put("recommId", this.recommId);
         }
         return params;
     }

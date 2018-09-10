@@ -22,18 +22,24 @@ public class Bookmark extends RecombeeBinding {
      * UTC timestamp of the bookmark as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
      */
     protected Date timestamp;
+    /**
+     * If this bookmark is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    protected String recommId;
 
     public Bookmark () {}
 
-    public Bookmark (String userId,String itemId,Date timestamp) {
+    public Bookmark (String userId,String itemId,Date timestamp,String recommId) {
         this.userId = userId;
         this.itemId = itemId;
         this.timestamp = timestamp;
+        this.recommId = recommId;
     }
 
     public Bookmark (Map<String, Object> jsonObject) {
         this.userId = (String) jsonObject.get("userId");
         this.itemId = (String) jsonObject.get("itemId");
+        this.recommId = (String) jsonObject.get("recommId");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -55,12 +61,17 @@ public class Bookmark extends RecombeeBinding {
          return this.timestamp;
     }
 
+    public String getRecommId() {
+         return this.recommId;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
         append(this.userId).
         append(this.itemId).
         append(this.timestamp).
+        append(this.recommId).
         toHashCode();
     }
 
@@ -76,6 +87,7 @@ public class Bookmark extends RecombeeBinding {
             append(this.userId, rhs.userId).
             append(this.itemId, rhs.itemId).
             append(this.timestamp, rhs.timestamp).
+            append(this.recommId, rhs.recommId).
             isEquals();
     }
 }

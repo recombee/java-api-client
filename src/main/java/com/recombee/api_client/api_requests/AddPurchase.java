@@ -43,6 +43,10 @@ public class AddPurchase extends Request {
      * Your profit from the purchased item. The profit is natural in e-commerce domain (for example if `user-x` purchases `item-y` for $100 and the gross margin is 30 %, then the profit is $30), but is applicable also in other domains (for example at a news company it may be income from displayed advertisement on article page). If `amount` is greater than 1, sum of profit of all the items should be given.
      */
     protected Double profit;
+    /**
+     * If this purchase is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    protected String recommId;
 
     /**
      * Construct the request
@@ -95,6 +99,14 @@ public class AddPurchase extends Request {
          return this;
     }
 
+    /**
+     * @param recommId If this purchase is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    public AddPurchase setRecommId(String recommId) {
+         this.recommId = recommId;
+         return this;
+    }
+
     public String getUserId() {
          return this.userId;
     }
@@ -122,6 +134,10 @@ public class AddPurchase extends Request {
 
     public double getProfit() {
          return this.profit;
+    }
+
+    public String getRecommId() {
+         return this.recommId;
     }
 
     /**
@@ -173,6 +189,9 @@ public class AddPurchase extends Request {
         }
         if (this.profit!=null) {
             params.put("profit", this.profit);
+        }
+        if (this.recommId!=null) {
+            params.put("recommId", this.recommId);
         }
         return params;
     }

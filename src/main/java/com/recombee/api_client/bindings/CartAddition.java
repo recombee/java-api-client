@@ -30,15 +30,20 @@ public class CartAddition extends RecombeeBinding {
      * Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.
      */
     protected Double price;
+    /**
+     * If this cart addition is based on a recommendation request, `recommId` is the id of the clicked recommendation.
+     */
+    protected String recommId;
 
     public CartAddition () {}
 
-    public CartAddition (String userId,String itemId,Date timestamp,double amount,double price) {
+    public CartAddition (String userId,String itemId,Date timestamp,double amount,double price,String recommId) {
         this.userId = userId;
         this.itemId = itemId;
         this.timestamp = timestamp;
         this.amount = amount;
         this.price = price;
+        this.recommId = recommId;
     }
 
     public CartAddition (Map<String, Object> jsonObject) {
@@ -46,6 +51,7 @@ public class CartAddition extends RecombeeBinding {
         this.itemId = (String) jsonObject.get("itemId");
         this.amount = (Double) jsonObject.get("amount");
         this.price = (Double) jsonObject.get("price");
+        this.recommId = (String) jsonObject.get("recommId");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -75,6 +81,10 @@ public class CartAddition extends RecombeeBinding {
          return this.price;
     }
 
+    public String getRecommId() {
+         return this.recommId;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -83,6 +93,7 @@ public class CartAddition extends RecombeeBinding {
         append(this.timestamp).
         append(this.amount).
         append(this.price).
+        append(this.recommId).
         toHashCode();
     }
 
@@ -100,6 +111,7 @@ public class CartAddition extends RecombeeBinding {
             append(this.timestamp, rhs.timestamp).
             append(this.amount, rhs.amount).
             append(this.price, rhs.price).
+            append(this.recommId, rhs.recommId).
             isEquals();
     }
 }
