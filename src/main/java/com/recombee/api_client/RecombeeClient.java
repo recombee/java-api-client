@@ -85,7 +85,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/2.2.0";
+    final String USER_AGENT = "recombee-java-api-client/2.2.1";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
