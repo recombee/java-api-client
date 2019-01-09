@@ -13,7 +13,7 @@ The client is available in the [Maven Central Repository](https://mvnrepository.
     <dependency>
         <groupId>com.recombee</groupId>
         <artifactId>api-client</artifactId>
-        <version>2.2.1</version>
+        <version>2.2.2</version>
     </dependency>
 ```
 
@@ -38,7 +38,7 @@ import java.util.Random;
 public class BasicExample {
     public static void main(String[] args) {
 
-        RecombeeClient client = new RecombeeClient("--my-database-id--", "--my-secret-token--");
+        RecombeeClient client = new RecombeeClient("--my-database-id--", "--db-private-token--");
         try {
             client.send(new ResetDatabase());
             final int NUM = 100;
@@ -90,7 +90,7 @@ import java.util.Random;
 public class ItemPropertiesExample {
     public static void main(String[] args) {
 
-        RecombeeClient client = new RecombeeClient("--my-database-id--", "--my-secret-token--");
+        RecombeeClient client = new RecombeeClient("--my-database-id--", "--db-private-token--");
 
         try {
             client.send(new ResetDatabase()); //Clear everything from the database
