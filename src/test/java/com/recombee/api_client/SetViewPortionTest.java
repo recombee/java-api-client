@@ -25,7 +25,7 @@ public class SetViewPortionTest extends RecombeeTestCase {
         Request req2;
         String  resp;
         // it 'does not fail with cascadeCreate'
-        req = new SetViewPortion("u_id","i_id",1).setCascadeCreate(true);
+        req = new SetViewPortion("u_id","i_id",1).setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}});
         resp = this.client.send(req);
         // it 'does not fail with existing item and user'
         req = new SetViewPortion("entity_id","entity_id",0);

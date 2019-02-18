@@ -15,12 +15,22 @@ public class RecommendationResponse extends RecombeeBinding implements Iterable<
      * Obtained recommendations
      */
     protected Recommendation[] recomms;
+    /**
+     * Name of AB-testing group to which the request belongs if there is a custom AB-testing running.
+     */
+    protected String abGroup;
 
     public RecommendationResponse () {}
 
-    public RecommendationResponse (String recommId,Recommendation[] recomms) {
+    public RecommendationResponse (String recommId, Recommendation[] recomms) {
         this.recommId = recommId;
         this.recomms = recomms;
+        this.abGroup = null;
+    }
+    public RecommendationResponse (String recommId, Recommendation[] recomms, String abGroup) {
+        this.recommId = recommId;
+        this.recomms = recomms;
+        this.abGroup = abGroup;
     }
 
     /**
@@ -38,6 +48,14 @@ public class RecommendationResponse extends RecombeeBinding implements Iterable<
     }
 
     /**
+     * Get name of AB-testing group to which the request belongs if there is a custom AB-testing running
+     */
+    public String getAbGroup() {
+         return this.abGroup;
+    }
+
+
+    /**
      * Get ids of recommended entities
      */
     public String[] getIds() {
@@ -52,6 +70,7 @@ public class RecommendationResponse extends RecombeeBinding implements Iterable<
     return new HashCodeBuilder(17, 31).
         append(this.recommId).
         append(this.recomms).
+        append(this.abGroup).
         toHashCode();
     }
 
@@ -66,6 +85,7 @@ public class RecommendationResponse extends RecombeeBinding implements Iterable<
          return new EqualsBuilder().
             append(this.recommId, rhs.recommId).
             append(this.recomms, rhs.recomms).
+            append(this.abGroup, rhs.abGroup).
             isEquals();
     }
 

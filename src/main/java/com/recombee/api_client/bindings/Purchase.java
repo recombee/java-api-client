@@ -38,10 +38,14 @@ public class Purchase extends RecombeeBinding {
      * If this purchase is based on a recommendation request, `recommId` is the id of the clicked recommendation.
      */
     protected String recommId;
+    /**
+     * A dictionary of additional data for the interaction.
+     */
+    protected Map<String, Object> additionalData;
 
     public Purchase () {}
 
-    public Purchase (String userId,String itemId,Date timestamp,double amount,double price,double profit,String recommId) {
+    public Purchase (String userId,String itemId,Date timestamp,double amount,double price,double profit,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;
         this.timestamp = timestamp;
@@ -49,6 +53,7 @@ public class Purchase extends RecombeeBinding {
         this.price = price;
         this.profit = profit;
         this.recommId = recommId;
+        this.additionalData = additionalData;
     }
 
     public Purchase (Map<String, Object> jsonObject) {
@@ -58,6 +63,7 @@ public class Purchase extends RecombeeBinding {
         this.price = (Double) jsonObject.get("price");
         this.profit = (Double) jsonObject.get("profit");
         this.recommId = (String) jsonObject.get("recommId");
+        this.additionalData = (Map<String, Object>) jsonObject.get("additionalData");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -95,6 +101,10 @@ public class Purchase extends RecombeeBinding {
          return this.recommId;
     }
 
+    public Map<String, Object> getAdditionalData() {
+         return this.additionalData;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -105,6 +115,7 @@ public class Purchase extends RecombeeBinding {
         append(this.price).
         append(this.profit).
         append(this.recommId).
+        append(this.additionalData).
         toHashCode();
     }
 
@@ -124,6 +135,7 @@ public class Purchase extends RecombeeBinding {
             append(this.price, rhs.price).
             append(this.profit, rhs.profit).
             append(this.recommId, rhs.recommId).
+            append(this.additionalData, rhs.additionalData).
             isEquals();
     }
 }

@@ -22,7 +22,7 @@ public class AddDetailViewBatchTest extends RecombeeTestCase {
     @Test
     public void testAddDetailView() throws ApiException {
         Request[] requests = new Request[] {
-            new AddDetailView("u_id","i_id").setCascadeCreate(true),
+            new AddDetailView("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}),
             new AddDetailView("entity_id","entity_id"),
             new AddDetailView("entity_id","entity_id").setTimestamp(parseDate("2013-10-29T09:38:41.341Z")),
             new AddDetailView("entity_id","nonex_id"),

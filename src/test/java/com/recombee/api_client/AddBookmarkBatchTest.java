@@ -22,7 +22,7 @@ public class AddBookmarkBatchTest extends RecombeeTestCase {
     @Test
     public void testAddBookmark() throws ApiException {
         Request[] requests = new Request[] {
-            new AddBookmark("u_id","i_id").setCascadeCreate(true),
+            new AddBookmark("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}),
             new AddBookmark("entity_id","entity_id"),
             new AddBookmark("entity_id","entity_id").setTimestamp(parseDate("2013-10-29T09:38:41.341Z")),
             new AddBookmark("entity_id","nonex_id"),

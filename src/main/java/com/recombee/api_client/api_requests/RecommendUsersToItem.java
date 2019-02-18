@@ -13,6 +13,7 @@ import com.recombee.api_client.util.HTTPMethod;
 /**
  * Recommend users that are likely to be interested in a given item.
  * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
+ * The returned users are sorted by predicted interest in the item (first user being the most interested).
  */
 public class RecommendUsersToItem extends Request {
 
@@ -100,6 +101,10 @@ public class RecommendUsersToItem extends Request {
      * Dictionary of custom options.
      */
     protected Map<String, Object> expertSettings;
+    /**
+     * If there is a custom AB-testing running, return name of group to which the request belongs.
+     */
+    protected Boolean returnAbGroup;
 
     /**
      * Construct the request
@@ -220,6 +225,14 @@ public class RecommendUsersToItem extends Request {
          return this;
     }
 
+    /**
+     * @param returnAbGroup If there is a custom AB-testing running, return name of group to which the request belongs.
+     */
+    public RecommendUsersToItem setReturnAbGroup(boolean returnAbGroup) {
+         this.returnAbGroup = returnAbGroup;
+         return this;
+    }
+
     public String getItemId() {
          return this.itemId;
     }
@@ -260,6 +273,11 @@ public class RecommendUsersToItem extends Request {
 
     public Map<String, Object> getExpertSettings() {
          return this.expertSettings;
+    }
+
+    public boolean getReturnAbGroup() {
+         if (this.returnAbGroup==null) return false;
+         return this.returnAbGroup;
     }
 
     /**
@@ -319,6 +337,9 @@ public class RecommendUsersToItem extends Request {
         }
         if (this.expertSettings!=null) {
             params.put("expertSettings", this.expertSettings);
+        }
+        if (this.returnAbGroup!=null) {
+            params.put("returnAbGroup", this.returnAbGroup);
         }
         return params;
     }

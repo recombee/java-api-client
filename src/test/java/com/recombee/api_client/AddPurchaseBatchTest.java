@@ -22,7 +22,7 @@ public class AddPurchaseBatchTest extends RecombeeTestCase {
     @Test
     public void testAddPurchase() throws ApiException {
         Request[] requests = new Request[] {
-            new AddPurchase("u_id","i_id").setCascadeCreate(true),
+            new AddPurchase("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}),
             new AddPurchase("entity_id","entity_id"),
             new AddPurchase("entity_id","entity_id").setTimestamp(parseDate("2013-10-29T09:38:41.341Z")),
             new AddPurchase("entity_id","nonex_id"),

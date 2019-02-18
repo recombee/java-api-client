@@ -34,16 +34,21 @@ public class ViewPortion extends RecombeeBinding {
      * If this view portion is based on a recommendation request, `recommId` is the id of the clicked recommendation.
      */
     protected String recommId;
+    /**
+     * A dictionary of additional data for the interaction.
+     */
+    protected Map<String, Object> additionalData;
 
     public ViewPortion () {}
 
-    public ViewPortion (String userId,String itemId,double portion,String sessionId,Date timestamp,String recommId) {
+    public ViewPortion (String userId,String itemId,double portion,String sessionId,Date timestamp,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;
         this.portion = portion;
         this.sessionId = sessionId;
         this.timestamp = timestamp;
         this.recommId = recommId;
+        this.additionalData = additionalData;
     }
 
     public ViewPortion (Map<String, Object> jsonObject) {
@@ -52,6 +57,7 @@ public class ViewPortion extends RecombeeBinding {
         this.portion = (Double) jsonObject.get("portion");
         this.sessionId = (String) jsonObject.get("sessionId");
         this.recommId = (String) jsonObject.get("recommId");
+        this.additionalData = (Map<String, Object>) jsonObject.get("additionalData");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -85,6 +91,10 @@ public class ViewPortion extends RecombeeBinding {
          return this.recommId;
     }
 
+    public Map<String, Object> getAdditionalData() {
+         return this.additionalData;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -94,6 +104,7 @@ public class ViewPortion extends RecombeeBinding {
         append(this.sessionId).
         append(this.timestamp).
         append(this.recommId).
+        append(this.additionalData).
         toHashCode();
     }
 
@@ -112,6 +123,7 @@ public class ViewPortion extends RecombeeBinding {
             append(this.sessionId, rhs.sessionId).
             append(this.timestamp, rhs.timestamp).
             append(this.recommId, rhs.recommId).
+            append(this.additionalData, rhs.additionalData).
             isEquals();
     }
 }

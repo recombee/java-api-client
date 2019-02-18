@@ -26,20 +26,26 @@ public class Bookmark extends RecombeeBinding {
      * If this bookmark is based on a recommendation request, `recommId` is the id of the clicked recommendation.
      */
     protected String recommId;
+    /**
+     * A dictionary of additional data for the interaction.
+     */
+    protected Map<String, Object> additionalData;
 
     public Bookmark () {}
 
-    public Bookmark (String userId,String itemId,Date timestamp,String recommId) {
+    public Bookmark (String userId,String itemId,Date timestamp,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;
         this.timestamp = timestamp;
         this.recommId = recommId;
+        this.additionalData = additionalData;
     }
 
     public Bookmark (Map<String, Object> jsonObject) {
         this.userId = (String) jsonObject.get("userId");
         this.itemId = (String) jsonObject.get("itemId");
         this.recommId = (String) jsonObject.get("recommId");
+        this.additionalData = (Map<String, Object>) jsonObject.get("additionalData");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -65,6 +71,10 @@ public class Bookmark extends RecombeeBinding {
          return this.recommId;
     }
 
+    public Map<String, Object> getAdditionalData() {
+         return this.additionalData;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -72,6 +82,7 @@ public class Bookmark extends RecombeeBinding {
         append(this.itemId).
         append(this.timestamp).
         append(this.recommId).
+        append(this.additionalData).
         toHashCode();
     }
 
@@ -88,6 +99,7 @@ public class Bookmark extends RecombeeBinding {
             append(this.itemId, rhs.itemId).
             append(this.timestamp, rhs.timestamp).
             append(this.recommId, rhs.recommId).
+            append(this.additionalData, rhs.additionalData).
             isEquals();
     }
 }

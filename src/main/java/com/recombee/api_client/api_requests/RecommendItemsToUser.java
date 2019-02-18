@@ -13,6 +13,7 @@ import com.recombee.api_client.util.HTTPMethod;
 /**
  * Based on user's past interactions (purchases, ratings, etc.) with the items, recommends top-N items that are most likely to be of high value for a given user.
  * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
+ * The returned items are sorted by relevancy (first item being the most relevant).
  */
 public class RecommendItemsToUser extends Request {
 
@@ -118,6 +119,10 @@ public class RecommendItemsToUser extends Request {
      * Dictionary of custom options.
      */
     protected Map<String, Object> expertSettings;
+    /**
+     * If there is a custom AB-testing running, return name of group to which the request belongs.
+     */
+    protected Boolean returnAbGroup;
 
     /**
      * Construct the request
@@ -268,6 +273,14 @@ public class RecommendItemsToUser extends Request {
          return this;
     }
 
+    /**
+     * @param returnAbGroup If there is a custom AB-testing running, return name of group to which the request belongs.
+     */
+    public RecommendItemsToUser setReturnAbGroup(boolean returnAbGroup) {
+         this.returnAbGroup = returnAbGroup;
+         return this;
+    }
+
     public String getUserId() {
          return this.userId;
     }
@@ -320,6 +333,11 @@ public class RecommendItemsToUser extends Request {
 
     public Map<String, Object> getExpertSettings() {
          return this.expertSettings;
+    }
+
+    public boolean getReturnAbGroup() {
+         if (this.returnAbGroup==null) return false;
+         return this.returnAbGroup;
     }
 
     /**
@@ -388,6 +406,9 @@ public class RecommendItemsToUser extends Request {
         }
         if (this.expertSettings!=null) {
             params.put("expertSettings", this.expertSettings);
+        }
+        if (this.returnAbGroup!=null) {
+            params.put("returnAbGroup", this.returnAbGroup);
         }
         return params;
     }

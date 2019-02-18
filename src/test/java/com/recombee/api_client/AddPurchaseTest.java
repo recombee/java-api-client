@@ -25,7 +25,7 @@ public class AddPurchaseTest extends RecombeeTestCase {
         Request req2;
         String  resp;
         // it 'does not fail with cascadeCreate'
-        req = new AddPurchase("u_id","i_id").setCascadeCreate(true);
+        req = new AddPurchase("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}});
         resp = this.client.send(req);
         // it 'does not fail with existing item and user'
         req = new AddPurchase("entity_id","entity_id");

@@ -44,6 +44,10 @@ public class SetViewPortion extends Request {
      * If this view portion is based on a recommendation request, `recommId` is the id of the clicked recommendation.
      */
     protected String recommId;
+    /**
+     * A dictionary of additional data for the interaction.
+     */
+    protected Map<String, Object> additionalData;
 
     /**
      * Construct the request
@@ -90,6 +94,14 @@ public class SetViewPortion extends Request {
          return this;
     }
 
+    /**
+     * @param additionalData A dictionary of additional data for the interaction.
+     */
+    public SetViewPortion setAdditionalData(Map<String, Object> additionalData) {
+         this.additionalData = additionalData;
+         return this;
+    }
+
     public String getUserId() {
          return this.userId;
     }
@@ -117,6 +129,10 @@ public class SetViewPortion extends Request {
 
     public String getRecommId() {
          return this.recommId;
+    }
+
+    public Map<String, Object> getAdditionalData() {
+         return this.additionalData;
     }
 
     /**
@@ -166,6 +182,9 @@ public class SetViewPortion extends Request {
         }
         if (this.recommId!=null) {
             params.put("recommId", this.recommId);
+        }
+        if (this.additionalData!=null) {
+            params.put("additionalData", this.additionalData);
         }
         return params;
     }

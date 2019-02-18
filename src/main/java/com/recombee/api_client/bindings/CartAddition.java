@@ -34,16 +34,21 @@ public class CartAddition extends RecombeeBinding {
      * If this cart addition is based on a recommendation request, `recommId` is the id of the clicked recommendation.
      */
     protected String recommId;
+    /**
+     * A dictionary of additional data for the interaction.
+     */
+    protected Map<String, Object> additionalData;
 
     public CartAddition () {}
 
-    public CartAddition (String userId,String itemId,Date timestamp,double amount,double price,String recommId) {
+    public CartAddition (String userId,String itemId,Date timestamp,double amount,double price,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;
         this.timestamp = timestamp;
         this.amount = amount;
         this.price = price;
         this.recommId = recommId;
+        this.additionalData = additionalData;
     }
 
     public CartAddition (Map<String, Object> jsonObject) {
@@ -52,6 +57,7 @@ public class CartAddition extends RecombeeBinding {
         this.amount = (Double) jsonObject.get("amount");
         this.price = (Double) jsonObject.get("price");
         this.recommId = (String) jsonObject.get("recommId");
+        this.additionalData = (Map<String, Object>) jsonObject.get("additionalData");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -85,6 +91,10 @@ public class CartAddition extends RecombeeBinding {
          return this.recommId;
     }
 
+    public Map<String, Object> getAdditionalData() {
+         return this.additionalData;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -94,6 +104,7 @@ public class CartAddition extends RecombeeBinding {
         append(this.amount).
         append(this.price).
         append(this.recommId).
+        append(this.additionalData).
         toHashCode();
     }
 
@@ -112,6 +123,7 @@ public class CartAddition extends RecombeeBinding {
             append(this.amount, rhs.amount).
             append(this.price, rhs.price).
             append(this.recommId, rhs.recommId).
+            append(this.additionalData, rhs.additionalData).
             isEquals();
     }
 }

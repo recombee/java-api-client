@@ -39,6 +39,10 @@ public class AddDetailView extends Request {
      * If this detail view is based on a recommendation request, `recommId` is the id of the clicked recommendation.
      */
     protected String recommId;
+    /**
+     * A dictionary of additional data for the interaction.
+     */
+    protected Map<String, Object> additionalData;
 
     /**
      * Construct the request
@@ -83,6 +87,14 @@ public class AddDetailView extends Request {
          return this;
     }
 
+    /**
+     * @param additionalData A dictionary of additional data for the interaction.
+     */
+    public AddDetailView setAdditionalData(Map<String, Object> additionalData) {
+         this.additionalData = additionalData;
+         return this;
+    }
+
     public String getUserId() {
          return this.userId;
     }
@@ -106,6 +118,10 @@ public class AddDetailView extends Request {
 
     public String getRecommId() {
          return this.recommId;
+    }
+
+    public Map<String, Object> getAdditionalData() {
+         return this.additionalData;
     }
 
     /**
@@ -154,6 +170,9 @@ public class AddDetailView extends Request {
         }
         if (this.recommId!=null) {
             params.put("recommId", this.recommId);
+        }
+        if (this.additionalData!=null) {
+            params.put("additionalData", this.additionalData);
         }
         return params;
     }
