@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
 
+import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -41,6 +42,12 @@ public class RecommendItemsToUser extends Request {
      * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
     protected String scenario;
+    /**
+     * Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain (e-commerce, multimedia, fashion ...) and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logic.html) for list of available logics and other details.
+     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
+     */
+    protected Logic logic;
     /**
      * With `returnProperties=true`, property values of the recommended items are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying of the recommended items to the user. 
      * Example response:
@@ -164,6 +171,16 @@ public class RecommendItemsToUser extends Request {
      */
     public RecommendItemsToUser setScenario(String scenario) {
          this.scenario = scenario;
+         return this;
+    }
+
+    /**
+     * @param logic Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain (e-commerce, multimedia, fashion ...) and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logic.html) for list of available logics and other details.
+     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
+     */
+    public RecommendItemsToUser setLogic(Logic logic) {
+         this.logic = logic;
          return this;
     }
 
@@ -306,6 +323,10 @@ public class RecommendItemsToUser extends Request {
          return this.scenario;
     }
 
+    public Logic getLogic() {
+         return this.logic;
+    }
+
     public boolean getReturnProperties() {
          if (this.returnProperties==null) return false;
          return this.returnProperties;
@@ -385,6 +406,9 @@ public class RecommendItemsToUser extends Request {
         }
         if (this.scenario!=null) {
             params.put("scenario", this.scenario);
+        }
+        if (this.logic!=null) {
+            params.put("logic", this.logic);
         }
         if (this.returnProperties!=null) {
             params.put("returnProperties", this.returnProperties);

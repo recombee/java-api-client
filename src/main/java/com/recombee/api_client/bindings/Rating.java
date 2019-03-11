@@ -37,6 +37,12 @@ public class Rating extends RecombeeBinding {
 
     public Rating () {}
 
+    public Rating (String userId,String itemId,double rating) {
+        this.userId = userId;
+        this.itemId = itemId;
+        this.rating = rating;
+    }
+
     public Rating (String userId,String itemId,Date timestamp,double rating,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;

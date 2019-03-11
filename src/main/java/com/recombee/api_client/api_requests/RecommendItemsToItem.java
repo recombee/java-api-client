@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
 
+import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -42,10 +43,6 @@ public class RecommendItemsToItem extends Request {
      */
     protected Long count;
     /**
-     * If *targetUserId* parameter is present, the recommendations are biased towards the user given. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get user-based recommendation. The default value is `0`.
-     */
-    protected Double userImpact;
-    /**
      * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
      */
     protected String filter;
@@ -61,6 +58,12 @@ public class RecommendItemsToItem extends Request {
      * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
     protected String scenario;
+    /**
+     * Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain (e-commerce, multimedia, fashion ...) and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logic.html) for list of available logics and other details.
+     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
+     */
+    protected Logic logic;
     /**
      * With `returnProperties=true`, property values of the recommended items are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying of the recommended items to the user. 
      * Example response:
@@ -120,6 +123,10 @@ public class RecommendItemsToItem extends Request {
      */
     protected String[] includedProperties;
     /**
+     * **Expert option** If *targetUserId* parameter is present, the recommendations are biased towards the given user. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get user-based recommendation. The default value is `0`.
+     */
+    protected Double userImpact;
+    /**
      * **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended items be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     protected Double diversity;
@@ -170,14 +177,6 @@ public class RecommendItemsToItem extends Request {
     }
 
     /**
-     * @param userImpact If *targetUserId* parameter is present, the recommendations are biased towards the user given. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get user-based recommendation. The default value is `0`.
-     */
-    public RecommendItemsToItem setUserImpact(double userImpact) {
-         this.userImpact = userImpact;
-         return this;
-    }
-
-    /**
      * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
      */
     public RecommendItemsToItem setFilter(String filter) {
@@ -206,6 +205,16 @@ public class RecommendItemsToItem extends Request {
      */
     public RecommendItemsToItem setScenario(String scenario) {
          this.scenario = scenario;
+         return this;
+    }
+
+    /**
+     * @param logic Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain (e-commerce, multimedia, fashion ...) and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logic.html) for list of available logics and other details.
+     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
+     */
+    public RecommendItemsToItem setLogic(Logic logic) {
+         this.logic = logic;
          return this;
     }
 
@@ -276,6 +285,14 @@ public class RecommendItemsToItem extends Request {
     }
 
     /**
+     * @param userImpact **Expert option** If *targetUserId* parameter is present, the recommendations are biased towards the given user. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get user-based recommendation. The default value is `0`.
+     */
+    public RecommendItemsToItem setUserImpact(double userImpact) {
+         this.userImpact = userImpact;
+         return this;
+    }
+
+    /**
      * @param diversity **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended items be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     public RecommendItemsToItem setDiversity(double diversity) {
@@ -335,10 +352,6 @@ public class RecommendItemsToItem extends Request {
          return this.count;
     }
 
-    public double getUserImpact() {
-         return this.userImpact;
-    }
-
     public String getFilter() {
          return this.filter;
     }
@@ -356,6 +369,10 @@ public class RecommendItemsToItem extends Request {
          return this.scenario;
     }
 
+    public Logic getLogic() {
+         return this.logic;
+    }
+
     public boolean getReturnProperties() {
          if (this.returnProperties==null) return false;
          return this.returnProperties;
@@ -363,6 +380,10 @@ public class RecommendItemsToItem extends Request {
 
     public String[] getIncludedProperties() {
          return this.includedProperties;
+    }
+
+    public double getUserImpact() {
+         return this.userImpact;
     }
 
     public double getDiversity() {
@@ -425,9 +446,6 @@ public class RecommendItemsToItem extends Request {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("targetUserId", this.targetUserId);
         params.put("count", this.count);
-        if (this.userImpact!=null) {
-            params.put("userImpact", this.userImpact);
-        }
         if (this.filter!=null) {
             params.put("filter", this.filter);
         }
@@ -440,11 +458,17 @@ public class RecommendItemsToItem extends Request {
         if (this.scenario!=null) {
             params.put("scenario", this.scenario);
         }
+        if (this.logic!=null) {
+            params.put("logic", this.logic);
+        }
         if (this.returnProperties!=null) {
             params.put("returnProperties", this.returnProperties);
         }
         if (this.includedProperties!=null) {
             params.put("includedProperties", this.includedProperties);
+        }
+        if (this.userImpact!=null) {
+            params.put("userImpact", this.userImpact);
         }
         if (this.diversity!=null) {
             params.put("diversity", this.diversity);

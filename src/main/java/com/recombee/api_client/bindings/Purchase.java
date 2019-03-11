@@ -45,6 +45,11 @@ public class Purchase extends RecombeeBinding {
 
     public Purchase () {}
 
+    public Purchase (String userId,String itemId) {
+        this.userId = userId;
+        this.itemId = itemId;
+    }
+
     public Purchase (String userId,String itemId,Date timestamp,double amount,double price,double profit,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;

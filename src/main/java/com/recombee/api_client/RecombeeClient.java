@@ -79,13 +79,13 @@ public class RecombeeClient {
     String databaseId;
     String token;
 
-    NetworkApplicationProtocol defaultProtocol = NetworkApplicationProtocol.HTTP;
+    NetworkApplicationProtocol defaultProtocol = NetworkApplicationProtocol.HTTPS;
     String baseUri = "rapi.recombee.com";
     ObjectMapper mapper;
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/2.3.0";
+    final String USER_AGENT = "recombee-java-api-client/2.4.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 

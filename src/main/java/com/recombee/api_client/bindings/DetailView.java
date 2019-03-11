@@ -37,6 +37,11 @@ public class DetailView extends RecombeeBinding {
 
     public DetailView () {}
 
+    public DetailView (String userId,String itemId) {
+        this.userId = userId;
+        this.itemId = itemId;
+    }
+
     public DetailView (String userId,String itemId,Date timestamp,long duration,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;

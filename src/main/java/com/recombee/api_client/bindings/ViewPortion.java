@@ -41,6 +41,12 @@ public class ViewPortion extends RecombeeBinding {
 
     public ViewPortion () {}
 
+    public ViewPortion (String userId,String itemId,double portion) {
+        this.userId = userId;
+        this.itemId = itemId;
+        this.portion = portion;
+    }
+
     public ViewPortion (String userId,String itemId,double portion,String sessionId,Date timestamp,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;

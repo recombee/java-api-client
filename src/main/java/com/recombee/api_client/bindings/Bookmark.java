@@ -33,6 +33,11 @@ public class Bookmark extends RecombeeBinding {
 
     public Bookmark () {}
 
+    public Bookmark (String userId,String itemId) {
+        this.userId = userId;
+        this.itemId = itemId;
+    }
+
     public Bookmark (String userId,String itemId,Date timestamp,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;

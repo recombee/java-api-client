@@ -41,6 +41,11 @@ public class CartAddition extends RecombeeBinding {
 
     public CartAddition () {}
 
+    public CartAddition (String userId,String itemId) {
+        this.userId = userId;
+        this.itemId = itemId;
+    }
+
     public CartAddition (String userId,String itemId,Date timestamp,double amount,double price,String recommId,Map<String, Object> additionalData) {
         this.userId = userId;
         this.itemId = itemId;
