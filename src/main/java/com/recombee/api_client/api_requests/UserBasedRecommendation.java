@@ -20,7 +20,7 @@ import com.recombee.api_client.util.HTTPMethod;
 public class UserBasedRecommendation extends Request {
 
     /**
-     * ID of the user for which the personalized recommendations are to be generated.
+     * ID of the user for whom the personalized recommendations are to be generated.
      */
     protected String userId;
     /**
@@ -112,7 +112,7 @@ public class UserBasedRecommendation extends Request {
 
     /**
      * Construct the request
-     * @param userId ID of the user for which the personalized recommendations are to be generated.
+     * @param userId ID of the user for whom the personalized recommendations are to be generated.
      * @param count Number of items to be recommended (N for the top-N recommendation).
      */
     public UserBasedRecommendation (String userId,long count) {

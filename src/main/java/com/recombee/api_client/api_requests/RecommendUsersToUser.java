@@ -19,7 +19,7 @@ import com.recombee.api_client.util.HTTPMethod;
 public class RecommendUsersToUser extends Request {
 
     /**
-     * User to which we find similar users
+     * User to whom we find similar users
      */
     protected String userId;
     /**
@@ -27,27 +27,15 @@ public class RecommendUsersToUser extends Request {
      */
     protected Long count;
     /**
-     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended users based on the values of their attributes.
+     * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
-    protected String filter;
-    /**
-     * Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some users based on the values of their attributes.
-     */
-    protected String booster;
+    protected String scenario;
     /**
      * If the user does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows for example rotations in the following recommendations for that user, as the user will be already known to the system.
      */
     protected Boolean cascadeCreate;
-    /**
-     * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
-     */
-    protected String scenario;
-    /**
-     * Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain (e-commerce, multimedia, fashion ...) and use case.
-     * See [this section](https://docs.recombee.com/recommendation_logic.html) for list of available logics and other details.
-     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
-     */
-    protected Logic logic;
     /**
      * With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying the recommended users. 
      * Example response:
@@ -101,11 +89,28 @@ public class RecommendUsersToUser extends Request {
      */
     protected String[] includedProperties;
     /**
+     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
+     * Filters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    protected String filter;
+    /**
+     * Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
+     * Boosters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    protected String booster;
+    /**
+     * Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logics.html) for list of available logics and other details.
+     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
+     * Logic can be also set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    protected Logic logic;
+    /**
      * **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended users be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     protected Double diversity;
     /**
-     * **Expert option** Specifies the threshold of how much relevant must the recommended users be. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of users equal to *count* at any cost. If there are not enough data (such as interactions or user properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends users of at least the requested relevancy, and may return less than *count* users when there is not enough data to fulfill it.
+     * **Expert option** Specifies the threshold of how much relevant must the recommended users be. Possible values one of: "low", "medium", "high".
      */
     protected String minRelevance;
     /**
@@ -127,7 +132,7 @@ public class RecommendUsersToUser extends Request {
 
     /**
      * Construct the request
-     * @param userId User to which we find similar users
+     * @param userId User to whom we find similar users
      * @param count Number of users to be recommended (N for the top-N recommendation).
      */
     public RecommendUsersToUser (String userId,long count) {
@@ -137,18 +142,12 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended users based on the values of their attributes.
+     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
-    public RecommendUsersToUser setFilter(String filter) {
-         this.filter = filter;
-         return this;
-    }
-
-    /**
-     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some users based on the values of their attributes.
-     */
-    public RecommendUsersToUser setBooster(String booster) {
-         this.booster = booster;
+    public RecommendUsersToUser setScenario(String scenario) {
+         this.scenario = scenario;
          return this;
     }
 
@@ -157,24 +156,6 @@ public class RecommendUsersToUser extends Request {
      */
     public RecommendUsersToUser setCascadeCreate(boolean cascadeCreate) {
          this.cascadeCreate = cascadeCreate;
-         return this;
-    }
-
-    /**
-     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
-     */
-    public RecommendUsersToUser setScenario(String scenario) {
-         this.scenario = scenario;
-         return this;
-    }
-
-    /**
-     * @param logic Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain (e-commerce, multimedia, fashion ...) and use case.
-     * See [this section](https://docs.recombee.com/recommendation_logic.html) for list of available logics and other details.
-     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
-     */
-    public RecommendUsersToUser setLogic(Logic logic) {
-         this.logic = logic;
          return this;
     }
 
@@ -239,6 +220,35 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
+     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
+     * Filters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    public RecommendUsersToUser setFilter(String filter) {
+         this.filter = filter;
+         return this;
+    }
+
+    /**
+     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
+     * Boosters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    public RecommendUsersToUser setBooster(String booster) {
+         this.booster = booster;
+         return this;
+    }
+
+    /**
+     * @param logic Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logics.html) for list of available logics and other details.
+     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
+     * Logic can be also set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    public RecommendUsersToUser setLogic(Logic logic) {
+         this.logic = logic;
+         return this;
+    }
+
+    /**
      * @param diversity **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended users be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     public RecommendUsersToUser setDiversity(double diversity) {
@@ -247,7 +257,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param minRelevance **Expert option** Specifies the threshold of how much relevant must the recommended users be. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of users equal to *count* at any cost. If there are not enough data (such as interactions or user properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends users of at least the requested relevancy, and may return less than *count* users when there is not enough data to fulfill it.
+     * @param minRelevance **Expert option** Specifies the threshold of how much relevant must the recommended users be. Possible values one of: "low", "medium", "high".
      */
     public RecommendUsersToUser setMinRelevance(String minRelevance) {
          this.minRelevance = minRelevance;
@@ -294,25 +304,13 @@ public class RecommendUsersToUser extends Request {
          return this.count;
     }
 
-    public String getFilter() {
-         return this.filter;
-    }
-
-    public String getBooster() {
-         return this.booster;
+    public String getScenario() {
+         return this.scenario;
     }
 
     public boolean getCascadeCreate() {
          if (this.cascadeCreate==null) return false;
          return this.cascadeCreate;
-    }
-
-    public String getScenario() {
-         return this.scenario;
-    }
-
-    public Logic getLogic() {
-         return this.logic;
     }
 
     public boolean getReturnProperties() {
@@ -322,6 +320,18 @@ public class RecommendUsersToUser extends Request {
 
     public String[] getIncludedProperties() {
          return this.includedProperties;
+    }
+
+    public String getFilter() {
+         return this.filter;
+    }
+
+    public String getBooster() {
+         return this.booster;
+    }
+
+    public Logic getLogic() {
+         return this.logic;
     }
 
     public double getDiversity() {
@@ -383,26 +393,26 @@ public class RecommendUsersToUser extends Request {
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("count", this.count);
-        if (this.filter!=null) {
-            params.put("filter", this.filter);
-        }
-        if (this.booster!=null) {
-            params.put("booster", this.booster);
-        }
-        if (this.cascadeCreate!=null) {
-            params.put("cascadeCreate", this.cascadeCreate);
-        }
         if (this.scenario!=null) {
             params.put("scenario", this.scenario);
         }
-        if (this.logic!=null) {
-            params.put("logic", this.logic);
+        if (this.cascadeCreate!=null) {
+            params.put("cascadeCreate", this.cascadeCreate);
         }
         if (this.returnProperties!=null) {
             params.put("returnProperties", this.returnProperties);
         }
         if (this.includedProperties!=null) {
             params.put("includedProperties", this.includedProperties);
+        }
+        if (this.filter!=null) {
+            params.put("filter", this.filter);
+        }
+        if (this.booster!=null) {
+            params.put("booster", this.booster);
+        }
+        if (this.logic!=null) {
+            params.put("logic", this.logic);
         }
         if (this.diversity!=null) {
             params.put("diversity", this.diversity);

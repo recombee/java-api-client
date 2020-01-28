@@ -12,50 +12,60 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Recommend users that are likely to be interested in a given item.
+ * Full-text personalized search. The results are based on the provided `searchQuery` and also on the user's past interactions (purchases, ratings, etc.) with the items (items more suitable for the user are preferred in the results).
+ * All the string and set item properties are indexed by the search engine.
+ * This endpoint should be used in a search box at your website/app. It can be called multiple times as the user is typing the query in order to get the most viable suggestions based on current state of the query, or once after submitting the whole query. 
  * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
- * The returned users are sorted by predicted interest in the item (first user being the most interested).
+ * The returned items are sorted by relevancy (first item being the most relevant).
  */
-public class RecommendUsersToItem extends Request {
+public class SearchItems extends Request {
 
     /**
-     * ID of the item for which the recommendations are to be generated.
+     * ID of the user for whom personalized search will be performed.
      */
-    protected String itemId;
+    protected String userId;
     /**
-     * Number of items to be recommended (N for the top-N recommendation).
+     * Search query provided by the user. It is used for the full-text search.
+     */
+    protected String searchQuery;
+    /**
+     * Number of items to be returned (N for the top-N results).
      */
     protected Long count;
     /**
-     * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
-     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * Scenario defines a particular search field in your user interface.
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each field performs.
      * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
     protected String scenario;
     /**
-     * If item of given *itemId* doesn't exist in the database, it creates the missing item.
+     * If the user does not exist in the database, returns a list of non-personalized search results and creates the user in the database. This allows for example rotations in the following recommendations for that user, as the user will be already known to the system.
      */
     protected Boolean cascadeCreate;
     /**
-     * With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying the recommended users. 
+     * With `returnProperties=true`, property values of the recommended items are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying of the recommended items to the user. 
      * Example response:
      * ```
      *   {
-     *     "recommId": "039b71dc-b9cc-4645-a84f-62b841eecfce",
-     *     "recomms":
+     *     "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *     "recomms": 
      *       [
      *         {
-     *           "id": "user-17",
+     *           "id": "tv-178",
      *           "values": {
-     *             "country": "US",
-     *             "sex": "F"
+     *             "description": "4K TV with 3D feature",
+     *             "categories":   ["Electronics", "Televisions"],
+     *             "price": 342,
+     *             "url": "myshop.com/tv-178"
      *           }
      *         },
      *         {
-     *           "id": "user-2",
+     *           "id": "mixer-42",
      *           "values": {
-     *             "country": "CAN",
-     *             "sex": "M"
+     *             "description": "Stainless Steel Mixer",
+     *             "categories":   ["Home & Kitchen"],
+     *             "price": 39,
+     *             "url": "myshop.com/mixer-42"
      *           }
      *         }
      *       ]
@@ -65,22 +75,24 @@ public class RecommendUsersToItem extends Request {
     protected Boolean returnProperties;
     /**
      * Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
-     * Example response for `includedProperties=country`:
+     * Example response for `includedProperties=description,price`:
      * ```
      *   {
-     *     "recommId": "b2b355dd-972a-4728-9c6b-2dc229db0678",
+     *     "recommId": "a86ee8d5-cd8e-46d1-886c-8b3771d0520b",
      *     "recomms":
      *       [
      *         {
-     *           "id": "user-17",
+     *           "id": "tv-178",
      *           "values": {
-     *             "country": "US"
+     *             "description": "4K TV with 3D feature",
+     *             "price": 342
      *           }
      *         },
      *         {
-     *           "id": "user-2",
+     *           "id": "mixer-42",
      *           "values": {
-     *             "country": "CAN"
+     *             "description": "Stainless Steel Mixer",
+     *             "price": 39
      *           }
      *         }
      *       ]
@@ -106,10 +118,6 @@ public class RecommendUsersToItem extends Request {
      */
     protected Logic logic;
     /**
-     * **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended items be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
-     */
-    protected Double diversity;
-    /**
      * Dictionary of custom options.
      */
     protected Map<String, Object> expertSettings;
@@ -120,89 +128,97 @@ public class RecommendUsersToItem extends Request {
 
     /**
      * Construct the request
-     * @param itemId ID of the item for which the recommendations are to be generated.
-     * @param count Number of items to be recommended (N for the top-N recommendation).
+     * @param userId ID of the user for whom personalized search will be performed.
+     * @param searchQuery Search query provided by the user. It is used for the full-text search.
+     * @param count Number of items to be returned (N for the top-N results).
      */
-    public RecommendUsersToItem (String itemId,long count) {
-        this.itemId = itemId;
+    public SearchItems (String userId,String searchQuery,long count) {
+        this.userId = userId;
+        this.searchQuery = searchQuery;
         this.count = count;
-        this.timeout = 50000;
+        this.timeout = 3000;
     }
 
     /**
-     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
-     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * @param scenario Scenario defines a particular search field in your user interface.
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each field performs.
      * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
-    public RecommendUsersToItem setScenario(String scenario) {
+    public SearchItems setScenario(String scenario) {
          this.scenario = scenario;
          return this;
     }
 
     /**
-     * @param cascadeCreate If item of given *itemId* doesn't exist in the database, it creates the missing item.
+     * @param cascadeCreate If the user does not exist in the database, returns a list of non-personalized search results and creates the user in the database. This allows for example rotations in the following recommendations for that user, as the user will be already known to the system.
      */
-    public RecommendUsersToItem setCascadeCreate(boolean cascadeCreate) {
+    public SearchItems setCascadeCreate(boolean cascadeCreate) {
          this.cascadeCreate = cascadeCreate;
          return this;
     }
 
     /**
-     * @param returnProperties With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying the recommended users. 
+     * @param returnProperties With `returnProperties=true`, property values of the recommended items are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying of the recommended items to the user. 
      * Example response:
      * ```
      *   {
-     *     "recommId": "039b71dc-b9cc-4645-a84f-62b841eecfce",
-     *     "recomms":
+     *     "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *     "recomms": 
      *       [
      *         {
-     *           "id": "user-17",
+     *           "id": "tv-178",
      *           "values": {
-     *             "country": "US",
-     *             "sex": "F"
+     *             "description": "4K TV with 3D feature",
+     *             "categories":   ["Electronics", "Televisions"],
+     *             "price": 342,
+     *             "url": "myshop.com/tv-178"
      *           }
      *         },
      *         {
-     *           "id": "user-2",
+     *           "id": "mixer-42",
      *           "values": {
-     *             "country": "CAN",
-     *             "sex": "M"
+     *             "description": "Stainless Steel Mixer",
+     *             "categories":   ["Home & Kitchen"],
+     *             "price": 39,
+     *             "url": "myshop.com/mixer-42"
      *           }
      *         }
      *       ]
      *   }
      * ```
      */
-    public RecommendUsersToItem setReturnProperties(boolean returnProperties) {
+    public SearchItems setReturnProperties(boolean returnProperties) {
          this.returnProperties = returnProperties;
          return this;
     }
 
     /**
      * @param includedProperties Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
-     * Example response for `includedProperties=country`:
+     * Example response for `includedProperties=description,price`:
      * ```
      *   {
-     *     "recommId": "b2b355dd-972a-4728-9c6b-2dc229db0678",
+     *     "recommId": "a86ee8d5-cd8e-46d1-886c-8b3771d0520b",
      *     "recomms":
      *       [
      *         {
-     *           "id": "user-17",
+     *           "id": "tv-178",
      *           "values": {
-     *             "country": "US"
+     *             "description": "4K TV with 3D feature",
+     *             "price": 342
      *           }
      *         },
      *         {
-     *           "id": "user-2",
+     *           "id": "mixer-42",
      *           "values": {
-     *             "country": "CAN"
+     *             "description": "Stainless Steel Mixer",
+     *             "price": 39
      *           }
      *         }
      *       ]
      *   }
      * ```
      */
-    public RecommendUsersToItem setIncludedProperties(String[] includedProperties) {
+    public SearchItems setIncludedProperties(String[] includedProperties) {
          this.includedProperties = includedProperties;
          return this;
     }
@@ -211,7 +227,7 @@ public class RecommendUsersToItem extends Request {
      * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
      * Filters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
-    public RecommendUsersToItem setFilter(String filter) {
+    public SearchItems setFilter(String filter) {
          this.filter = filter;
          return this;
     }
@@ -220,7 +236,7 @@ public class RecommendUsersToItem extends Request {
      * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
      * Boosters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
-    public RecommendUsersToItem setBooster(String booster) {
+    public SearchItems setBooster(String booster) {
          this.booster = booster;
          return this;
     }
@@ -231,23 +247,15 @@ public class RecommendUsersToItem extends Request {
      * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
      * Logic can be also set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
-    public RecommendUsersToItem setLogic(Logic logic) {
+    public SearchItems setLogic(Logic logic) {
          this.logic = logic;
-         return this;
-    }
-
-    /**
-     * @param diversity **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended items be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
-     */
-    public RecommendUsersToItem setDiversity(double diversity) {
-         this.diversity = diversity;
          return this;
     }
 
     /**
      * @param expertSettings Dictionary of custom options.
      */
-    public RecommendUsersToItem setExpertSettings(Map<String, Object> expertSettings) {
+    public SearchItems setExpertSettings(Map<String, Object> expertSettings) {
          this.expertSettings = expertSettings;
          return this;
     }
@@ -255,13 +263,17 @@ public class RecommendUsersToItem extends Request {
     /**
      * @param returnAbGroup If there is a custom AB-testing running, return name of group to which the request belongs.
      */
-    public RecommendUsersToItem setReturnAbGroup(boolean returnAbGroup) {
+    public SearchItems setReturnAbGroup(boolean returnAbGroup) {
          this.returnAbGroup = returnAbGroup;
          return this;
     }
 
-    public String getItemId() {
-         return this.itemId;
+    public String getUserId() {
+         return this.userId;
+    }
+
+    public String getSearchQuery() {
+         return this.searchQuery;
     }
 
     public long getCount() {
@@ -298,10 +310,6 @@ public class RecommendUsersToItem extends Request {
          return this.logic;
     }
 
-    public double getDiversity() {
-         return this.diversity;
-    }
-
     public Map<String, Object> getExpertSettings() {
          return this.expertSettings;
     }
@@ -324,7 +332,7 @@ public class RecommendUsersToItem extends Request {
      */
     @Override
     public String getPath() {
-        return String.format("/recomms/items/%s/users/", this.itemId);
+        return String.format("/search/users/%s/items/", this.userId);
     }
 
     /**
@@ -344,6 +352,7 @@ public class RecommendUsersToItem extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("searchQuery", this.searchQuery);
         params.put("count", this.count);
         if (this.scenario!=null) {
             params.put("scenario", this.scenario);
@@ -365,9 +374,6 @@ public class RecommendUsersToItem extends Request {
         }
         if (this.logic!=null) {
             params.put("logic", this.logic);
-        }
-        if (this.diversity!=null) {
-            params.put("diversity", this.diversity);
         }
         if (this.expertSettings!=null) {
             params.put("expertSettings", this.expertSettings);

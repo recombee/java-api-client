@@ -1,6 +1,6 @@
 package com.recombee.api_client;
 import com.recombee.api_client.api_requests.*;
-import com.recombee.api_client.exceptions.ApiException;
+import com.recombee.api_client.exceptions.*;
 import org.junit.Before;
 
 import java.text.DateFormat;
@@ -18,8 +18,20 @@ class RecombeeTestCase {
 
     @Before
     public void setUp () throws ApiException {
+        client.send(new ResetDatabase());
+
+        while(true)
+        {
+            try {
+                client.send(new ListItems());
+                break;
+            } catch(ResponseException e) {
+                // Wait until DB is erased
+                continue;
+            }
+        }
+
         Batch requests = new Batch(new Request[]{
-                new ResetDatabase(),
                 new AddItem("entity_id"),
                 new AddUser("entity_id"),
                 new AddSeries("entity_id"),
@@ -45,7 +57,6 @@ class RecombeeTestCase {
         });
 
         client.send(requests);
-
     }
 
     protected Date parseDate(String dateStr) {

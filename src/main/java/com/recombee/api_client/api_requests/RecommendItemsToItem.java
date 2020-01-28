@@ -43,27 +43,15 @@ public class RecommendItemsToItem extends Request {
      */
     protected Long count;
     /**
-     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
+     * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
-    protected String filter;
-    /**
-     * Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
-     */
-    protected String booster;
+    protected String scenario;
     /**
      * If item of given *itemId* or user of given *targetUserId* doesn't exist in the database, it creates the missing entity/entities and returns some (non-personalized) recommendations. This allows for example rotations in the following recommendations for the user of given *targetUserId*, as the user will be already known to the system.
      */
     protected Boolean cascadeCreate;
-    /**
-     * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
-     */
-    protected String scenario;
-    /**
-     * Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain (e-commerce, multimedia, fashion ...) and use case.
-     * See [this section](https://docs.recombee.com/recommendation_logic.html) for list of available logics and other details.
-     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
-     */
-    protected Logic logic;
     /**
      * With `returnProperties=true`, property values of the recommended items are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying of the recommended items to the user. 
      * Example response:
@@ -123,6 +111,23 @@ public class RecommendItemsToItem extends Request {
      */
     protected String[] includedProperties;
     /**
+     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
+     * Filters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    protected String filter;
+    /**
+     * Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
+     * Boosters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    protected String booster;
+    /**
+     * Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logics.html) for list of available logics and other details.
+     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
+     * Logic can be also set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    protected Logic logic;
+    /**
      * **Expert option** If *targetUserId* parameter is present, the recommendations are biased towards the given user. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get user-based recommendation. The default value is `0`.
      */
     protected Double userImpact;
@@ -177,18 +182,12 @@ public class RecommendItemsToItem extends Request {
     }
 
     /**
-     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
+     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
      */
-    public RecommendItemsToItem setFilter(String filter) {
-         this.filter = filter;
-         return this;
-    }
-
-    /**
-     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
-     */
-    public RecommendItemsToItem setBooster(String booster) {
-         this.booster = booster;
+    public RecommendItemsToItem setScenario(String scenario) {
+         this.scenario = scenario;
          return this;
     }
 
@@ -197,24 +196,6 @@ public class RecommendItemsToItem extends Request {
      */
     public RecommendItemsToItem setCascadeCreate(boolean cascadeCreate) {
          this.cascadeCreate = cascadeCreate;
-         return this;
-    }
-
-    /**
-     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing". You can see each scenario in the UI separately, so you can check how well each application performs. The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
-     */
-    public RecommendItemsToItem setScenario(String scenario) {
-         this.scenario = scenario;
-         return this;
-    }
-
-    /**
-     * @param logic Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain (e-commerce, multimedia, fashion ...) and use case.
-     * See [this section](https://docs.recombee.com/recommendation_logic.html) for list of available logics and other details.
-     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
-     */
-    public RecommendItemsToItem setLogic(Logic logic) {
-         this.logic = logic;
          return this;
     }
 
@@ -281,6 +262,35 @@ public class RecommendItemsToItem extends Request {
      */
     public RecommendItemsToItem setIncludedProperties(String[] includedProperties) {
          this.includedProperties = includedProperties;
+         return this;
+    }
+
+    /**
+     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
+     * Filters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    public RecommendItemsToItem setFilter(String filter) {
+         this.filter = filter;
+         return this;
+    }
+
+    /**
+     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
+     * Boosters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    public RecommendItemsToItem setBooster(String booster) {
+         this.booster = booster;
+         return this;
+    }
+
+    /**
+     * @param logic Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logics.html) for list of available logics and other details.
+     * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
+     * Logic can be also set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     */
+    public RecommendItemsToItem setLogic(Logic logic) {
+         this.logic = logic;
          return this;
     }
 
@@ -352,25 +362,13 @@ public class RecommendItemsToItem extends Request {
          return this.count;
     }
 
-    public String getFilter() {
-         return this.filter;
-    }
-
-    public String getBooster() {
-         return this.booster;
+    public String getScenario() {
+         return this.scenario;
     }
 
     public boolean getCascadeCreate() {
          if (this.cascadeCreate==null) return false;
          return this.cascadeCreate;
-    }
-
-    public String getScenario() {
-         return this.scenario;
-    }
-
-    public Logic getLogic() {
-         return this.logic;
     }
 
     public boolean getReturnProperties() {
@@ -380,6 +378,18 @@ public class RecommendItemsToItem extends Request {
 
     public String[] getIncludedProperties() {
          return this.includedProperties;
+    }
+
+    public String getFilter() {
+         return this.filter;
+    }
+
+    public String getBooster() {
+         return this.booster;
+    }
+
+    public Logic getLogic() {
+         return this.logic;
     }
 
     public double getUserImpact() {
@@ -446,26 +456,26 @@ public class RecommendItemsToItem extends Request {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("targetUserId", this.targetUserId);
         params.put("count", this.count);
-        if (this.filter!=null) {
-            params.put("filter", this.filter);
-        }
-        if (this.booster!=null) {
-            params.put("booster", this.booster);
-        }
-        if (this.cascadeCreate!=null) {
-            params.put("cascadeCreate", this.cascadeCreate);
-        }
         if (this.scenario!=null) {
             params.put("scenario", this.scenario);
         }
-        if (this.logic!=null) {
-            params.put("logic", this.logic);
+        if (this.cascadeCreate!=null) {
+            params.put("cascadeCreate", this.cascadeCreate);
         }
         if (this.returnProperties!=null) {
             params.put("returnProperties", this.returnProperties);
         }
         if (this.includedProperties!=null) {
             params.put("includedProperties", this.includedProperties);
+        }
+        if (this.filter!=null) {
+            params.put("filter", this.filter);
+        }
+        if (this.booster!=null) {
+            params.put("booster", this.booster);
+        }
+        if (this.logic!=null) {
+            params.put("logic", this.logic);
         }
         if (this.userImpact!=null) {
             params.put("userImpact", this.userImpact);

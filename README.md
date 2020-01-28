@@ -13,7 +13,7 @@ The client is available in the [Maven Central Repository](https://mvnrepository.
     <dependency>
         <groupId>com.recombee</groupId>
         <artifactId>api-client</artifactId>
-        <version>2.4.2</version>
+        <version>3.0.0</version>
     </dependency>
 ```
 
@@ -81,6 +81,7 @@ import com.recombee.api_client.RecombeeClient;
 import com.recombee.api_client.api_requests.*;
 import com.recombee.api_client.bindings.RecommendationResponse;
 import com.recombee.api_client.bindings.Recommendation;
+import com.recombee.api_client.bindings.SearchResponse;
 import com.recombee.api_client.exceptions.ApiException;
 
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class ItemPropertiesExample {
         RecombeeClient client = new RecombeeClient("--my-database-id--", "--db-private-token--");
 
         try {
-            client.send(new ResetDatabase()); //Clear everything from the database
+            client.send(new ResetDatabase()); // Clear everything from the database
 
             /*
             We will use computers as items in this example
@@ -146,13 +147,9 @@ public class ItemPropertiesExample {
 
 
             // Get 5 recommendations for user-42, who is currently viewing computer-6
-            RecommendationResponse recommendationResponse = client.send(new RecommendItemsToItem("computer-6", "user-42", 5));
-            System.out.println("Recommended items:");
-            for(Recommendation rec: recommendationResponse) System.out.println(rec.getId());
-
-
             // Recommend only computers that have at least 3 cores
-            recommendationResponse = client.send(new RecommendItemsToItem("computer-6", "user-42", 5)
+            RecommendationResponse recommendationResponse = client.send(
+                new RecommendItemsToItem("computer-6", "user-42", 5)
                     .setFilter(" 'num-cores'>=3 "));
             System.out.println("Recommended items with at least 3 processor cores:");
             for(Recommendation rec: recommendationResponse) System.out.println(rec.getId());
@@ -163,6 +160,20 @@ public class ItemPropertiesExample {
 
             System.out.println("Recommended up-sell items:");
             for(Recommendation rec: recommendationResponse) System.out.println(rec.getId());
+
+
+            // Filters, boosters and other settings can be set also in the Admin UI (admin.recombee.com)
+            // when scenario is specified
+            recommendationResponse = client.send(
+                new RecommendItemsToItem("computer-6", "user-42", 5).setScenario("product_detail")
+            );
+
+            // Perform personalized full-text search with a user's search query (e.g. "computers")
+            SearchResponse searchResponse = client.send(
+              new SearchItems("user-42", "computers", 5)
+              );
+            System.out.println("Search matches:");
+            for(Recommendation rec: searchResponse) System.out.println(rec.getId());
 
         } catch (ApiException e) {
             e.printStackTrace();

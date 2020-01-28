@@ -67,6 +67,7 @@ import com.recombee.api_client.api_requests.RecommendItemsToUser;
 import com.recombee.api_client.api_requests.RecommendUsersToUser;
 import com.recombee.api_client.api_requests.RecommendItemsToItem;
 import com.recombee.api_client.api_requests.RecommendUsersToItem;
+import com.recombee.api_client.api_requests.SearchItems;
 import com.recombee.api_client.api_requests.UserBasedRecommendation;
 import com.recombee.api_client.api_requests.ItemBasedRecommendation;
 
@@ -85,7 +86,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/2.4.2";
+    final String USER_AGENT = "recombee-java-api-client/3.0.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -104,8 +105,14 @@ public class RecombeeClient {
         return defaultProtocol;
     }
 
-    public void setDefaultProtocol(NetworkApplicationProtocol defaultProtocol) {
+    public RecombeeClient setDefaultProtocol(NetworkApplicationProtocol defaultProtocol) {
         this.defaultProtocol = defaultProtocol;
+        return this;
+    }
+    public RecombeeClient setBaseUri(String baseUri)
+    {
+        this.baseUri = baseUri;
+        return this;
     }
     /* Start of the generated code */
     public PropertyInfo send(GetItemPropertyInfo request) throws ApiException {
@@ -348,6 +355,16 @@ public class RecombeeClient {
          return null;
     }
 
+    public SearchResponse send(SearchItems request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, SearchResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
     /* End of the generated code */
 
     public BatchResponse[] send(Batch batchRequest) throws ApiException {
@@ -438,6 +455,10 @@ public class RecombeeClient {
                             (request instanceof RecommendUsersToItem))
                     {
                         parsedResponse = mapper.convertValue(parsedResponse, RecommendationResponse.class);
+                    }
+                    else if (request instanceof SearchItems)
+                    {
+                        parsedResponse = mapper.convertValue(parsedResponse, SearchResponse.class);
                     }
                     /* Start of the generated code */
                     else if (request instanceof GetItemPropertyInfo)
