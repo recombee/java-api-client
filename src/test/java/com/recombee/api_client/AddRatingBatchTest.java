@@ -21,6 +21,7 @@ public class AddRatingBatchTest extends RecombeeTestCase {
 
     @Test
     public void testAddRating() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new AddRating("u_id","i_id",1).setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}),
             new AddRating("entity_id","entity_id",0),

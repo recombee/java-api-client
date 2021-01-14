@@ -21,15 +21,12 @@ public class DeleteBookmarkTest extends InteractionsTestCase {
 
     @Test
     public void testDeleteBookmark() throws ApiException {
-        DeleteBookmark req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with existing entity id'
-        req = new DeleteBookmark("user","item").setTimestamp(new Date(0));
-        resp = this.client.send(req);
-        req = new DeleteBookmark("user","item");
+        resp = this.client.send(new DeleteBookmark("user","item").setTimestamp(new Date(0)));
         try {
-            this.client.send(req);
+            this.client.send(new DeleteBookmark("user","item"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());

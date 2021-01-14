@@ -21,6 +21,7 @@ public class ListSeriesItemsBatchTest extends RecombeeTestCase {
 
     @Test
     public void testListSeriesItems() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new ListSeriesItems("entity_id")
         };

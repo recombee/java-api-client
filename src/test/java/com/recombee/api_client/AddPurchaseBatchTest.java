@@ -21,6 +21,7 @@ public class AddPurchaseBatchTest extends RecombeeTestCase {
 
     @Test
     public void testAddPurchase() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new AddPurchase("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}),
             new AddPurchase("entity_id","entity_id"),

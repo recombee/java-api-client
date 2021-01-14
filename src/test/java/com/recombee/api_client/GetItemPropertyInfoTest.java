@@ -21,15 +21,12 @@ public class GetItemPropertyInfoTest extends RecombeeTestCase {
 
     @Test
     public void testGetItemPropertyInfo() throws ApiException {
-        GetItemPropertyInfo req;
-        Request req2;
         PropertyInfo  resp;
+        Object resp2;
         // it 'does not fail with existing properties'
-        req = new GetItemPropertyInfo("int_property");
-        resp = this.client.send(req);
+        resp = this.client.send(new GetItemPropertyInfo("int_property"));
         assertEquals ("int",resp.getType());
-        req = new GetItemPropertyInfo("str_property");
-        resp = this.client.send(req);
+        resp = this.client.send(new GetItemPropertyInfo("str_property"));
         assertEquals ("string",resp.getType());
     }
 }

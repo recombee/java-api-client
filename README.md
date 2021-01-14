@@ -13,7 +13,7 @@ The client is available in the [Maven Central Repository](https://mvnrepository.
     <dependency>
         <groupId>com.recombee</groupId>
         <artifactId>api-client</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
     </dependency>
 ```
 
@@ -40,7 +40,7 @@ public class BasicExample {
 
         RecombeeClient client = new RecombeeClient("--my-database-id--", "--db-private-token--");
         try {
-            client.send(new ResetDatabase());
+
             final int NUM = 100;
             // Generate some random purchases of items by users
             final double PROBABILITY_PURCHASED = 0.1;
@@ -62,6 +62,11 @@ public class BasicExample {
             // Get 5 recommendations for user 'user-25'
             RecommendationResponse recommendationResponse = client.send(new RecommendItemsToUser("user-25", 5));
             System.out.println("Recommended items:");
+            for(Recommendation rec: recommendationResponse) System.out.println(rec.getId());
+
+            // User scrolled down - get next 3 recommended items
+            recommendationResponse = client.send(new RecommendNextItems(recommendationResponse.getRecommId(), 3));
+            System.out.println("Next recommended items:");
             for(Recommendation rec: recommendationResponse) System.out.println(rec.getId());
 
         } catch (ApiException e) {

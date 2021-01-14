@@ -21,6 +21,7 @@ public class SetViewPortionBatchTest extends RecombeeTestCase {
 
     @Test
     public void testSetViewPortion() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new SetViewPortion("u_id","i_id",1).setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}),
             new SetViewPortion("entity_id","entity_id",0),

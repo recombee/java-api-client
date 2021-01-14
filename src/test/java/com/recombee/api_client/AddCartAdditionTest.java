@@ -21,47 +21,39 @@ public class AddCartAdditionTest extends RecombeeTestCase {
 
     @Test
     public void testAddCartAddition() throws ApiException {
-        AddCartAddition req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with cascadeCreate'
-        req = new AddCartAddition("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}});
-        resp = this.client.send(req);
+        resp = this.client.send(new AddCartAddition("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}));
         // it 'does not fail with existing item and user'
-        req = new AddCartAddition("entity_id","entity_id");
-        resp = this.client.send(req);
+        resp = this.client.send(new AddCartAddition("entity_id","entity_id"));
         // it 'does not fail with valid timestamp'
-        req = new AddCartAddition("entity_id","entity_id").setTimestamp(parseDate("2013-10-29T09:38:41.341Z"));
-        resp = this.client.send(req);
+        resp = this.client.send(new AddCartAddition("entity_id","entity_id").setTimestamp(parseDate("2013-10-29T09:38:41.341Z")));
         // it 'fails with nonexisting item id'
-        req = new AddCartAddition("entity_id","nonex_id");
         try {
-            this.client.send(req);
+            this.client.send(new AddCartAddition("entity_id","nonex_id"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());
         }
         // it 'fails with nonexisting user id'
-        req = new AddCartAddition("nonex_id","entity_id");
         try {
-            this.client.send(req);
+            this.client.send(new AddCartAddition("nonex_id","entity_id"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());
         }
         // it 'fails with invalid time'
-        req = new AddCartAddition("entity_id","entity_id").setTimestamp(new Date(-15));
         try {
-            this.client.send(req);
+            this.client.send(new AddCartAddition("entity_id","entity_id").setTimestamp(new Date(-15)));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(400,ex.getStatusCode());
         }
         // it 'really stores interaction to the system'
-        req = new AddCartAddition("u_id2","i_id2").setCascadeCreate(true).setTimestamp(new Date(5));
-        resp = this.client.send(req);
+        resp = this.client.send(new AddCartAddition("u_id2","i_id2").setCascadeCreate(true).setTimestamp(new Date(5)));
         try {
-            this.client.send(req);
+            this.client.send(new AddCartAddition("u_id2","i_id2").setCascadeCreate(true).setTimestamp(new Date(5)));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(409,ex.getStatusCode());

@@ -21,9 +21,10 @@ public class AddItemBatchTest extends RecombeeTestCase {
 
     @Test
     public void testAddItem() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new AddItem("valid_id"),
-            new AddItem("$$$not_valid$$$"),
+            new AddItem("***not_valid$$$"),
             new AddItem("valid_id2"),
             new AddItem("valid_id2")
         };

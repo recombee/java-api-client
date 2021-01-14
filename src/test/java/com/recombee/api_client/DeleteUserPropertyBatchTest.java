@@ -21,10 +21,11 @@ public class DeleteUserPropertyBatchTest extends RecombeeTestCase {
 
     @Test
     public void testDeleteUserProperty() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new DeleteUserProperty("int_property"),
             new DeleteUserProperty("int_property"),
-            new DeleteUserProperty("$$$not_valid$$$"),
+            new DeleteUserProperty("***not_valid$$$"),
             new DeleteUserProperty("not_existing")
         };
 

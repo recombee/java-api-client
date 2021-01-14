@@ -21,10 +21,11 @@ public class DeleteSeriesBatchTest extends RecombeeTestCase {
 
     @Test
     public void testDeleteSeries() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new DeleteSeries("entity_id"),
             new DeleteSeries("entity_id"),
-            new DeleteSeries("$$$not_valid$$$"),
+            new DeleteSeries("***not_valid$$$"),
             new DeleteSeries("valid_id")
         };
 

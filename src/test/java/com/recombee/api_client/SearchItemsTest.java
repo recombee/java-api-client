@@ -21,20 +21,16 @@ public class SearchItemsTest extends RecommendationTestCase {
 
     @Test
     public void testSearchItems() throws ApiException {
-        SearchItems req;
-        Request req2;
         SearchResponse  resp;
+        Object resp2;
         // it 'finds "hello"'
-        req = new SearchItems("entity_id","hell",9);
-        resp = this.client.send(req);
+        resp = this.client.send(new SearchItems("entity_id","hell",9));
         assertEquals(1, resp.getRecomms().length);
         // it 'does not find random string'
-        req = new SearchItems("entity_id","sdhskldf",9);
-        resp = this.client.send(req);
+        resp = this.client.send(new SearchItems("entity_id","sdhskldf",9));
         assertEquals(0, resp.getRecomms().length);
         // it 'returnProperties'
-        req = new SearchItems("entity_id","hell",9).setReturnProperties(true);
-        resp = this.client.send(req);
+        resp = this.client.send(new SearchItems("entity_id","hell",9).setReturnProperties(true));
         assertEquals(1, resp.getRecomms().length);
     }
 }

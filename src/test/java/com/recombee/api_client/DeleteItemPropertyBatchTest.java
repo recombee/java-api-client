@@ -21,10 +21,11 @@ public class DeleteItemPropertyBatchTest extends RecombeeTestCase {
 
     @Test
     public void testDeleteItemProperty() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new DeleteItemProperty("int_property"),
             new DeleteItemProperty("int_property"),
-            new DeleteItemProperty("$$$not_valid$$$"),
+            new DeleteItemProperty("***not_valid$$$"),
             new DeleteItemProperty("not_existing")
         };
 

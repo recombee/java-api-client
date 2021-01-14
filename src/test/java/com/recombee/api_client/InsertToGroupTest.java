@@ -21,24 +21,18 @@ public class InsertToGroupTest extends RecombeeTestCase {
 
     @Test
     public void testInsertToGroup() throws ApiException {
-        InsertToGroup req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail when inserting existing item into existing set'
-        req2 = new AddItem("new_item");
-        this.client.send(req2);
-        req = new InsertToGroup("entity_id","item","new_item");
-        resp = this.client.send(req);
+        resp2 = this.client.send(new AddItem("new_item"));
+        resp = this.client.send(new InsertToGroup("entity_id","item","new_item"));
         // it 'does not fail when cascadeCreate is used'
-        req = new InsertToGroup("new_set","item","new_item2").setCascadeCreate(true);
-        resp = this.client.send(req);
+        resp = this.client.send(new InsertToGroup("new_set","item","new_item2").setCascadeCreate(true));
         // it 'really inserts item to the set'
-        req2 = new AddItem("new_item3");
-        this.client.send(req2);
-        req = new InsertToGroup("entity_id","item","new_item3");
-        resp = this.client.send(req);
+        resp2 = this.client.send(new AddItem("new_item3"));
+        resp = this.client.send(new InsertToGroup("entity_id","item","new_item3"));
         try {
-            this.client.send(req);
+            this.client.send(new InsertToGroup("entity_id","item","new_item3"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(409,ex.getStatusCode());

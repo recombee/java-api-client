@@ -21,17 +21,13 @@ public class RecommendUsersToItemTest extends RecommendationTestCase {
 
     @Test
     public void testRecommendUsersToItem() throws ApiException {
-        RecommendUsersToItem req;
-        Request req2;
         RecommendationResponse  resp;
+        Object resp2;
         // it 'recommends'
-        req = new RecommendUsersToItem("entity_id",9);
-        resp = this.client.send(req);
+        resp = this.client.send(new RecommendUsersToItem("entity_id",9));
         // it 'recommends to previously nonexisting entity with cascadeCreate'
-        req = new RecommendUsersToItem("nonexisting",9).setCascadeCreate(true);
-        resp = this.client.send(req);
+        resp = this.client.send(new RecommendUsersToItem("nonexisting",9).setCascadeCreate(true));
         // it 'recommends with expert settings'
-        req = new RecommendUsersToItem("nonexisting2",9).setCascadeCreate(true).setExpertSettings(new HashMap<String, Object>(){{}});
-        resp = this.client.send(req);
+        resp = this.client.send(new RecommendUsersToItem("nonexisting2",9).setCascadeCreate(true).setExpertSettings(new HashMap<String, Object>(){{}}));
     }
 }

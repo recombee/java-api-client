@@ -21,6 +21,7 @@ public class DeletePurchaseBatchTest extends InteractionsTestCase {
 
     @Test
     public void testDeletePurchase() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new DeletePurchase("user","item").setTimestamp(new Date(0)),
             new DeletePurchase("user","item")

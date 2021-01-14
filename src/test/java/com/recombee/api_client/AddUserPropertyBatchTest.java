@@ -21,6 +21,7 @@ public class AddUserPropertyBatchTest extends RecombeeTestCase {
 
     @Test
     public void testAddUserProperty() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new AddUserProperty("number","int"),
             new AddUserProperty("str","string"),

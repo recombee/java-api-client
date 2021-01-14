@@ -21,6 +21,7 @@ public class ListUserRatingsBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListUserRatings() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new ListUserRatings("user")
         };

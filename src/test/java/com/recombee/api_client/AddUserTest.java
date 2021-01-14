@@ -21,25 +21,21 @@ public class AddUserTest extends RecombeeTestCase {
 
     @Test
     public void testAddUser() throws ApiException {
-        AddUser req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with valid entity id'
-        req = new AddUser("valid_id");
-        resp = this.client.send(req);
+        resp = this.client.send(new AddUser("valid_id"));
         // it 'fails with invalid entity id'
-        req = new AddUser("$$$not_valid$$$");
         try {
-            this.client.send(req);
+            this.client.send(new AddUser("***not_valid$$$"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(400,ex.getStatusCode());
         }
         // it 'really stores entity to the system'
-        req = new AddUser("valid_id2");
-        resp = this.client.send(req);
+        resp = this.client.send(new AddUser("valid_id2"));
         try {
-            this.client.send(req);
+            this.client.send(new AddUser("valid_id2"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(409,ex.getStatusCode());

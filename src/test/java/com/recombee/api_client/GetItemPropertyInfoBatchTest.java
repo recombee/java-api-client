@@ -21,6 +21,7 @@ public class GetItemPropertyInfoBatchTest extends RecombeeTestCase {
 
     @Test
     public void testGetItemPropertyInfo() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new GetItemPropertyInfo("int_property"),
             new GetItemPropertyInfo("str_property")

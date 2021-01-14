@@ -21,12 +21,10 @@ public class ListItemDetailViewsTest extends InteractionsTestCase {
 
     @Test
     public void testListItemDetailViews() throws ApiException {
-        ListItemDetailViews req;
-        Request req2;
         DetailView [] resp;
+        Object resp2;
         // it 'lists interactions'
-        req = new ListItemDetailViews("item");
-        resp = this.client.send(req);
+        resp = this.client.send(new ListItemDetailViews("item"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());
         assertEquals ("user",resp[0].getUserId());

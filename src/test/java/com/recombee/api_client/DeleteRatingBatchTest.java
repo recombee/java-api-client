@@ -21,6 +21,7 @@ public class DeleteRatingBatchTest extends InteractionsTestCase {
 
     @Test
     public void testDeleteRating() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new DeleteRating("user","item").setTimestamp(new Date(0)),
             new DeleteRating("user","item")

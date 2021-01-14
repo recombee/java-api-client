@@ -21,12 +21,10 @@ public class ListUserCartAdditionsTest extends InteractionsTestCase {
 
     @Test
     public void testListUserCartAdditions() throws ApiException {
-        ListUserCartAdditions req;
-        Request req2;
         CartAddition [] resp;
+        Object resp2;
         // it 'lists user interactions'
-        req = new ListUserCartAdditions("user");
-        resp = this.client.send(req);
+        resp = this.client.send(new ListUserCartAdditions("user"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());
         assertEquals ("user",resp[0].getUserId());

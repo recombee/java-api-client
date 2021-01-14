@@ -21,12 +21,10 @@ public class ListGroupsTest extends RecombeeTestCase {
 
     @Test
     public void testListGroups() throws ApiException {
-        ListGroups req;
-        Request req2;
         Group [] resp;
+        Object resp2;
         // it 'lists entities'
-        req = new ListGroups();
-        resp = this.client.send(req);
+        resp = this.client.send(new ListGroups());
         assertArrayEquals (new Group[]{new Group("entity_id")},resp);
     }
 }

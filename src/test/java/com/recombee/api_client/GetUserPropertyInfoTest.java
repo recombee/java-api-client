@@ -21,15 +21,12 @@ public class GetUserPropertyInfoTest extends RecombeeTestCase {
 
     @Test
     public void testGetUserPropertyInfo() throws ApiException {
-        GetUserPropertyInfo req;
-        Request req2;
         PropertyInfo  resp;
+        Object resp2;
         // it 'does not fail with existing properties'
-        req = new GetUserPropertyInfo("int_property");
-        resp = this.client.send(req);
+        resp = this.client.send(new GetUserPropertyInfo("int_property"));
         assertEquals ("int",resp.getType());
-        req = new GetUserPropertyInfo("str_property");
-        resp = this.client.send(req);
+        resp = this.client.send(new GetUserPropertyInfo("str_property"));
         assertEquals ("string",resp.getType());
     }
 }

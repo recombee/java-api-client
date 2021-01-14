@@ -21,6 +21,7 @@ public class SetUserValuesBatchTest extends RecombeeTestCase {
 
     @Test
     public void testSetUserValues() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new SetUserValues("entity_id",new HashMap<String, Object>(){{put("int_property",5);}}),
             new SetUserValues("entity_id",new HashMap<String, Object>(){{put("str_property","šřžذ的‎");}}),

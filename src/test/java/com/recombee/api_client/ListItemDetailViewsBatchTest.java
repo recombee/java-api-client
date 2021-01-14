@@ -21,6 +21,7 @@ public class ListItemDetailViewsBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListItemDetailViews() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new ListItemDetailViews("item")
         };

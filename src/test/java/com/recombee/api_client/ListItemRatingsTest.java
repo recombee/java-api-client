@@ -21,12 +21,10 @@ public class ListItemRatingsTest extends InteractionsTestCase {
 
     @Test
     public void testListItemRatings() throws ApiException {
-        ListItemRatings req;
-        Request req2;
         Rating [] resp;
+        Object resp2;
         // it 'lists interactions'
-        req = new ListItemRatings("item");
-        resp = this.client.send(req);
+        resp = this.client.send(new ListItemRatings("item"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());
         assertEquals ("user",resp[0].getUserId());

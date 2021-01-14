@@ -21,25 +21,21 @@ public class AddItemTest extends RecombeeTestCase {
 
     @Test
     public void testAddItem() throws ApiException {
-        AddItem req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with valid entity id'
-        req = new AddItem("valid_id");
-        resp = this.client.send(req);
+        resp = this.client.send(new AddItem("valid_id"));
         // it 'fails with invalid entity id'
-        req = new AddItem("$$$not_valid$$$");
         try {
-            this.client.send(req);
+            this.client.send(new AddItem("***not_valid$$$"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(400,ex.getStatusCode());
         }
         // it 'really stores entity to the system'
-        req = new AddItem("valid_id2");
-        resp = this.client.send(req);
+        resp = this.client.send(new AddItem("valid_id2"));
         try {
-            this.client.send(req);
+            this.client.send(new AddItem("valid_id2"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(409,ex.getStatusCode());

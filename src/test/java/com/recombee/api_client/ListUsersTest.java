@@ -21,16 +21,13 @@ public class ListUsersTest extends RecombeeTestCase {
 
     @Test
     public void testListUsers() throws ApiException {
-        ListUsers req;
-        Request req2;
         User [] resp;
+        Object resp2;
         // it 'lists entities'
-        req = new ListUsers();
-        resp = this.client.send(req);
+        resp = this.client.send(new ListUsers());
         assertArrayEquals (new User[]{new User("entity_id")},resp);
         // it 'return properties'
-        req = new ListUsers();
-        resp = this.client.send(req);
+        resp = this.client.send(new ListUsers());
         assertEquals(1, resp.length);
     }
 }

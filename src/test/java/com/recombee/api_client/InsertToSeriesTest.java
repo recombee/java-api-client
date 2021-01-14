@@ -21,24 +21,18 @@ public class InsertToSeriesTest extends RecombeeTestCase {
 
     @Test
     public void testInsertToSeries() throws ApiException {
-        InsertToSeries req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail when inserting existing item into existing set'
-        req2 = new AddItem("new_item");
-        this.client.send(req2);
-        req = new InsertToSeries("entity_id","item","new_item",3);
-        resp = this.client.send(req);
+        resp2 = this.client.send(new AddItem("new_item"));
+        resp = this.client.send(new InsertToSeries("entity_id","item","new_item",3));
         // it 'does not fail when cascadeCreate is used'
-        req = new InsertToSeries("new_set","item","new_item2",1).setCascadeCreate(true);
-        resp = this.client.send(req);
+        resp = this.client.send(new InsertToSeries("new_set","item","new_item2",1).setCascadeCreate(true));
         // it 'really inserts item to the set'
-        req2 = new AddItem("new_item3");
-        this.client.send(req2);
-        req = new InsertToSeries("entity_id","item","new_item3",2);
-        resp = this.client.send(req);
+        resp2 = this.client.send(new AddItem("new_item3"));
+        resp = this.client.send(new InsertToSeries("entity_id","item","new_item3",2));
         try {
-            this.client.send(req);
+            this.client.send(new InsertToSeries("entity_id","item","new_item3",2));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(409,ex.getStatusCode());

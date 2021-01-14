@@ -21,30 +21,26 @@ public class DeleteGroupTest extends RecombeeTestCase {
 
     @Test
     public void testDeleteGroup() throws ApiException {
-        DeleteGroup req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with existing entity id'
-        req = new DeleteGroup("entity_id");
-        resp = this.client.send(req);
+        resp = this.client.send(new DeleteGroup("entity_id"));
         try {
-            this.client.send(req);
+            this.client.send(new DeleteGroup("entity_id"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());
         }
         // it 'fails with invalid entity id'
-        req = new DeleteGroup("$$$not_valid$$$");
         try {
-            this.client.send(req);
+            this.client.send(new DeleteGroup("***not_valid$$$"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(400,ex.getStatusCode());
         }
         // it 'fails with non-existing entity'
-        req = new DeleteGroup("valid_id");
         try {
-            this.client.send(req);
+            this.client.send(new DeleteGroup("valid_id"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());

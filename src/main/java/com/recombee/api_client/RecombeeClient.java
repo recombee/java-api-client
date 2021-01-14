@@ -1,6 +1,7 @@
 package com.recombee.api_client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -64,8 +65,9 @@ import com.recombee.api_client.api_requests.ListUserBookmarks;
 import com.recombee.api_client.api_requests.ListItemViewPortions;
 import com.recombee.api_client.api_requests.ListUserViewPortions;
 import com.recombee.api_client.api_requests.RecommendItemsToUser;
-import com.recombee.api_client.api_requests.RecommendUsersToUser;
 import com.recombee.api_client.api_requests.RecommendItemsToItem;
+import com.recombee.api_client.api_requests.RecommendNextItems;
+import com.recombee.api_client.api_requests.RecommendUsersToUser;
 import com.recombee.api_client.api_requests.RecommendUsersToItem;
 import com.recombee.api_client.api_requests.SearchItems;
 import com.recombee.api_client.api_requests.UserBasedRecommendation;
@@ -86,7 +88,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/3.0.0";
+    final String USER_AGENT = "recombee-java-api-client/3.1.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -96,6 +98,7 @@ public class RecombeeClient {
         this.mapper = new ObjectMapper();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
         this.mapper.setDateFormat(df);
+        this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         if (System.getenv("RAPI_URI") != null)
             this.baseUri = System.getenv("RAPI_URI");
@@ -325,7 +328,7 @@ public class RecombeeClient {
          return null;
     }
 
-    public RecommendationResponse send(RecommendUsersToUser request) throws ApiException {
+    public RecommendationResponse send(RecommendItemsToItem request) throws ApiException {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, RecommendationResponse.class);
@@ -335,7 +338,17 @@ public class RecombeeClient {
          return null;
     }
 
-    public RecommendationResponse send(RecommendItemsToItem request) throws ApiException {
+    public RecommendationResponse send(RecommendNextItems request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public RecommendationResponse send(RecommendUsersToUser request) throws ApiException {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, RecommendationResponse.class);
@@ -452,7 +465,8 @@ public class RecombeeClient {
                     else if ((request instanceof RecommendItemsToUser) ||
                             (request instanceof RecommendUsersToUser) ||
                             (request instanceof RecommendItemsToItem) ||
-                            (request instanceof RecommendUsersToItem))
+                            (request instanceof RecommendUsersToItem) ||
+                            (request instanceof RecommendNextItems))
                     {
                         parsedResponse = mapper.convertValue(parsedResponse, RecommendationResponse.class);
                     }
@@ -714,6 +728,7 @@ public class RecombeeClient {
         String responseStr = sendRequest(request);
 
         try {
+            this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true); // Check exact match
             return this.mapper.readValue(responseStr, Recommendation[].class);
         } catch (IOException e) {
             //might have failed because it returned also the item properties
@@ -728,14 +743,18 @@ public class RecombeeClient {
             } catch (IOException e2) {
                 e2.printStackTrace();
             }
-         }
-         return null;
+        }
+        finally {
+            this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        }
+        return null;
     }
 
     public Item[] send(ListItems request) throws ApiException {
         String responseStr = sendRequest(request);
 
         try {
+            this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true); // Check exact match
             return this.mapper.readValue(responseStr, Item[].class);
         } catch (IOException e) {
             //might have failed because it returned also the item properties
@@ -750,8 +769,11 @@ public class RecombeeClient {
             } catch (IOException e2) {
                 e2.printStackTrace();
             }
-         }
-         return null;
+        }
+        finally {
+            this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        }
+        return null;
     }
 
 
@@ -759,6 +781,7 @@ public class RecombeeClient {
         String responseStr = sendRequest(request);
 
         try {
+            this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true); // Check exact match
             return this.mapper.readValue(responseStr, User[].class);
         } catch (IOException e) {
             //might have failed because it returned also the user properties
@@ -773,8 +796,11 @@ public class RecombeeClient {
             } catch (IOException e2) {
                 e2.printStackTrace();
             }
-         }
-         return null;
+        }
+        finally {
+            this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        }
+        return null;
     }
 
     public String send(Request request) throws ApiException {

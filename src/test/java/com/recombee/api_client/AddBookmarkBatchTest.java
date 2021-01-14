@@ -21,6 +21,7 @@ public class AddBookmarkBatchTest extends RecombeeTestCase {
 
     @Test
     public void testAddBookmark() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new AddBookmark("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}),
             new AddBookmark("entity_id","entity_id"),

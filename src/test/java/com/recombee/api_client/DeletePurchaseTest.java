@@ -21,15 +21,12 @@ public class DeletePurchaseTest extends InteractionsTestCase {
 
     @Test
     public void testDeletePurchase() throws ApiException {
-        DeletePurchase req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with existing entity id'
-        req = new DeletePurchase("user","item").setTimestamp(new Date(0));
-        resp = this.client.send(req);
-        req = new DeletePurchase("user","item");
+        resp = this.client.send(new DeletePurchase("user","item").setTimestamp(new Date(0)));
         try {
-            this.client.send(req);
+            this.client.send(new DeletePurchase("user","item"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());

@@ -21,6 +21,7 @@ public class RemoveFromGroupBatchTest extends RecombeeTestCase {
 
     @Test
     public void testRemoveFromGroup() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new RemoveFromGroup("entity_id","item","entity_id"),
             new RemoveFromGroup("entity_id","item","not_contained")

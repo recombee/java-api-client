@@ -58,8 +58,9 @@ public class RecommendUsersToUser extends Request {
      *             "sex": "M"
      *           }
      *         }
-     *       ]
-     *     }
+     *       ],
+     *     "numberNextRecommsCalls": 0
+     *   }
      * ```
      */
     protected Boolean returnProperties;
@@ -83,7 +84,8 @@ public class RecommendUsersToUser extends Request {
      *             "country": "CAN"
      *           }
      *         }
-     *       ]
+     *       ],
+     *     "numberNextRecommsCalls": 0
      *   }
      * ```
      */
@@ -181,8 +183,9 @@ public class RecommendUsersToUser extends Request {
      *             "sex": "M"
      *           }
      *         }
-     *       ]
-     *     }
+     *       ],
+     *     "numberNextRecommsCalls": 0
+     *   }
      * ```
      */
     public RecommendUsersToUser setReturnProperties(boolean returnProperties) {
@@ -210,7 +213,8 @@ public class RecommendUsersToUser extends Request {
      *             "country": "CAN"
      *           }
      *         }
-     *       ]
+     *       ],
+     *     "numberNextRecommsCalls": 0
      *   }
      * ```
      */

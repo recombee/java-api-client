@@ -21,6 +21,7 @@ public class GetUserPropertyInfoBatchTest extends RecombeeTestCase {
 
     @Test
     public void testGetUserPropertyInfo() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new GetUserPropertyInfo("int_property"),
             new GetUserPropertyInfo("str_property")

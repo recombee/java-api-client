@@ -21,6 +21,7 @@ public class ListItemPurchasesBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListItemPurchases() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new ListItemPurchases("item")
         };

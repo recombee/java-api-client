@@ -17,26 +17,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
-public class InsertToGroupBatchTest extends RecombeeTestCase {
+public class RecommendNextItemsBatchTest extends RecommendationTestCase {
 
     @Test
-    public void testInsertToGroup() throws ApiException {
+    public void testRecommendNextItems() throws ApiException {
         Object resp2;
-        resp2 = this.client.send(new AddItem("new_item"));
-
-        resp2 = this.client.send(new AddItem("new_item3"));
+        resp2 = this.client.send(new RecommendItemsToUser("entity_id",3).setReturnProperties(true));
 
         Request[] requests = new Request[] {
-            new InsertToGroup("entity_id","item","new_item"),
-            new InsertToGroup("new_set","item","new_item2").setCascadeCreate(true),
-            new InsertToGroup("entity_id","item","new_item3"),
-            new InsertToGroup("entity_id","item","new_item3")
+            new RecommendNextItems(((RecommendationResponse)resp2).getRecommId(),3),
+            new RecommendNextItems(((RecommendationResponse)resp2).getRecommId(),3)
         };
 
         BatchResponse[] responses = this.client.send(new Batch(requests));
         assertEquals(200,responses[0].getStatusCode());
+        assertEquals(3, ((RecommendationResponse ) responses[0].getResponse()).getRecomms().length);
         assertEquals(200,responses[1].getStatusCode());
-        assertEquals(200,responses[2].getStatusCode());
-        assertEquals(409,responses[3].getStatusCode());
+        assertEquals(3, ((RecommendationResponse ) responses[1].getResponse()).getRecomms().length);
     }
 }

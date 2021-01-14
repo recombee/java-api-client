@@ -21,6 +21,7 @@ public class UserBasedRecommendationBatchTest extends RecommendationTestCase {
 
     @Test
     public void testUserBasedRecommendation() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new UserBasedRecommendation("entity_id",9),
             new UserBasedRecommendation("nonexisting",9).setCascadeCreate(true),

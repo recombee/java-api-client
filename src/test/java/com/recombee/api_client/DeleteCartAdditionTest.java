@@ -21,15 +21,12 @@ public class DeleteCartAdditionTest extends InteractionsTestCase {
 
     @Test
     public void testDeleteCartAddition() throws ApiException {
-        DeleteCartAddition req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with existing entity id'
-        req = new DeleteCartAddition("user","item").setTimestamp(new Date(0));
-        resp = this.client.send(req);
-        req = new DeleteCartAddition("user","item");
+        resp = this.client.send(new DeleteCartAddition("user","item").setTimestamp(new Date(0)));
         try {
-            this.client.send(req);
+            this.client.send(new DeleteCartAddition("user","item"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());

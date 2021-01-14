@@ -14,8 +14,11 @@ import com.recombee.api_client.util.HTTPMethod;
 /**
  * Based on user's past interactions (purchases, ratings, etc.) with the items, recommends top-N items that are most likely to be of high value for a given user.
  * The most typical use cases are recommendations at homepage, in some "Picked just for you" section or in email.
+ * The returned items are sorted by relevance (first item being the most relevant).
+ * Besides the recommended items, also a unique `recommId` is returned in the response. It can be used to:
+ * - Let Recombee know that this recommendation was successful (e.g. user clicked one of the recommended items). See [Reported metrics](https://docs.recombee.com/admin_ui.html#reported-metrics).
+ * - Get subsequent recommended items when the user scrolls down (*infinite scroll*) or goes to the next page. See [Recommend Next Items](https://docs.recombee.com/api.html#recommend-next-items).
  * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
- * The returned items are sorted by relevancy (first item being the most relevant).
  */
 public class RecommendItemsToUser extends Request {
 
@@ -63,7 +66,8 @@ public class RecommendItemsToUser extends Request {
      *             "url": "myshop.com/mixer-42"
      *           }
      *         }
-     *       ]
+     *       ],
+     *      "numberNextRecommsCalls": 0
      *   }
      * ```
      */
@@ -90,7 +94,8 @@ public class RecommendItemsToUser extends Request {
      *             "price": 39
      *           }
      *         }
-     *       ]
+     *       ],
+     *     "numberNextRecommsCalls": 0
      *   }
      * ```
      */
@@ -117,7 +122,7 @@ public class RecommendItemsToUser extends Request {
      */
     protected Double diversity;
     /**
-     * **Expert option** Specifies the threshold of how much relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of items equal to *count* at any cost. If there are not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested relevancy, and may return less than *count* items when there is not enough data to fulfill it.
+     * **Expert option** Specifies the threshold of how much relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of items equal to *count* at any cost. If there are not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested relevance, and may return less than *count* items when there is not enough data to fulfill it.
      */
     protected String minRelevance;
     /**
@@ -192,7 +197,8 @@ public class RecommendItemsToUser extends Request {
      *             "url": "myshop.com/mixer-42"
      *           }
      *         }
-     *       ]
+     *       ],
+     *      "numberNextRecommsCalls": 0
      *   }
      * ```
      */
@@ -223,7 +229,8 @@ public class RecommendItemsToUser extends Request {
      *             "price": 39
      *           }
      *         }
-     *       ]
+     *       ],
+     *     "numberNextRecommsCalls": 0
      *   }
      * ```
      */
@@ -270,7 +277,7 @@ public class RecommendItemsToUser extends Request {
     }
 
     /**
-     * @param minRelevance **Expert option** Specifies the threshold of how much relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of items equal to *count* at any cost. If there are not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested relevancy, and may return less than *count* items when there is not enough data to fulfill it.
+     * @param minRelevance **Expert option** Specifies the threshold of how much relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend number of items equal to *count* at any cost. If there are not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations to be appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested relevance, and may return less than *count* items when there is not enough data to fulfill it.
      */
     public RecommendItemsToUser setMinRelevance(String minRelevance) {
          this.minRelevance = minRelevance;

@@ -58,7 +58,8 @@ public class RecommendUsersToItem extends Request {
      *             "sex": "M"
      *           }
      *         }
-     *       ]
+     *       ],
+     *     "numberNextRecommsCalls": 0
      *   }
      * ```
      */
@@ -83,7 +84,8 @@ public class RecommendUsersToItem extends Request {
      *             "country": "CAN"
      *           }
      *         }
-     *       ]
+     *       ],
+     *     "numberNextRecommsCalls": 0
      *   }
      * ```
      */
@@ -169,7 +171,8 @@ public class RecommendUsersToItem extends Request {
      *             "sex": "M"
      *           }
      *         }
-     *       ]
+     *       ],
+     *     "numberNextRecommsCalls": 0
      *   }
      * ```
      */
@@ -198,7 +201,8 @@ public class RecommendUsersToItem extends Request {
      *             "country": "CAN"
      *           }
      *         }
-     *       ]
+     *       ],
+     *     "numberNextRecommsCalls": 0
      *   }
      * ```
      */

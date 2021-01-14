@@ -21,6 +21,7 @@ public class DeleteCartAdditionBatchTest extends InteractionsTestCase {
 
     @Test
     public void testDeleteCartAddition() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new DeleteCartAddition("user","item").setTimestamp(new Date(0)),
             new DeleteCartAddition("user","item")

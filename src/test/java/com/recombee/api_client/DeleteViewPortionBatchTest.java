@@ -21,6 +21,7 @@ public class DeleteViewPortionBatchTest extends InteractionsTestCase {
 
     @Test
     public void testDeleteViewPortion() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new DeleteViewPortion("user","item"),
             new DeleteViewPortion("user","item")

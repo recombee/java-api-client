@@ -21,30 +21,26 @@ public class DeleteItemPropertyTest extends RecombeeTestCase {
 
     @Test
     public void testDeleteItemProperty() throws ApiException {
-        DeleteItemProperty req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with existing property'
-        req = new DeleteItemProperty("int_property");
-        resp = this.client.send(req);
+        resp = this.client.send(new DeleteItemProperty("int_property"));
         try {
-            this.client.send(req);
+            this.client.send(new DeleteItemProperty("int_property"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());
         }
         // it 'fails with invalid property'
-        req = new DeleteItemProperty("$$$not_valid$$$");
         try {
-            this.client.send(req);
+            this.client.send(new DeleteItemProperty("***not_valid$$$"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(400,ex.getStatusCode());
         }
         // it 'fails with non-existing property'
-        req = new DeleteItemProperty("not_existing");
         try {
-            this.client.send(req);
+            this.client.send(new DeleteItemProperty("not_existing"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());

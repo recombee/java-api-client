@@ -21,6 +21,7 @@ public class DeleteBookmarkBatchTest extends InteractionsTestCase {
 
     @Test
     public void testDeleteBookmark() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new DeleteBookmark("user","item").setTimestamp(new Date(0)),
             new DeleteBookmark("user","item")

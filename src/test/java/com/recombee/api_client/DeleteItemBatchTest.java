@@ -21,10 +21,11 @@ public class DeleteItemBatchTest extends RecombeeTestCase {
 
     @Test
     public void testDeleteItem() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new DeleteItem("entity_id"),
             new DeleteItem("entity_id"),
-            new DeleteItem("$$$not_valid$$$"),
+            new DeleteItem("***not_valid$$$"),
             new DeleteItem("valid_id")
         };
 

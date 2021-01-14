@@ -21,6 +21,7 @@ public class SearchItemsBatchTest extends RecommendationTestCase {
 
     @Test
     public void testSearchItems() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new SearchItems("entity_id","hell",9),
             new SearchItems("entity_id","sdhskldf",9),

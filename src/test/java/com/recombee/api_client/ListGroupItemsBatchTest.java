@@ -21,6 +21,7 @@ public class ListGroupItemsBatchTest extends RecombeeTestCase {
 
     @Test
     public void testListGroupItems() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new ListGroupItems("entity_id")
         };

@@ -21,6 +21,7 @@ public class ListItemViewPortionsBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListItemViewPortions() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new ListItemViewPortions("item")
         };

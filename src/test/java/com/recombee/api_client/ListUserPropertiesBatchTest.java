@@ -21,6 +21,7 @@ public class ListUserPropertiesBatchTest extends RecombeeTestCase {
 
     @Test
     public void testListUserProperties() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new ListUserProperties()
         };

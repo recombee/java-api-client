@@ -21,27 +21,22 @@ public class AddItemPropertyTest extends RecombeeTestCase {
 
     @Test
     public void testAddItemProperty() throws ApiException {
-        AddItemProperty req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with valid name and type'
-        req = new AddItemProperty("number","int");
-        resp = this.client.send(req);
-        req = new AddItemProperty("str","string");
-        resp = this.client.send(req);
+        resp = this.client.send(new AddItemProperty("number","int"));
+        resp = this.client.send(new AddItemProperty("str","string"));
         // it 'fails with invalid type'
-        req = new AddItemProperty("prop","integer");
         try {
-            this.client.send(req);
+            this.client.send(new AddItemProperty("prop","integer"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(400,ex.getStatusCode());
         }
         // it 'really stores property to the system'
-        req = new AddItemProperty("number2","int");
-        resp = this.client.send(req);
+        resp = this.client.send(new AddItemProperty("number2","int"));
         try {
-            this.client.send(req);
+            this.client.send(new AddItemProperty("number2","int"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(409,ex.getStatusCode());

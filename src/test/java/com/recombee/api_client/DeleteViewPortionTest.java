@@ -21,15 +21,12 @@ public class DeleteViewPortionTest extends InteractionsTestCase {
 
     @Test
     public void testDeleteViewPortion() throws ApiException {
-        DeleteViewPortion req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with existing entity id'
-        req = new DeleteViewPortion("user","item");
-        resp = this.client.send(req);
-        req = new DeleteViewPortion("user","item");
+        resp = this.client.send(new DeleteViewPortion("user","item"));
         try {
-            this.client.send(req);
+            this.client.send(new DeleteViewPortion("user","item"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());

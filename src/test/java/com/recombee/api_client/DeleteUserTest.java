@@ -21,30 +21,26 @@ public class DeleteUserTest extends RecombeeTestCase {
 
     @Test
     public void testDeleteUser() throws ApiException {
-        DeleteUser req;
-        Request req2;
         String  resp;
+        Object resp2;
         // it 'does not fail with existing entity id'
-        req = new DeleteUser("entity_id");
-        resp = this.client.send(req);
+        resp = this.client.send(new DeleteUser("entity_id"));
         try {
-            this.client.send(req);
+            this.client.send(new DeleteUser("entity_id"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());
         }
         // it 'fails with invalid entity id'
-        req = new DeleteUser("$$$not_valid$$$");
         try {
-            this.client.send(req);
+            this.client.send(new DeleteUser("***not_valid$$$"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(400,ex.getStatusCode());
         }
         // it 'fails with non-existing entity'
-        req = new DeleteUser("valid_id");
         try {
-            this.client.send(req);
+            this.client.send(new DeleteUser("valid_id"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());

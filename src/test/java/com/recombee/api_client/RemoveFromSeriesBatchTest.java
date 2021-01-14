@@ -21,6 +21,7 @@ public class RemoveFromSeriesBatchTest extends RecombeeTestCase {
 
     @Test
     public void testRemoveFromSeries() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new RemoveFromSeries("entity_id","item","entity_id",0),
             new RemoveFromSeries("entity_id","item","entity_id",1),

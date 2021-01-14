@@ -21,12 +21,10 @@ public class ListItemPropertiesTest extends RecombeeTestCase {
 
     @Test
     public void testListItemProperties() throws ApiException {
-        ListItemProperties req;
-        Request req2;
         PropertyInfo [] resp;
+        Object resp2;
         // it 'lists properties'
-        req = new ListItemProperties();
-        resp = this.client.send(req);
+        resp = this.client.send(new ListItemProperties());
         assertEquals(2, resp.length);
     }
 }

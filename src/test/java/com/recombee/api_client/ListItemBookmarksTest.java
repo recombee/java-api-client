@@ -21,12 +21,10 @@ public class ListItemBookmarksTest extends InteractionsTestCase {
 
     @Test
     public void testListItemBookmarks() throws ApiException {
-        ListItemBookmarks req;
-        Request req2;
         Bookmark [] resp;
+        Object resp2;
         // it 'lists interactions'
-        req = new ListItemBookmarks("item");
-        resp = this.client.send(req);
+        resp = this.client.send(new ListItemBookmarks("item"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());
         assertEquals ("user",resp[0].getUserId());

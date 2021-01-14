@@ -21,6 +21,7 @@ public class AddDetailViewBatchTest extends RecombeeTestCase {
 
     @Test
     public void testAddDetailView() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new AddDetailView("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}),
             new AddDetailView("entity_id","entity_id"),

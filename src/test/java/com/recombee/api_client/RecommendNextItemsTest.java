@@ -17,17 +17,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
-public class RecommendUsersToUserTest extends RecommendationTestCase {
+public class RecommendNextItemsTest extends RecommendationTestCase {
 
     @Test
-    public void testRecommendUsersToUser() throws ApiException {
+    public void testRecommendNextItems() throws ApiException {
         RecommendationResponse  resp;
         Object resp2;
         // it 'recommends'
-        resp = this.client.send(new RecommendUsersToUser("entity_id",9));
-        // it 'recommends to previously nonexisting entity with cascadeCreate'
-        resp = this.client.send(new RecommendUsersToUser("nonexisting",9).setCascadeCreate(true));
-        // it 'recommends with expert settings'
-        resp = this.client.send(new RecommendUsersToUser("nonexisting2",9).setCascadeCreate(true).setExpertSettings(new HashMap<String, Object>(){{}}));
+        resp2 = this.client.send(new RecommendItemsToUser("entity_id",3).setReturnProperties(true));
+        resp = this.client.send(new RecommendNextItems(((RecommendationResponse)resp2).getRecommId(),3));
+        assertEquals(3, resp.getRecomms().length);
+        resp = this.client.send(new RecommendNextItems(((RecommendationResponse)resp2).getRecommId(),3));
+        assertEquals(3, resp.getRecomms().length);
     }
 }

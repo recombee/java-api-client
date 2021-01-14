@@ -21,12 +21,10 @@ public class ListSeriesItemsTest extends RecombeeTestCase {
 
     @Test
     public void testListSeriesItems() throws ApiException {
-        ListSeriesItems req;
-        Request req2;
         SeriesItem [] resp;
+        Object resp2;
         // it 'lists set items'
-        req = new ListSeriesItems("entity_id");
-        resp = this.client.send(req);
+        resp = this.client.send(new ListSeriesItems("entity_id"));
         assertEquals(1, resp.length);
         assertEquals ("entity_id",resp[0].getItemId());
         assertEquals ("item",resp[0].getItemType());

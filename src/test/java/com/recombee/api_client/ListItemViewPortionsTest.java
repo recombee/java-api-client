@@ -21,12 +21,10 @@ public class ListItemViewPortionsTest extends InteractionsTestCase {
 
     @Test
     public void testListItemViewPortions() throws ApiException {
-        ListItemViewPortions req;
-        Request req2;
         ViewPortion [] resp;
+        Object resp2;
         // it 'lists interactions'
-        req = new ListItemViewPortions("item");
-        resp = this.client.send(req);
+        resp = this.client.send(new ListItemViewPortions("item"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());
         assertEquals ("user",resp[0].getUserId());

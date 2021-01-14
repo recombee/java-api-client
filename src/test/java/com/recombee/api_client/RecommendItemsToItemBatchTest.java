@@ -21,6 +21,7 @@ public class RecommendItemsToItemBatchTest extends RecommendationTestCase {
 
     @Test
     public void testRecommendItemsToItem() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new RecommendItemsToItem("entity_id","entity_id",9),
             new RecommendItemsToItem("nonexisting","entity_id",9).setCascadeCreate(true),

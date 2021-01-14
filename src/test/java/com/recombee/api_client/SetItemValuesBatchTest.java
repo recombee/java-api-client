@@ -21,6 +21,7 @@ public class SetItemValuesBatchTest extends RecombeeTestCase {
 
     @Test
     public void testSetItemValues() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new SetItemValues("entity_id",new HashMap<String, Object>(){{put("int_property",5);}}),
             new SetItemValues("entity_id",new HashMap<String, Object>(){{put("str_property","šřžذ的‎");}}),

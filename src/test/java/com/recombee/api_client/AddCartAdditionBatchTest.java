@@ -21,6 +21,7 @@ public class AddCartAdditionBatchTest extends RecombeeTestCase {
 
     @Test
     public void testAddCartAddition() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new AddCartAddition("u_id","i_id").setCascadeCreate(true).setAdditionalData(new HashMap<String, Object>(){{put("answer",42);}}),
             new AddCartAddition("entity_id","entity_id"),

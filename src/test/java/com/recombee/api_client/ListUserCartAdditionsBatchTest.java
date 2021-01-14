@@ -21,6 +21,7 @@ public class ListUserCartAdditionsBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListUserCartAdditions() throws ApiException {
+        Object resp2;
         Request[] requests = new Request[] {
             new ListUserCartAdditions("user")
         };
