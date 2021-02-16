@@ -69,9 +69,11 @@ import com.recombee.api_client.api_requests.RecommendItemsToItem;
 import com.recombee.api_client.api_requests.RecommendNextItems;
 import com.recombee.api_client.api_requests.RecommendUsersToUser;
 import com.recombee.api_client.api_requests.RecommendUsersToItem;
-import com.recombee.api_client.api_requests.SearchItems;
 import com.recombee.api_client.api_requests.UserBasedRecommendation;
 import com.recombee.api_client.api_requests.ItemBasedRecommendation;
+import com.recombee.api_client.api_requests.SearchItems;
+import com.recombee.api_client.api_requests.AddSearchSynonym;
+import com.recombee.api_client.api_requests.ListSearchSynonyms;
 
 /* End of the generated code */
 /**
@@ -88,7 +90,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/3.1.0";
+    final String USER_AGENT = "recombee-java-api-client/3.2.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -378,6 +380,26 @@ public class RecombeeClient {
          return null;
     }
 
+    public SearchSynonym send(AddSearchSynonym request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, SearchSynonym.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public ListSearchSynonymsResponse send(ListSearchSynonyms request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, ListSearchSynonymsResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
     /* End of the generated code */
 
     public BatchResponse[] send(Batch batchRequest) throws ApiException {
@@ -461,6 +483,14 @@ public class RecombeeClient {
                             for(int j=0;j<ar.length;j++) ar[j] = new User(array.get(j));
                             parsedResponse = ar;
                         }
+                    }
+                    else if (request instanceof AddSearchSynonym)
+                    {
+                        parsedResponse = mapper.convertValue(parsedResponse, SearchSynonym.class);
+                    }
+                    else if (request instanceof ListSearchSynonyms)
+                    {
+                        parsedResponse = mapper.convertValue(parsedResponse, ListSearchSynonymsResponse.class);
                     }
                     else if ((request instanceof RecommendItemsToUser) ||
                             (request instanceof RecommendUsersToUser) ||
