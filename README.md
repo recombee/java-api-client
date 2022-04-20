@@ -13,7 +13,7 @@ The client is available in the [Maven Central Repository](https://mvnrepository.
     <dependency>
         <groupId>com.recombee</groupId>
         <artifactId>api-client</artifactId>
-        <version>3.2.1</version>
+        <version>4.0.0</version>
     </dependency>
 ```
 
@@ -27,6 +27,7 @@ Examples are located in [src/examples](https://github.com/Recombee/java-api-clie
 package com.recombee.api_client.examples;
 
 import com.recombee.api_client.RecombeeClient;
+import com.recombee.api_client.util.Region;
 import com.recombee.api_client.api_requests.*;
 import com.recombee.api_client.bindings.RecommendationResponse;
 import com.recombee.api_client.bindings.Recommendation;
@@ -38,7 +39,7 @@ import java.util.Random;
 public class BasicExample {
     public static void main(String[] args) {
 
-        RecombeeClient client = new RecombeeClient("--my-database-id--", "--db-private-token--");
+        RecombeeClient client = new RecombeeClient("--my-database-id--", "--db-private-token--").setRegion(Region.US_WEST);
         try {
 
             final int NUM = 100;
@@ -83,6 +84,7 @@ public class BasicExample {
 package com.recombee.api_client.examples;
 
 import com.recombee.api_client.RecombeeClient;
+import com.recombee.api_client.util.Region;
 import com.recombee.api_client.api_requests.*;
 import com.recombee.api_client.bindings.RecommendationResponse;
 import com.recombee.api_client.bindings.Recommendation;
@@ -96,7 +98,7 @@ import java.util.Random;
 public class ItemPropertiesExample {
     public static void main(String[] args) {
 
-        RecombeeClient client = new RecombeeClient("--my-database-id--", "--db-private-token--");
+        RecombeeClient client = new RecombeeClient("--my-database-id--", "--db-private-token--").setRegion(Region.AP_SE);
 
         try {
             client.send(new ResetDatabase()); // Clear everything from the database

@@ -12,28 +12,28 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deletes a user of given *userId* from the database.
- * If there are any purchases, ratings, bookmarks, cart additions or detail views made by the user present in the database, they will be deleted in cascade as well.
+ * Delete all the items that pass the filter.
+ * If an item becomes obsolete/no longer available, it is meaningful to **keep it in the catalog** (along with all the interaction data, which are very useful), and **only exclude the item from recommendations**. In such a case, use [ReQL filter](https://docs.recombee.com/reql.html) instead of deleting the item completely.
  */
-public class DeleteUser extends Request {
+public class DeleteMoreItems extends Request {
 
     /**
-     * ID of the user to be deleted.
+     * A [ReQL](https://docs.recombee.com/reql.html) expression, which return `true` for the items that shall be updated.
      */
-    protected String userId;
+    protected String filter;
 
     /**
      * Construct the request
-     * @param userId ID of the user to be deleted.
+     * @param filter A [ReQL](https://docs.recombee.com/reql.html) expression, which return `true` for the items that shall be updated.
      */
-    public DeleteUser (String userId) {
-        this.userId = userId;
+    public DeleteMoreItems (String filter) {
+        this.filter = filter;
         this.timeout = 1000;
     }
 
 
-    public String getUserId() {
-         return this.userId;
+    public String getFilter() {
+         return this.filter;
     }
 
     /**
@@ -49,7 +49,7 @@ public class DeleteUser extends Request {
      */
     @Override
     public String getPath() {
-        return String.format("/users/%s", this.userId);
+        return "/more-items/";
     }
 
     /**
@@ -69,6 +69,7 @@ public class DeleteUser extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("filter", this.filter);
         return params;
     }
 

@@ -1,6 +1,8 @@
 package com.recombee.api_client;
 import com.recombee.api_client.api_requests.*;
 import com.recombee.api_client.exceptions.*;
+import com.recombee.api_client.util.Region;
+
 import org.junit.Before;
 
 import java.text.DateFormat;
@@ -13,7 +15,7 @@ class RecombeeTestCase {
     protected RecombeeClient client;
 
     public RecombeeTestCase() {
-        client =  new RecombeeClient("client-test", "jGGQ6ZKa8rQ1zTAyxTc0EMn55YPF7FJLUtaMLhbsGxmvwxgTwXYqmUk5xVZFw98L");
+        client = new RecombeeClient("client-test", "jGGQ6ZKa8rQ1zTAyxTc0EMn55YPF7FJLUtaMLhbsGxmvwxgTwXYqmUk5xVZFw98L").setRegion(Region.EU_WEST);
     }
 
     @Before

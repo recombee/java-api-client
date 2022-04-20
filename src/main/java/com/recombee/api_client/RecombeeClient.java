@@ -28,12 +28,13 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-
 import com.recombee.api_client.api_requests.Request;
 import com.recombee.api_client.exceptions.ApiException;
 import com.recombee.api_client.exceptions.ApiTimeoutException;
 import com.recombee.api_client.exceptions.ResponseException;
 import com.recombee.api_client.util.NetworkApplicationProtocol;
+import com.recombee.api_client.util.Region;
+import com.recombee.api_client.util.HTTPMethod;
 
 import com.recombee.api_client.bindings.Recommendation;
 import com.recombee.api_client.api_requests.Batch;
@@ -44,6 +45,8 @@ import com.recombee.api_client.api_requests.GetItemValues;
 import com.recombee.api_client.api_requests.ListItems;
 import com.recombee.api_client.api_requests.GetItemPropertyInfo;
 import com.recombee.api_client.api_requests.ListItemProperties;
+import com.recombee.api_client.api_requests.UpdateMoreItems;
+import com.recombee.api_client.api_requests.DeleteMoreItems;
 import com.recombee.api_client.api_requests.ListSeries;
 import com.recombee.api_client.api_requests.ListSeriesItems;
 import com.recombee.api_client.api_requests.ListGroups;
@@ -69,8 +72,6 @@ import com.recombee.api_client.api_requests.RecommendItemsToItem;
 import com.recombee.api_client.api_requests.RecommendNextItems;
 import com.recombee.api_client.api_requests.RecommendUsersToUser;
 import com.recombee.api_client.api_requests.RecommendUsersToItem;
-import com.recombee.api_client.api_requests.UserBasedRecommendation;
-import com.recombee.api_client.api_requests.ItemBasedRecommendation;
 import com.recombee.api_client.api_requests.SearchItems;
 import com.recombee.api_client.api_requests.AddSearchSynonym;
 import com.recombee.api_client.api_requests.ListSearchSynonyms;
@@ -90,7 +91,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/3.2.1";
+    final String USER_AGENT = "recombee-java-api-client/4.0.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -114,10 +115,36 @@ public class RecombeeClient {
         this.defaultProtocol = defaultProtocol;
         return this;
     }
-    public RecombeeClient setBaseUri(String baseUri)
-    {
+
+    public RecombeeClient setBaseUri(String baseUri) {
         this.baseUri = baseUri;
         return this;
+    }
+
+    public RecombeeClient setRegion(Region region) {
+        switch (region) {
+            case AP_SE:
+                this.baseUri = "rapi-ap-se.recombee.com";
+                break;
+            case CA_EAST:
+                this.baseUri ="rapi-ca-east.recombee.com";
+                break;
+            case EU_WEST:
+                this.baseUri = "rapi-eu-west.recombee.com";
+                break;
+            case US_WEST:
+                this.baseUri = "rapi-us-west.recombee.com";
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown region given");
+        }
+        return this;
+    }
+
+    private String processRequestUri(Request request) {
+        String uri = "/" + this.databaseId + request.getPath();
+        uri = appendQueryParameters(uri, request);
+        return uri;
     }
     /* Start of the generated code */
     public PropertyInfo send(GetItemPropertyInfo request) throws ApiException {
@@ -134,6 +161,26 @@ public class RecombeeClient {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, PropertyInfo[].class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public UpdateMoreItemsResponse send(UpdateMoreItems request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, UpdateMoreItemsResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public DeleteMoreItemsResponse send(DeleteMoreItems request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, DeleteMoreItemsResponse.class);
         } catch (IOException e) {
             e.printStackTrace();
          }
@@ -427,28 +474,7 @@ public class RecombeeClient {
                 }
                 else
                 {
-                    if ((request instanceof ItemBasedRecommendation) || (request instanceof UserBasedRecommendation))
-                    {
-                        boolean returnProperties = false;
-                        if (request instanceof ItemBasedRecommendation) returnProperties = ((ItemBasedRecommendation) request).getReturnProperties();
-                        if (request instanceof UserBasedRecommendation) returnProperties = ((UserBasedRecommendation) request).getReturnProperties();
-
-                        if(returnProperties)
-                        {
-                            ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
-                            Recommendation[] ar = new Recommendation[array.size()];
-                            for(int j=0;j<ar.length;j++) ar[j] = new Recommendation((String)array.get(j).get("itemId"), array.get(j));
-                            parsedResponse = ar;
-                        }
-                        else
-                        {
-                            ArrayList<String> array = (ArrayList<String>) parsedResponse;
-                            Recommendation[] ar = new Recommendation[array.size()];
-                            for(int j=0;j<ar.length;j++) ar[j] = new Recommendation(array.get(j));
-                            parsedResponse = ar;
-                        }
-                    }
-                    else if (request instanceof ListItems)
+                    if (request instanceof ListItems)
                     {
                         boolean returnProperties = ((ListItems) request).getReturnProperties();
                         if(returnProperties)
@@ -503,6 +529,14 @@ public class RecombeeClient {
                     else if (request instanceof SearchItems)
                     {
                         parsedResponse = mapper.convertValue(parsedResponse, SearchResponse.class);
+                    }
+                    else if (request instanceof UpdateMoreItems)
+                    {
+                        parsedResponse = mapper.convertValue(parsedResponse, UpdateMoreItemsResponse.class);
+                    }
+                    else if (request instanceof DeleteMoreItems)
+                    {
+                        parsedResponse = mapper.convertValue(parsedResponse, DeleteMoreItemsResponse.class);
                     }
                     /* Start of the generated code */
                     else if (request instanceof GetItemPropertyInfo)
@@ -745,41 +779,6 @@ public class RecombeeClient {
         return null;
     }
 
-
-    public Recommendation[] send(UserBasedRecommendation request) throws ApiException {
-        return sendDeprecatedRecomm(request);
-    }
-
-    public Recommendation[] send(ItemBasedRecommendation request) throws ApiException {
-        return sendDeprecatedRecomm(request);
-    }
-
-    protected Recommendation[] sendDeprecatedRecomm(Request request) throws ApiException {
-        String responseStr = sendRequest(request);
-
-        try {
-            this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true); // Check exact match
-            return this.mapper.readValue(responseStr, Recommendation[].class);
-        } catch (IOException e) {
-            //might have failed because it returned also the item properties
-            TypeReference<HashMap<String,Object>[]> typeRef 
-                    = new TypeReference<HashMap<String,Object>[]>() {};
-            try {
-                Map<String, Object>[] valsArray = this.mapper.readValue(responseStr, typeRef);
-                Recommendation [] recomms = new Recommendation[valsArray.length];
-                for(int i=0;i<valsArray.length;i++)
-                    recomms[i] = new Recommendation((String)valsArray[i].get("itemId"), valsArray[i]);
-                return recomms;
-            } catch (IOException e2) {
-                e2.printStackTrace();
-            }
-        }
-        finally {
-            this.mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        }
-        return null;
-    }
-
     public Item[] send(ListItems request) throws ApiException {
         String responseStr = sendRequest(request);
 
@@ -832,7 +831,6 @@ public class RecombeeClient {
         }
         return null;
     }
-
     public String send(Request request) throws ApiException {
         return sendRequest(request);
     }
@@ -854,20 +852,23 @@ public class RecombeeClient {
                 .addHeader("User-Agent", this.USER_AGENT);
 
 
-        switch (request.getHTTPMethod()) {
-            case GET:
-                break;
-            case POST:
-                httpRequestBuilder = post(httpRequestBuilder, request);
-                break;
-            case PUT:
-                httpRequestBuilder = put(httpRequestBuilder, request);
-                break;
-            case DELETE:
-                httpRequestBuilder.delete();
-                break;
+        if (request.getHTTPMethod() != HTTPMethod.GET) {
+            httpRequestBuilder.addHeader("Content-Type", "application/json; charset=utf-8");
+            RequestBody body = getBody(request);
+            if (body != null){
+                switch (request.getHTTPMethod()) {
+                    case POST:
+                        httpRequestBuilder.post(body);
+                        break;
+                    case PUT:
+                        httpRequestBuilder.put(body);
+                        break;
+                    case DELETE:
+                        httpRequestBuilder.delete(body);
+                        break;
+                }
+            }
         }
-
 
         try {
             Response response = tempClient.newCall(httpRequestBuilder.build()).execute();
@@ -901,12 +902,6 @@ public class RecombeeClient {
         return null;
     }
 
-    private String processRequestUri(Request request) {
-        String uri = "/" + this.databaseId + request.getPath();
-        uri = appendQueryParameters(uri, request);
-        return uri;
-    }
-
     private String appendQueryParameters(String uri, Request request) {
         for (Map.Entry<String, Object> pair : request.getQueryParameters().entrySet()) {
             uri += uri.contains("?") ? "&" : "?";
@@ -924,26 +919,11 @@ public class RecombeeClient {
         }
     }
 
-    private okhttp3.Request.Builder put(okhttp3.Request.Builder reqBuilder, Request req) {
+    private RequestBody getBody(Request req) {
         try {
             String json = this.mapper.writeValueAsString(req.getBodyParameters());
             final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            reqBuilder.put(RequestBody.create(JSON, json))
-            .addHeader("Content-Type", "application/json; charset=utf-8");
-            return reqBuilder;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private okhttp3.Request.Builder post(okhttp3.Request.Builder reqBuilder, Request req) {
-        try {
-            String json = this.mapper.writeValueAsString(req.getBodyParameters());
-            final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            reqBuilder.post(RequestBody.create(JSON, json))
-                    .addHeader("Content-Type", "application/json; charset=utf-8");
-            return reqBuilder;
+            return RequestBody.create(JSON, json);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
