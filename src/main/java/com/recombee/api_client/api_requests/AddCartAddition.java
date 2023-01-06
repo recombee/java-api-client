@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Adds a cart addition of a given item made by a given user.
+ * Adds a cart addition of the given item made by the given user.
  */
 public class AddCartAddition extends Request {
 
@@ -33,11 +33,11 @@ public class AddCartAddition extends Request {
      */
     protected Boolean cascadeCreate;
     /**
-     * Amount (number) added to cart. The default is 1. For example if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal to 2.
+     * Amount (number) added to cart. The default is 1. For example, if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal 2.
      */
     protected Double amount;
     /**
-     * Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.
+     * Price of the added item. If `amount` is greater than 1, the sum of prices of all the items should be given.
      */
     protected Double price;
     /**
@@ -77,7 +77,7 @@ public class AddCartAddition extends Request {
     }
 
     /**
-     * @param amount Amount (number) added to cart. The default is 1. For example if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal to 2.
+     * @param amount Amount (number) added to cart. The default is 1. For example, if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal 2.
      */
     public AddCartAddition setAmount(double amount) {
          this.amount = amount;
@@ -85,7 +85,7 @@ public class AddCartAddition extends Request {
     }
 
     /**
-     * @param price Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.
+     * @param price Price of the added item. If `amount` is greater than 1, the sum of prices of all the items should be given.
      */
     public AddCartAddition setPrice(double price) {
          this.price = price;

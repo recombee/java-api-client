@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Inserts an existing item/group into group of given `groupId`.
+ * Inserts an existing item/group into a group of the given `groupId`.
  */
 public class InsertToGroup extends Request {
 
@@ -29,7 +29,7 @@ public class InsertToGroup extends Request {
      */
     protected String itemId;
     /**
-     * Indicates that any non-existing entity specified within the request should be created (as is corresponding PUT requests were invoked). This concerns both the `groupId` and the `groupId`. If `cascadeCreate` is set true, the behavior also depends on the `itemType`. Either items or group may be created if not present in the database.
+     * Indicates that any non-existing entity specified within the request should be created (as if corresponding PUT requests were invoked). This concerns both the `groupId` and the `groupId`. If `cascadeCreate` is set to true, the behavior also depends on the `itemType`. Either items or group may be created if not present in the database.
      */
     protected Boolean cascadeCreate;
 
@@ -47,7 +47,7 @@ public class InsertToGroup extends Request {
     }
 
     /**
-     * @param cascadeCreate Indicates that any non-existing entity specified within the request should be created (as is corresponding PUT requests were invoked). This concerns both the `groupId` and the `groupId`. If `cascadeCreate` is set true, the behavior also depends on the `itemType`. Either items or group may be created if not present in the database.
+     * @param cascadeCreate Indicates that any non-existing entity specified within the request should be created (as if corresponding PUT requests were invoked). This concerns both the `groupId` and the `groupId`. If `cascadeCreate` is set to true, the behavior also depends on the `itemType`. Either items or group may be created if not present in the database.
      */
     public InsertToGroup setCascadeCreate(boolean cascadeCreate) {
          this.cascadeCreate = cascadeCreate;

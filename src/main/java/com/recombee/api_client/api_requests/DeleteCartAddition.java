@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deletes an existing cart addition uniquely specified by `userId`, `itemId`, and `timestamp` or all the cart additions with given `userId` and `itemId` if `timestamp` is omitted.
+ * Deletes an existing cart addition uniquely specified by `userId`, `itemId`, and `timestamp` or all the cart additions with the given `userId` and `itemId` if `timestamp` is omitted.
  */
 public class DeleteCartAddition extends Request {
 
@@ -21,18 +21,18 @@ public class DeleteCartAddition extends Request {
      */
     protected String userId;
     /**
-     * ID of the item of which was added to cart.
+     * ID of the item which was added to the cart.
      */
     protected String itemId;
     /**
-     * Unix timestamp of the cart addition. If the `timestamp` is omitted, then all the cart additions with given `userId` and `itemId` are deleted.
+     * Unix timestamp of the cart addition. If the `timestamp` is omitted, then all the cart additions with the given `userId` and `itemId` are deleted.
      */
     protected Date timestamp;
 
     /**
      * Construct the request
      * @param userId ID of the user who made the cart addition.
-     * @param itemId ID of the item of which was added to cart.
+     * @param itemId ID of the item which was added to the cart.
      */
     public DeleteCartAddition (String userId,String itemId) {
         this.userId = userId;
@@ -41,7 +41,7 @@ public class DeleteCartAddition extends Request {
     }
 
     /**
-     * @param timestamp Unix timestamp of the cart addition. If the `timestamp` is omitted, then all the cart additions with given `userId` and `itemId` are deleted.
+     * @param timestamp Unix timestamp of the cart addition. If the `timestamp` is omitted, then all the cart additions with the given `userId` and `itemId` are deleted.
      */
     public DeleteCartAddition setTimestamp(Date timestamp) {
          this.timestamp = timestamp;

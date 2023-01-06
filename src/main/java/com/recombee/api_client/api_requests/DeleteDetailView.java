@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deletes an existing detail view uniquely specified by (`userId`, `itemId`, and `timestamp`) or all the detail views with given `userId` and `itemId` if `timestamp` is omitted.
+ * Deletes an existing detail view uniquely specified by (`userId`, `itemId`, and `timestamp`) or all the detail views with the given `userId` and `itemId` if `timestamp` is omitted.
  */
 public class DeleteDetailView extends Request {
 
@@ -21,18 +21,18 @@ public class DeleteDetailView extends Request {
      */
     protected String userId;
     /**
-     * ID of the item of which the details were viewed.
+     * ID of the item whose details were viewed.
      */
     protected String itemId;
     /**
-     * Unix timestamp of the detail view. If the `timestamp` is omitted, then all the detail views with given `userId` and `itemId` are deleted.
+     * Unix timestamp of the detail view. If the `timestamp` is omitted, then all the detail views with the given `userId` and `itemId` are deleted.
      */
     protected Date timestamp;
 
     /**
      * Construct the request
      * @param userId ID of the user who made the detail view.
-     * @param itemId ID of the item of which the details were viewed.
+     * @param itemId ID of the item whose details were viewed.
      */
     public DeleteDetailView (String userId,String itemId) {
         this.userId = userId;
@@ -41,7 +41,7 @@ public class DeleteDetailView extends Request {
     }
 
     /**
-     * @param timestamp Unix timestamp of the detail view. If the `timestamp` is omitted, then all the detail views with given `userId` and `itemId` are deleted.
+     * @param timestamp Unix timestamp of the detail view. If the `timestamp` is omitted, then all the detail views with the given `userId` and `itemId` are deleted.
      */
     public DeleteDetailView setTimestamp(Date timestamp) {
          this.timestamp = timestamp;

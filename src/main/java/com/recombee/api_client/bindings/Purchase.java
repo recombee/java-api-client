@@ -23,15 +23,15 @@ public class Purchase extends RecombeeBinding {
      */
     protected Date timestamp;
     /**
-     * Amount (number) of purchased items. The default is 1. For example if `user-x` purchases two `item-y` during a single order (session...), the `amount` should equal to 2.
+     * Amount (number) of purchased items. The default is 1. For example, if `user-x` purchases two `item-y` during a single order (session...), the `amount` should equal 2.
      */
     protected Double amount;
     /**
-     * Price paid by the user for the item. If `amount` is greater than 1, sum of prices of all the items should be given.
+     * Price paid by the user for the item. If `amount` is greater than 1, the sum of prices of all the items should be given.
      */
     protected Double price;
     /**
-     * Your profit from the purchased item. The profit is natural in e-commerce domain (for example if `user-x` purchases `item-y` for $100 and the gross margin is 30 %, then the profit is $30), but is applicable also in other domains (for example at a news company it may be income from displayed advertisement on article page). If `amount` is greater than 1, sum of profit of all the items should be given.
+     * Your profit from the purchased item. The profit is natural in the e-commerce domain (for example, if `user-x` purchases `item-y` for $100 and the gross margin is 30 %, then the profit is $30) but is also applicable in other domains (for example, at a news company it may be income from a displayed advertisement on article page). If `amount` is greater than 1, the sum of profit of all the items should be given.
      */
     protected Double profit;
     /**

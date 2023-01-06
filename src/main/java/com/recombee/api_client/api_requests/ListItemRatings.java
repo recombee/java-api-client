@@ -12,18 +12,18 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * List all the ratings of an item ever submitted by different users.
+ * Lists all the ratings of an item ever submitted by different users.
  */
 public class ListItemRatings extends Request {
 
     /**
-     * ID of the item of which the ratings are to be listed.
+     * ID of the item whose ratings are to be listed.
      */
     protected String itemId;
 
     /**
      * Construct the request
-     * @param itemId ID of the item of which the ratings are to be listed.
+     * @param itemId ID of the item whose ratings are to be listed.
      */
     public ListItemRatings (String itemId) {
         this.itemId = itemId;

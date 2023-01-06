@@ -12,18 +12,18 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Get all the current property values of a given item.
+ * Gets all the current property values of the given item.
  */
 public class GetItemValues extends Request {
 
     /**
-     * ID of the item properties of which are to be obtained.
+     * ID of the item whose properties are to be obtained.
      */
     protected String itemId;
 
     /**
      * Construct the request
-     * @param itemId ID of the item properties of which are to be obtained.
+     * @param itemId ID of the item whose properties are to be obtained.
      */
     public GetItemValues (String itemId) {
         this.itemId = itemId;

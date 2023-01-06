@@ -12,9 +12,9 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Get similar users as some given user, based on the user's past interactions (purchases, ratings, etc.) and values of properties.
- * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
- * The returned users are sorted by similarity (first user being the most similar).
+ * Gets users similar to the given user, based on the user's past interactions (purchases, ratings, etc.) and values of properties.
+ * It is also possible to use POST HTTP method (for example in the case of a very long ReQL filter) - query parameters then become body parameters.
+ * The returned users are sorted by similarity (the first user being the most similar).
  */
 public class RecommendUsersToUser extends Request {
 
@@ -27,17 +27,17 @@ public class RecommendUsersToUser extends Request {
      */
     protected Long count;
     /**
-     * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
-     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
-     * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
+     * Scenario defines a particular application of recommendations. It can be, for example, "homepage", "cart", or "emailing".
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see the performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * The AI that optimizes models to get the best results may optimize different scenarios separately or even use different models in each of the scenarios.
      */
     protected String scenario;
     /**
-     * If the user does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows for example rotations in the following recommendations for that user, as the user will be already known to the system.
+     * If the user does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows, for example, rotations in the following recommendations for that user, as the user will be already known to the system.
      */
     protected Boolean cascadeCreate;
     /**
-     * With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying the recommended users. 
+     * With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used to easily display the recommended users. 
      * Example response:
      * ```
      *   {
@@ -65,7 +65,7 @@ public class RecommendUsersToUser extends Request {
      */
     protected Boolean returnProperties;
     /**
-     * Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
+     * Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=country`:
      * ```
      *   {
@@ -91,36 +91,36 @@ public class RecommendUsersToUser extends Request {
      */
     protected String[] includedProperties;
     /**
-     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
-     * Filters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to filter recommended items based on the values of their attributes.
+     * Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     protected String filter;
     /**
-     * Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
-     * Boosters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * Number-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
+     * Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     protected String booster;
     /**
-     * Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
-     * See [this section](https://docs.recombee.com/recommendation_logics.html) for list of available logics and other details.
+     * Logic specifies the particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logics.html) for a list of available logics and other details.
      * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
-     * Logic can be also set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * Logic can also be set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     protected Logic logic;
     /**
-     * **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended users be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
+     * **Expert option** Real number from [0.0, 1.0], which determines how mutually dissimilar the recommended users should be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     protected Double diversity;
     /**
-     * **Expert option** Specifies the threshold of how much relevant must the recommended users be. Possible values one of: "low", "medium", "high".
+     * **Expert option** Specifies the threshold of how relevant must the recommended users be. Possible values one of: "low", "medium", "high".
      */
     protected String minRelevance;
     /**
-     * **Expert option** If your users browse the system in real-time, it may easily happen that you wish to offer them recommendations multiple times. Here comes the question: how much should the recommendations change? Should they remain the same, or should they rotate? Recombee API allows you to control this per-request in backward fashion. You may penalize an user for being recommended in the near past. For the specific user, `rotationRate=1` means maximal rotation, `rotationRate=0` means absolutely no rotation. You may also use, for example `rotationRate=0.2` for only slight rotation of recommended users.
+     * **Expert option** If your users browse the system in real-time, it may easily happen that you wish to offer them recommendations multiple times. Here comes the question: how much should the recommendations change? Should they remain the same, or should they rotate? Recombee API allows you to control this per request in a backward fashion. You may penalize a user for being recommended in the near past. For the specific user, `rotationRate=1` means maximal rotation, `rotationRate=0` means absolutely no rotation. You may also use, for example, `rotationRate=0.2` for only slight rotation of recommended users.
      */
     protected Double rotationRate;
     /**
-     * **Expert option** Taking *rotationRate* into account, specifies how long time it takes to an user to recover from the penalization. For example, `rotationTime=7200.0` means that users recommended less than 2 hours ago are penalized.
+     * **Expert option** Taking *rotationRate* into account, specifies how long it takes for a user to recover from the penalization. For example, `rotationTime=7200.0` means that users recommended less than 2 hours ago are penalized.
      */
     protected Double rotationTime;
     /**
@@ -128,7 +128,7 @@ public class RecommendUsersToUser extends Request {
      */
     protected Map<String, Object> expertSettings;
     /**
-     * If there is a custom AB-testing running, return name of group to which the request belongs.
+     * If there is a custom AB-testing running, return the name of the group to which the request belongs.
      */
     protected Boolean returnAbGroup;
 
@@ -144,9 +144,9 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
-     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
-     * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
+     * @param scenario Scenario defines a particular application of recommendations. It can be, for example, "homepage", "cart", or "emailing".
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see the performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * The AI that optimizes models to get the best results may optimize different scenarios separately or even use different models in each of the scenarios.
      */
     public RecommendUsersToUser setScenario(String scenario) {
          this.scenario = scenario;
@@ -154,7 +154,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param cascadeCreate If the user does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows for example rotations in the following recommendations for that user, as the user will be already known to the system.
+     * @param cascadeCreate If the user does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows, for example, rotations in the following recommendations for that user, as the user will be already known to the system.
      */
     public RecommendUsersToUser setCascadeCreate(boolean cascadeCreate) {
          this.cascadeCreate = cascadeCreate;
@@ -162,7 +162,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param returnProperties With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying the recommended users. 
+     * @param returnProperties With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used to easily display the recommended users. 
      * Example response:
      * ```
      *   {
@@ -194,7 +194,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param includedProperties Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
+     * @param includedProperties Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=country`:
      * ```
      *   {
@@ -224,8 +224,8 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
-     * Filters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to filter recommended items based on the values of their attributes.
+     * Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToUser setFilter(String filter) {
          this.filter = filter;
@@ -233,8 +233,8 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
-     * Boosters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
+     * Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToUser setBooster(String booster) {
          this.booster = booster;
@@ -242,10 +242,10 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param logic Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
-     * See [this section](https://docs.recombee.com/recommendation_logics.html) for list of available logics and other details.
+     * @param logic Logic specifies the particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logics.html) for a list of available logics and other details.
      * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
-     * Logic can be also set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * Logic can also be set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToUser setLogic(Logic logic) {
          this.logic = logic;
@@ -253,7 +253,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param diversity **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended users be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
+     * @param diversity **Expert option** Real number from [0.0, 1.0], which determines how mutually dissimilar the recommended users should be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     public RecommendUsersToUser setDiversity(double diversity) {
          this.diversity = diversity;
@@ -261,7 +261,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param minRelevance **Expert option** Specifies the threshold of how much relevant must the recommended users be. Possible values one of: "low", "medium", "high".
+     * @param minRelevance **Expert option** Specifies the threshold of how relevant must the recommended users be. Possible values one of: "low", "medium", "high".
      */
     public RecommendUsersToUser setMinRelevance(String minRelevance) {
          this.minRelevance = minRelevance;
@@ -269,7 +269,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param rotationRate **Expert option** If your users browse the system in real-time, it may easily happen that you wish to offer them recommendations multiple times. Here comes the question: how much should the recommendations change? Should they remain the same, or should they rotate? Recombee API allows you to control this per-request in backward fashion. You may penalize an user for being recommended in the near past. For the specific user, `rotationRate=1` means maximal rotation, `rotationRate=0` means absolutely no rotation. You may also use, for example `rotationRate=0.2` for only slight rotation of recommended users.
+     * @param rotationRate **Expert option** If your users browse the system in real-time, it may easily happen that you wish to offer them recommendations multiple times. Here comes the question: how much should the recommendations change? Should they remain the same, or should they rotate? Recombee API allows you to control this per request in a backward fashion. You may penalize a user for being recommended in the near past. For the specific user, `rotationRate=1` means maximal rotation, `rotationRate=0` means absolutely no rotation. You may also use, for example, `rotationRate=0.2` for only slight rotation of recommended users.
      */
     public RecommendUsersToUser setRotationRate(double rotationRate) {
          this.rotationRate = rotationRate;
@@ -277,7 +277,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param rotationTime **Expert option** Taking *rotationRate* into account, specifies how long time it takes to an user to recover from the penalization. For example, `rotationTime=7200.0` means that users recommended less than 2 hours ago are penalized.
+     * @param rotationTime **Expert option** Taking *rotationRate* into account, specifies how long it takes for a user to recover from the penalization. For example, `rotationTime=7200.0` means that users recommended less than 2 hours ago are penalized.
      */
     public RecommendUsersToUser setRotationTime(double rotationTime) {
          this.rotationTime = rotationTime;
@@ -293,7 +293,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param returnAbGroup If there is a custom AB-testing running, return name of group to which the request belongs.
+     * @param returnAbGroup If there is a custom AB-testing running, return the name of the group to which the request belongs.
      */
     public RecommendUsersToUser setReturnAbGroup(boolean returnAbGroup) {
          this.returnAbGroup = returnAbGroup;

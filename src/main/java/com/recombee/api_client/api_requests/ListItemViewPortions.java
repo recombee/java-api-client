@@ -12,18 +12,18 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * List all the view portions of an item ever submitted by different users.
+ * Lists all the view portions of an item ever submitted by different users.
  */
 public class ListItemViewPortions extends Request {
 
     /**
-     * ID of the item of which the view portions are to be listed.
+     * ID of the item whose view portions are to be listed.
      */
     protected String itemId;
 
     /**
      * Construct the request
-     * @param itemId ID of the item of which the view portions are to be listed.
+     * @param itemId ID of the item whose view portions are to be listed.
      */
     public ListItemViewPortions (String itemId) {
         this.itemId = itemId;

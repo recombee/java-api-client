@@ -48,7 +48,7 @@ public class ListUsers extends Request {
      */
     protected Boolean returnProperties;
     /**
-     * Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
+     * Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=country`:
      * ```
      *   [
@@ -120,7 +120,7 @@ public class ListUsers extends Request {
     }
 
     /**
-     * @param includedProperties Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
+     * @param includedProperties Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=country`:
      * ```
      *   [

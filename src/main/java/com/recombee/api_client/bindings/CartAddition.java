@@ -23,11 +23,11 @@ public class CartAddition extends RecombeeBinding {
      */
     protected Date timestamp;
     /**
-     * Amount (number) added to cart. The default is 1. For example if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal to 2.
+     * Amount (number) added to cart. The default is 1. For example, if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal 2.
      */
     protected Double amount;
     /**
-     * Price of the added item. If `amount` is greater than 1, sum of prices of all the items should be given.
+     * Price of the added item. If `amount` is greater than 1, the sum of prices of all the items should be given.
      */
     protected Double price;
     /**

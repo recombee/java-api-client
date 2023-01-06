@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * List all the purchases ever made by a given user.
+ * Lists all the purchases ever made by the given user.
  */
 public class ListUserPurchases extends Request {
 

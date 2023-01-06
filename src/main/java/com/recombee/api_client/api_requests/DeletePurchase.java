@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deletes an existing purchase uniquely specified by `userId`, `itemId`, and `timestamp` or all the purchases with given `userId` and `itemId` if `timestamp` is omitted.
+ * Deletes an existing purchase uniquely specified by `userId`, `itemId`, and `timestamp` or all the purchases with the given `userId` and `itemId` if `timestamp` is omitted.
  */
 public class DeletePurchase extends Request {
 
@@ -21,18 +21,18 @@ public class DeletePurchase extends Request {
      */
     protected String userId;
     /**
-     * ID of the item of which was purchased.
+     * ID of the item which was purchased.
      */
     protected String itemId;
     /**
-     * Unix timestamp of the purchase. If the `timestamp` is omitted, then all the purchases with given `userId` and `itemId` are deleted.
+     * Unix timestamp of the purchase. If the `timestamp` is omitted, then all the purchases with the given `userId` and `itemId` are deleted.
      */
     protected Date timestamp;
 
     /**
      * Construct the request
      * @param userId ID of the user who made the purchase.
-     * @param itemId ID of the item of which was purchased.
+     * @param itemId ID of the item which was purchased.
      */
     public DeletePurchase (String userId,String itemId) {
         this.userId = userId;
@@ -41,7 +41,7 @@ public class DeletePurchase extends Request {
     }
 
     /**
-     * @param timestamp Unix timestamp of the purchase. If the `timestamp` is omitted, then all the purchases with given `userId` and `itemId` are deleted.
+     * @param timestamp Unix timestamp of the purchase. If the `timestamp` is omitted, then all the purchases with the given `userId` and `itemId` are deleted.
      */
     public DeletePurchase setTimestamp(Date timestamp) {
          this.timestamp = timestamp;

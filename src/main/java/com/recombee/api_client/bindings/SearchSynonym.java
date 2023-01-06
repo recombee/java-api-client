@@ -19,7 +19,7 @@ public class SearchSynonym extends RecombeeBinding {
      */
     protected String term;
     /**
-     * A word that should considered equal to `term` by the full-text search engine.
+     * A word that should be considered equal to `term` by the full-text search engine.
      */
     protected String synonym;
     /**

@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Creates new series in the database.
+ * Creates a new series in the database.
  */
 public class AddSeries extends Request {
 

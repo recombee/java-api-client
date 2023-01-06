@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Lists all the detail views of different items ever made by a given user.
+ * Lists all the detail views of different items ever made by the given user.
  */
 public class ListUserDetailViews extends Request {
 

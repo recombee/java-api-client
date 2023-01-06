@@ -12,18 +12,18 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * List all the items present in the given series, sorted according to their time index values.
+ * Lists all the items present in the given series, sorted according to their time index values.
  */
 public class ListSeriesItems extends Request {
 
     /**
-     * ID of the series items of which are to be listed.
+     * ID of the series whose items are to be listed.
      */
     protected String seriesId;
 
     /**
      * Construct the request
-     * @param seriesId ID of the series items of which are to be listed.
+     * @param seriesId ID of the series whose items are to be listed.
      */
     public ListSeriesItems (String seriesId) {
         this.seriesId = seriesId;

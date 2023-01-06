@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deletes a bookmark uniquely specified by `userId`, `itemId`, and `timestamp` or all the bookmarks with given `userId` and `itemId` if `timestamp` is omitted.
+ * Deletes a bookmark uniquely specified by `userId`, `itemId`, and `timestamp` or all the bookmarks with the given `userId` and `itemId` if `timestamp` is omitted.
  */
 public class DeleteBookmark extends Request {
 
@@ -21,18 +21,18 @@ public class DeleteBookmark extends Request {
      */
     protected String userId;
     /**
-     * ID of the item of which was bookmarked.
+     * ID of the item which was bookmarked.
      */
     protected String itemId;
     /**
-     * Unix timestamp of the bookmark. If the `timestamp` is omitted, then all the bookmarks with given `userId` and `itemId` are deleted.
+     * Unix timestamp of the bookmark. If the `timestamp` is omitted, then all the bookmarks with the given `userId` and `itemId` are deleted.
      */
     protected Date timestamp;
 
     /**
      * Construct the request
      * @param userId ID of the user who made the bookmark.
-     * @param itemId ID of the item of which was bookmarked.
+     * @param itemId ID of the item which was bookmarked.
      */
     public DeleteBookmark (String userId,String itemId) {
         this.userId = userId;
@@ -41,7 +41,7 @@ public class DeleteBookmark extends Request {
     }
 
     /**
-     * @param timestamp Unix timestamp of the bookmark. If the `timestamp` is omitted, then all the bookmarks with given `userId` and `itemId` are deleted.
+     * @param timestamp Unix timestamp of the bookmark. If the `timestamp` is omitted, then all the bookmarks with the given `userId` and `itemId` are deleted.
      */
     public DeleteBookmark setTimestamp(Date timestamp) {
          this.timestamp = timestamp;

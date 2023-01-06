@@ -12,18 +12,18 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * List all the ever-made cart addition of a given item.
+ * Lists all the ever-made cart additions of the given item.
  */
 public class ListItemCartAdditions extends Request {
 
     /**
-     * ID of the item of which the cart addition are to be listed.
+     * ID of the item whose cart additions are to be listed.
      */
     protected String itemId;
 
     /**
      * Construct the request
-     * @param itemId ID of the item of which the cart addition are to be listed.
+     * @param itemId ID of the item whose cart additions are to be listed.
      */
     public ListItemCartAdditions (String itemId) {
         this.itemId = itemId;

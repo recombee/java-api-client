@@ -72,9 +72,15 @@ import com.recombee.api_client.api_requests.RecommendItemsToItem;
 import com.recombee.api_client.api_requests.RecommendNextItems;
 import com.recombee.api_client.api_requests.RecommendUsersToUser;
 import com.recombee.api_client.api_requests.RecommendUsersToItem;
+import com.recombee.api_client.api_requests.RecommendItemSegmentsToUser;
+import com.recombee.api_client.api_requests.RecommendItemSegmentsToItem;
+import com.recombee.api_client.api_requests.RecommendItemSegmentsToItemSegment;
 import com.recombee.api_client.api_requests.SearchItems;
+import com.recombee.api_client.api_requests.SearchItemSegments;
 import com.recombee.api_client.api_requests.AddSearchSynonym;
 import com.recombee.api_client.api_requests.ListSearchSynonyms;
+import com.recombee.api_client.api_requests.ListSegmentations;
+import com.recombee.api_client.api_requests.GetSegmentation;
 
 /* End of the generated code */
 /**
@@ -91,7 +97,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/4.0.0";
+    final String USER_AGENT = "recombee-java-api-client/4.1.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -417,7 +423,47 @@ public class RecombeeClient {
          return null;
     }
 
+    public RecommendationResponse send(RecommendItemSegmentsToUser request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public RecommendationResponse send(RecommendItemSegmentsToItem request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public RecommendationResponse send(RecommendItemSegmentsToItemSegment request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
     public SearchResponse send(SearchItems request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, SearchResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public SearchResponse send(SearchItemSegments request) throws ApiException {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, SearchResponse.class);
@@ -441,6 +487,26 @@ public class RecombeeClient {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, ListSearchSynonymsResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public ListSegmentationsResponse send(ListSegmentations request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, ListSegmentationsResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public Segmentation send(GetSegmentation request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, Segmentation.class);
         } catch (IOException e) {
             e.printStackTrace();
          }
@@ -522,7 +588,11 @@ public class RecombeeClient {
                             (request instanceof RecommendUsersToUser) ||
                             (request instanceof RecommendItemsToItem) ||
                             (request instanceof RecommendUsersToItem) ||
-                            (request instanceof RecommendNextItems))
+                            (request instanceof RecommendNextItems) ||
+                            (request instanceof RecommendItemSegmentsToUser) ||
+                            (request instanceof RecommendItemSegmentsToItem) ||
+                            (request instanceof RecommendItemSegmentsToItemSegment) ||
+                            (request instanceof SearchItemSegments))
                     {
                         parsedResponse = mapper.convertValue(parsedResponse, RecommendationResponse.class);
                     }
@@ -537,6 +607,10 @@ public class RecombeeClient {
                     else if (request instanceof DeleteMoreItems)
                     {
                         parsedResponse = mapper.convertValue(parsedResponse, DeleteMoreItemsResponse.class);
+                    }
+                    else if (request instanceof ListSegmentations)
+                    {
+                        parsedResponse = mapper.convertValue(parsedResponse, ListSegmentations.class);
                     }
                     /* Start of the generated code */
                     else if (request instanceof GetItemPropertyInfo)
@@ -693,6 +767,12 @@ public class RecombeeClient {
                         ViewPortion[] ar = new ViewPortion[array.size()];
                         for(int j=0;j<ar.length;j++) ar[j] = new ViewPortion(array.get(j));
                         parsedResponse = ar;
+                    }
+
+                    else if (request instanceof GetSegmentation)
+                    {
+                        Map<String, Object> obj = (Map<String, Object>) parsedResponse;
+                        parsedResponse = new Segmentation(obj);
                     }
                 /* End of the generated code */
                 }

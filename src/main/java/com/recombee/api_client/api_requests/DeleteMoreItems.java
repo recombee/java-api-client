@@ -12,19 +12,19 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Delete all the items that pass the filter.
- * If an item becomes obsolete/no longer available, it is meaningful to **keep it in the catalog** (along with all the interaction data, which are very useful), and **only exclude the item from recommendations**. In such a case, use [ReQL filter](https://docs.recombee.com/reql.html) instead of deleting the item completely.
+ * Deletes all the items that pass the filter.
+ * If an item becomes obsolete/no longer available, it is meaningful to **keep it in the catalog** (along with all the interaction data, which are very useful) and **only exclude the item from recommendations**. In such a case, use [ReQL filter](https://docs.recombee.com/reql.html) instead of deleting the item completely.
  */
 public class DeleteMoreItems extends Request {
 
     /**
-     * A [ReQL](https://docs.recombee.com/reql.html) expression, which return `true` for the items that shall be updated.
+     * A [ReQL](https://docs.recombee.com/reql.html) expression, which returns `true` for the items that shall be updated.
      */
     protected String filter;
 
     /**
      * Construct the request
-     * @param filter A [ReQL](https://docs.recombee.com/reql.html) expression, which return `true` for the items that shall be updated.
+     * @param filter A [ReQL](https://docs.recombee.com/reql.html) expression, which returns `true` for the items that shall be updated.
      */
     public DeleteMoreItems (String filter) {
         this.filter = filter;

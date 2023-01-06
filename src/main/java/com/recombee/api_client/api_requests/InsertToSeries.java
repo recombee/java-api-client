@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Inserts an existing item/series into series of given seriesId at position determined by time.
+ * Inserts an existing item/series into a series of the given seriesId at a position determined by time.
  */
 public class InsertToSeries extends Request {
 
@@ -33,7 +33,7 @@ public class InsertToSeries extends Request {
      */
     protected Double time;
     /**
-     * Indicates that any non-existing entity specified within the request should be created (as is corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set true, the behavior also depends on the `itemType`. Either item or series may be created if not present in the database.
+     * Indicates that any non-existing entity specified within the request should be created (as if corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set to true, the behavior also depends on the `itemType`. Either item or series may be created if not present in the database.
      */
     protected Boolean cascadeCreate;
 
@@ -53,7 +53,7 @@ public class InsertToSeries extends Request {
     }
 
     /**
-     * @param cascadeCreate Indicates that any non-existing entity specified within the request should be created (as is corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set true, the behavior also depends on the `itemType`. Either item or series may be created if not present in the database.
+     * @param cascadeCreate Indicates that any non-existing entity specified within the request should be created (as if corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set to true, the behavior also depends on the `itemType`. Either item or series may be created if not present in the database.
      */
     public InsertToSeries setCascadeCreate(boolean cascadeCreate) {
          this.cascadeCreate = cascadeCreate;

@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deletes the series of given `seriesId` from the database.
+ * Deletes the series of the given `seriesId` from the database.
  * Deleting a series will only delete assignment of items to it, not the items themselves!
  */
 public class DeleteSeries extends Request {

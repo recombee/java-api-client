@@ -12,18 +12,18 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * List all the detail views of a given item ever made by different users.
+ * Lists all the detail views of the given item ever made by different users.
  */
 public class ListItemDetailViews extends Request {
 
     /**
-     * ID of the item of which the detail views are to be listed.
+     * ID of the item whose detail views are to be listed.
      */
     protected String itemId;
 
     /**
      * Construct the request
-     * @param itemId ID of the item of which the detail views are to be listed.
+     * @param itemId ID of the item whose detail views are to be listed.
      */
     public ListItemDetailViews (String itemId) {
         this.itemId = itemId;

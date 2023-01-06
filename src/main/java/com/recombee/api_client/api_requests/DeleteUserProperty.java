@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deleting an user property is roughly equivalent to removing a column from the table of users.
+ * Deleting a user property is roughly equivalent to removing a column from the table of users.
  */
 public class DeleteUserProperty extends Request {
 

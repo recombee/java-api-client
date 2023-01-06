@@ -12,9 +12,9 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Recommend users that are likely to be interested in a given item.
- * It is also possible to use POST HTTP method (for example in case of very long ReQL filter) - query parameters then become body parameters.
- * The returned users are sorted by predicted interest in the item (first user being the most interested).
+ * Recommends users that are likely to be interested in the given item.
+ * It is also possible to use POST HTTP method (for example in the case of a very long ReQL filter) - query parameters then become body parameters.
+ * The returned users are sorted by predicted interest in the item (the first user being the most interested).
  */
 public class RecommendUsersToItem extends Request {
 
@@ -27,17 +27,17 @@ public class RecommendUsersToItem extends Request {
      */
     protected Long count;
     /**
-     * Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
-     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
-     * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
+     * Scenario defines a particular application of recommendations. It can be, for example, "homepage", "cart", or "emailing".
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see the performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * The AI that optimizes models to get the best results may optimize different scenarios separately or even use different models in each of the scenarios.
      */
     protected String scenario;
     /**
-     * If item of given *itemId* doesn't exist in the database, it creates the missing item.
+     * If an item of the given *itemId* doesn't exist in the database, it creates the missing item.
      */
     protected Boolean cascadeCreate;
     /**
-     * With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying the recommended users. 
+     * With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used to easily display the recommended users. 
      * Example response:
      * ```
      *   {
@@ -65,7 +65,7 @@ public class RecommendUsersToItem extends Request {
      */
     protected Boolean returnProperties;
     /**
-     * Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
+     * Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=country`:
      * ```
      *   {
@@ -91,24 +91,24 @@ public class RecommendUsersToItem extends Request {
      */
     protected String[] includedProperties;
     /**
-     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
-     * Filters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to filter recommended items based on the values of their attributes.
+     * Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     protected String filter;
     /**
-     * Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
-     * Boosters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * Number-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
+     * Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     protected String booster;
     /**
-     * Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
-     * See [this section](https://docs.recombee.com/recommendation_logics.html) for list of available logics and other details.
+     * Logic specifies the particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logics.html) for a list of available logics and other details.
      * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
-     * Logic can be also set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * Logic can also be set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     protected Logic logic;
     /**
-     * **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended items be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
+     * **Expert option** Real number from [0.0, 1.0], which determines how mutually dissimilar the recommended items should be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     protected Double diversity;
     /**
@@ -116,7 +116,7 @@ public class RecommendUsersToItem extends Request {
      */
     protected Map<String, Object> expertSettings;
     /**
-     * If there is a custom AB-testing running, return name of group to which the request belongs.
+     * If there is a custom AB-testing running, return the name of the group to which the request belongs.
      */
     protected Boolean returnAbGroup;
 
@@ -132,9 +132,9 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param scenario Scenario defines a particular application of recommendations. It can be for example "homepage", "cart" or "emailing".
-     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see performance of each scenario in the Admin UI separately, so you can check how well each application performs.
-     * The AI which optimizes models in order to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
+     * @param scenario Scenario defines a particular application of recommendations. It can be, for example, "homepage", "cart", or "emailing".
+     * You can set various settings to the [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com). You can also see the performance of each scenario in the Admin UI separately, so you can check how well each application performs.
+     * The AI that optimizes models to get the best results may optimize different scenarios separately or even use different models in each of the scenarios.
      */
     public RecommendUsersToItem setScenario(String scenario) {
          this.scenario = scenario;
@@ -142,7 +142,7 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param cascadeCreate If item of given *itemId* doesn't exist in the database, it creates the missing item.
+     * @param cascadeCreate If an item of the given *itemId* doesn't exist in the database, it creates the missing item.
      */
     public RecommendUsersToItem setCascadeCreate(boolean cascadeCreate) {
          this.cascadeCreate = cascadeCreate;
@@ -150,7 +150,7 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param returnProperties With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used for easy displaying the recommended users. 
+     * @param returnProperties With `returnProperties=true`, property values of the recommended users are returned along with their IDs in a JSON dictionary. The acquired property values can be used to easily display the recommended users. 
      * Example response:
      * ```
      *   {
@@ -182,7 +182,7 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param includedProperties Allows to specify, which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list. 
+     * @param includedProperties Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=country`:
      * ```
      *   {
@@ -212,8 +212,8 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to filter recommended items based on the values of their attributes.
-     * Filters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to filter recommended items based on the values of their attributes.
+     * Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToItem setFilter(String filter) {
          this.filter = filter;
@@ -221,8 +221,8 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression which allows you to boost recommendation rate of some items based on the values of their attributes.
-     * Boosters can be also assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
+     * Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToItem setBooster(String booster) {
          this.booster = booster;
@@ -230,10 +230,10 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param logic Logic specifies particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
-     * See [this section](https://docs.recombee.com/recommendation_logics.html) for list of available logics and other details.
+     * @param logic Logic specifies the particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
+     * See [this section](https://docs.recombee.com/recommendation_logics.html) for a list of available logics and other details.
      * The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
-     * Logic can be also set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
+     * Logic can also be set to a [scenario](https://docs.recombee.com/scenarios.html) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToItem setLogic(Logic logic) {
          this.logic = logic;
@@ -241,7 +241,7 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param diversity **Expert option** Real number from [0.0, 1.0] which determines how much mutually dissimilar should the recommended items be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
+     * @param diversity **Expert option** Real number from [0.0, 1.0], which determines how mutually dissimilar the recommended items should be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     public RecommendUsersToItem setDiversity(double diversity) {
          this.diversity = diversity;
@@ -257,7 +257,7 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param returnAbGroup If there is a custom AB-testing running, return name of group to which the request belongs.
+     * @param returnAbGroup If there is a custom AB-testing running, return the name of the group to which the request belongs.
      */
     public RecommendUsersToItem setReturnAbGroup(boolean returnAbGroup) {
          this.returnAbGroup = returnAbGroup;

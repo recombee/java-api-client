@@ -12,12 +12,12 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Adding an user property is somehow equivalent to adding a column to the table of users. The users may be characterized by various properties of different types.
+ * Adding a user property is somehow equivalent to adding a column to the table of users. The users may be characterized by various properties of different types.
  */
 public class AddUserProperty extends Request {
 
     /**
-     * Name of the user property to be created. Currently, the following names are reserved:`id`, `userid`, case insensitively. Also, the length of the property name must not exceed 63 characters.
+     * Name of the user property to be created. Currently, the following names are reserved: `id`, `userid`, case-insensitively. Also, the length of the property name must not exceed 63 characters.
      */
     protected String propertyName;
     /**
@@ -33,7 +33,7 @@ public class AddUserProperty extends Request {
 
     /**
      * Construct the request
-     * @param propertyName Name of the user property to be created. Currently, the following names are reserved:`id`, `userid`, case insensitively. Also, the length of the property name must not exceed 63 characters.
+     * @param propertyName Name of the user property to be created. Currently, the following names are reserved: `id`, `userid`, case-insensitively. Also, the length of the property name must not exceed 63 characters.
      * @param type Value type of the user property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`.
      * * `int` - Signed integer number.
      * * `double` - Floating point number. It uses 64-bit base-2 format (IEEE 754 standard).

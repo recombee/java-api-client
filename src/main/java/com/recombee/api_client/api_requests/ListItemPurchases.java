@@ -12,18 +12,18 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * List all the ever-made purchases of a given item.
+ * Lists all the ever-made purchases of the given item.
  */
 public class ListItemPurchases extends Request {
 
     /**
-     * ID of the item of which the pucrhases are to be listed.
+     * ID of the item whose purchases are to be listed.
      */
     protected String itemId;
 
     /**
      * Construct the request
-     * @param itemId ID of the item of which the pucrhases are to be listed.
+     * @param itemId ID of the item whose purchases are to be listed.
      */
     public ListItemPurchases (String itemId) {
         this.itemId = itemId;

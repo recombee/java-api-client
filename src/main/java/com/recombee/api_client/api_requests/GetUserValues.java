@@ -12,18 +12,18 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Get all the current property values of a given user.
+ * Gets all the current property values of the given user.
  */
 public class GetUserValues extends Request {
 
     /**
-     * ID of the user properties of which are to be obtained.
+     * ID of the user whose properties are to be obtained.
      */
     protected String userId;
 
     /**
      * Construct the request
-     * @param userId ID of the user properties of which are to be obtained.
+     * @param userId ID of the user whose properties are to be obtained.
      */
     public GetUserValues (String userId) {
         this.userId = userId;

@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * List all the cart additions ever made by a given user.
+ * Lists all the cart additions ever made by the given user.
  */
 public class ListUserCartAdditions extends Request {
 

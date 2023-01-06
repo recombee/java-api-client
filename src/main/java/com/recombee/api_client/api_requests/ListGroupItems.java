@@ -17,13 +17,13 @@ import com.recombee.api_client.util.HTTPMethod;
 public class ListGroupItems extends Request {
 
     /**
-     * ID of the group items of which are to be listed.
+     * ID of the group whose items are to be listed.
      */
     protected String groupId;
 
     /**
      * Construct the request
-     * @param groupId ID of the group items of which are to be listed.
+     * @param groupId ID of the group whose items are to be listed.
      */
     public ListGroupItems (String groupId) {
         this.groupId = groupId;

@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Adds a purchase of a given item made by a given user.
+ * Adds a purchase of the given item made by the given user.
  */
 public class AddPurchase extends Request {
 
@@ -33,15 +33,15 @@ public class AddPurchase extends Request {
      */
     protected Boolean cascadeCreate;
     /**
-     * Amount (number) of purchased items. The default is 1. For example if `user-x` purchases two `item-y` during a single order (session...), the `amount` should equal to 2.
+     * Amount (number) of purchased items. The default is 1. For example, if `user-x` purchases two `item-y` during a single order (session...), the `amount` should equal 2.
      */
     protected Double amount;
     /**
-     * Price paid by the user for the item. If `amount` is greater than 1, sum of prices of all the items should be given.
+     * Price paid by the user for the item. If `amount` is greater than 1, the sum of prices of all the items should be given.
      */
     protected Double price;
     /**
-     * Your profit from the purchased item. The profit is natural in e-commerce domain (for example if `user-x` purchases `item-y` for $100 and the gross margin is 30 %, then the profit is $30), but is applicable also in other domains (for example at a news company it may be income from displayed advertisement on article page). If `amount` is greater than 1, sum of profit of all the items should be given.
+     * Your profit from the purchased item. The profit is natural in the e-commerce domain (for example, if `user-x` purchases `item-y` for $100 and the gross margin is 30 %, then the profit is $30) but is also applicable in other domains (for example, at a news company it may be income from a displayed advertisement on article page). If `amount` is greater than 1, the sum of profit of all the items should be given.
      */
     protected Double profit;
     /**
@@ -81,7 +81,7 @@ public class AddPurchase extends Request {
     }
 
     /**
-     * @param amount Amount (number) of purchased items. The default is 1. For example if `user-x` purchases two `item-y` during a single order (session...), the `amount` should equal to 2.
+     * @param amount Amount (number) of purchased items. The default is 1. For example, if `user-x` purchases two `item-y` during a single order (session...), the `amount` should equal 2.
      */
     public AddPurchase setAmount(double amount) {
          this.amount = amount;
@@ -89,7 +89,7 @@ public class AddPurchase extends Request {
     }
 
     /**
-     * @param price Price paid by the user for the item. If `amount` is greater than 1, sum of prices of all the items should be given.
+     * @param price Price paid by the user for the item. If `amount` is greater than 1, the sum of prices of all the items should be given.
      */
     public AddPurchase setPrice(double price) {
          this.price = price;
@@ -97,7 +97,7 @@ public class AddPurchase extends Request {
     }
 
     /**
-     * @param profit Your profit from the purchased item. The profit is natural in e-commerce domain (for example if `user-x` purchases `item-y` for $100 and the gross margin is 30 %, then the profit is $30), but is applicable also in other domains (for example at a news company it may be income from displayed advertisement on article page). If `amount` is greater than 1, sum of profit of all the items should be given.
+     * @param profit Your profit from the purchased item. The profit is natural in the e-commerce domain (for example, if `user-x` purchases `item-y` for $100 and the gross margin is 30 %, then the profit is $30) but is also applicable in other domains (for example, at a news company it may be income from a displayed advertisement on article page). If `amount` is greater than 1, the sum of profit of all the items should be given.
      */
     public AddPurchase setProfit(double profit) {
          this.profit = profit;

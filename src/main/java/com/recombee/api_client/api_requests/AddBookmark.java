@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Adds a bookmark of a given item made by a given user.
+ * Adds a bookmark of the given item made by the given user.
  */
 public class AddBookmark extends Request {
 

@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * List all the view portions ever submitted by a given user.
+ * Lists all the view portions ever submitted by the given user.
  */
 public class ListUserViewPortions extends Request {
 

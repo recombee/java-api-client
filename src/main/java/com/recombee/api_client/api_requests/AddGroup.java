@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Creates new group in the database.
+ * Creates a new group in the database.
  */
 public class AddGroup extends Request {
 

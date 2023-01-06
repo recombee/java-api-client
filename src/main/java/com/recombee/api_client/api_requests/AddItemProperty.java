@@ -17,7 +17,7 @@ import com.recombee.api_client.util.HTTPMethod;
 public class AddItemProperty extends Request {
 
     /**
-     * Name of the item property to be created. Currently, the following names are reserved:`id`, `itemid`, case insensitively. Also, the length of the property name must not exceed 63 characters.
+     * Name of the item property to be created. Currently, the following names are reserved: `id`, `itemid`, case-insensitively. Also, the length of the property name must not exceed 63 characters.
      */
     protected String propertyName;
     /**
@@ -35,7 +35,7 @@ public class AddItemProperty extends Request {
 
     /**
      * Construct the request
-     * @param propertyName Name of the item property to be created. Currently, the following names are reserved:`id`, `itemid`, case insensitively. Also, the length of the property name must not exceed 63 characters.
+     * @param propertyName Name of the item property to be created. Currently, the following names are reserved: `id`, `itemid`, case-insensitively. Also, the length of the property name must not exceed 63 characters.
      * @param type Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`, `image` or `imageList`.
      * * `int`- Signed integer number.
      * * `double` - Floating point number. It uses 64-bit base-2 format (IEEE 754 standard).

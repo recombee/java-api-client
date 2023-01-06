@@ -15,7 +15,7 @@ class RecombeeTestCase {
     protected RecombeeClient client;
 
     public RecombeeTestCase() {
-        client = new RecombeeClient("client-test", "jGGQ6ZKa8rQ1zTAyxTc0EMn55YPF7FJLUtaMLhbsGxmvwxgTwXYqmUk5xVZFw98L").setRegion(Region.EU_WEST);
+        client = new RecombeeClient("recombee-test-java-sdk", "bsBM9HfunJTUPYdlVKtbfFtPKHZFaeUT8Kb9e2aGYqVBwMNj6Nlcm9PTZ4uuK3Fz").setRegion(Region.EU_WEST);
     }
 
     @Before

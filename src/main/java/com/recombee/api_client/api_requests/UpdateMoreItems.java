@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Update (some) property values of all the items that pass the filter.
+ * Updates (some) property values of all the items that pass the filter.
  * Example: *Setting all the items that are older than a week as unavailable*
  *   ```
  *     {
@@ -24,18 +24,18 @@ import com.recombee.api_client.util.HTTPMethod;
 public class UpdateMoreItems extends Request {
 
     /**
-     * A [ReQL](https://docs.recombee.com/reql.html) expression, which return `true` for the items that shall be updated.
+     * A [ReQL](https://docs.recombee.com/reql.html) expression, which returns `true` for the items that shall be updated.
      */
     protected String filter;
     /**
-     * A dictionary where the keys are properties which shall be updated.
+     * A dictionary where the keys are properties that shall be updated.
      */
     protected Map<String, Object> changes;
 
     /**
      * Construct the request
-     * @param filter A [ReQL](https://docs.recombee.com/reql.html) expression, which return `true` for the items that shall be updated.
-     * @param changes A dictionary where the keys are properties which shall be updated.
+     * @param filter A [ReQL](https://docs.recombee.com/reql.html) expression, which returns `true` for the items that shall be updated.
+     * @param changes A dictionary where the keys are properties that shall be updated.
      */
     public UpdateMoreItems (String filter,Map<String, Object> changes) {
         this.filter = filter;

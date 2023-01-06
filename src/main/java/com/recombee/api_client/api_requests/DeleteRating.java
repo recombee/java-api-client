@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deletes an existing rating specified by (`userId`, `itemId`, `timestamp`) from the database or all the ratings with given `userId` and `itemId` if `timestamp` is omitted.
+ * Deletes an existing rating specified by (`userId`, `itemId`, `timestamp`) from the database or all the ratings with the given `userId` and `itemId` if `timestamp` is omitted.
  */
 public class DeleteRating extends Request {
 
@@ -25,7 +25,7 @@ public class DeleteRating extends Request {
      */
     protected String itemId;
     /**
-     * Unix timestamp of the rating. If the `timestamp` is omitted, then all the ratings with given `userId` and `itemId` are deleted.
+     * Unix timestamp of the rating. If the `timestamp` is omitted, then all the ratings with the given `userId` and `itemId` are deleted.
      */
     protected Date timestamp;
 
@@ -41,7 +41,7 @@ public class DeleteRating extends Request {
     }
 
     /**
-     * @param timestamp Unix timestamp of the rating. If the `timestamp` is omitted, then all the ratings with given `userId` and `itemId` are deleted.
+     * @param timestamp Unix timestamp of the rating. If the `timestamp` is omitted, then all the ratings with the given `userId` and `itemId` are deleted.
      */
     public DeleteRating setTimestamp(Date timestamp) {
          this.timestamp = timestamp;

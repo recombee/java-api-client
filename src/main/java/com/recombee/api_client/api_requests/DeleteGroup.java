@@ -12,8 +12,8 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deletes the group of given `groupId` from the database.
- * Deleting a group will only delete assignment of items to it, not the items themselves!
+ * Deletes the group of the given `groupId` from the database.
+ * Deleting a group will only delete the assignment of items to it, not the items themselves!
  */
 public class DeleteGroup extends Request {
 

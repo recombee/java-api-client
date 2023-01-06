@@ -12,8 +12,8 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Adds new item of given `itemId` to the items catalog.
- * All the item properties for the newly created items are set null.
+ * Adds new item of the given `itemId` to the items catalog.
+ * All the item properties for the newly created items are set to null.
  */
 public class AddItem extends Request {
 

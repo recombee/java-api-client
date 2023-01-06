@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Adds a rating of given item made by a given user.
+ * Adds a rating of the given item made by the given user.
  */
 public class AddRating extends Request {
 
