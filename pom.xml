@@ -6,7 +6,7 @@
 
     <groupId>com.recombee</groupId>
     <artifactId>api-client-parent</artifactId>
-    <version>5.0.0</version>
+    <version>5.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Recombee API Client Parent</name>
     <description>A client library for easy use of the Recombee recommendation API</description>
