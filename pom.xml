@@ -67,6 +67,16 @@
                 <artifactId>api-client-spring-boot-2-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.recombee</groupId>
+                <artifactId>api-client-spring-boot-3-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.recombee</groupId>
+                <artifactId>api-client-spring-boot-3-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -74,6 +84,8 @@
         <module>api-client</module>
         <module>api-client-spring-boot-2-autoconfigure</module>
         <module>api-client-spring-boot-2-starter</module>
+        <module>api-client-spring-boot-3-autoconfigure</module>
+        <module>api-client-spring-boot-3-starter</module>
     </modules>
 
     <build>
