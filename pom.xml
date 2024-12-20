@@ -6,7 +6,7 @@
 
     <groupId>com.recombee</groupId>
     <artifactId>api-client</artifactId>
-    <version>4.1.0</version>
+    <version>4.1.2</version>
     <name>Recombee API Client</name>
     <description>A client library for easy use of the Recombee recommendation API</description>
     <url>http://recombee.com</url>
@@ -85,8 +85,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
