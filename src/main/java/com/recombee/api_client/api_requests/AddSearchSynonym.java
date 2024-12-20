@@ -14,7 +14,7 @@ import com.recombee.api_client.util.HTTPMethod;
 /**
  * Adds a new synonym for the [Search items](https://docs.recombee.com/api.html#search-items).
  * When the `term` is used in the search query, the `synonym` is also used for the full-text search.
- * Unless `oneWay=true`, it works also in the opposite way (`synonym` -> `term`).
+ * Unless `oneWay=true`, it works also in the opposite way (`synonym` -&amp;gt; `term`).
  * An example of a synonym can be `science fiction` for the term `sci-fi`.
  */
 public class AddSearchSynonym extends Request {
@@ -28,7 +28,7 @@ public class AddSearchSynonym extends Request {
      */
     protected String synonym;
     /**
-     * If set to `true`, only `term` -> `synonym` is considered. If set to `false`, also `synonym` -> `term` works.
+     * If set to `true`, only `term` -&amp;gt; `synonym` is considered. If set to `false`, also `synonym` -&amp;gt; `term` works.
      * Default: `false`.
      */
     protected Boolean oneWay;
@@ -45,7 +45,7 @@ public class AddSearchSynonym extends Request {
     }
 
     /**
-     * @param oneWay If set to `true`, only `term` -> `synonym` is considered. If set to `false`, also `synonym` -> `term` works.
+     * @param oneWay If set to `true`, only `term` -&amp;gt; `synonym` is considered. If set to `false`, also `synonym` -&amp;gt; `term` works.
      * Default: `false`.
      */
     public AddSearchSynonym setOneWay(boolean oneWay) {

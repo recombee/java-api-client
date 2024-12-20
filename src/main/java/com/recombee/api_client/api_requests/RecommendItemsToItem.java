@@ -76,7 +76,7 @@ public class RecommendItemsToItem extends Request {
      *           "id": "mixer-42",
      *           "values": {
      *             "description": "Stainless Steel Mixer",
-     *             "categories":   ["Home & Kitchen"],
+     *             "categories":   ["Home &amp; Kitchen"],
      *             "price": 39,
      *             "url": "myshop.com/mixer-42"
      *           }
@@ -225,7 +225,7 @@ public class RecommendItemsToItem extends Request {
      *           "id": "mixer-42",
      *           "values": {
      *             "description": "Stainless Steel Mixer",
-     *             "categories":   ["Home & Kitchen"],
+     *             "categories":   ["Home &amp; Kitchen"],
      *             "price": 39,
      *             "url": "myshop.com/mixer-42"
      *           }

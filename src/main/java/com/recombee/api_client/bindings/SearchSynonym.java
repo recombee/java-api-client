@@ -23,7 +23,7 @@ public class SearchSynonym extends RecombeeBinding {
      */
     protected String synonym;
     /**
-     * If set to `true`, only `term` -> `synonym` is considered. I set to `false`, also `synonym` -> `term` works.
+     * If set to `true`, only `term` -&amp;gt; `synonym` is considered. I set to `false`, also `synonym` -&amp;gt; `term` works.
      */
     protected Boolean oneWay;
 

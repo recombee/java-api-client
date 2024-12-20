@@ -43,7 +43,7 @@ public class ListItems extends Request {
      *     {
      *       "itemId": "mixer-42",
      *       "description": "Stainless Steel Mixer",
-     *       "categories":   ["Home & Kitchen"],
+     *       "categories":   ["Home &amp; Kitchen"],
      *       "price": 39,
      *       "url": "myshop.com/mixer-42"
      *     }
@@ -117,7 +117,7 @@ public class ListItems extends Request {
      *     {
      *       "itemId": "mixer-42",
      *       "description": "Stainless Steel Mixer",
-     *       "categories":   ["Home & Kitchen"],
+     *       "categories":   ["Home &amp; Kitchen"],
      *       "price": 39,
      *       "url": "myshop.com/mixer-42"
      *     }

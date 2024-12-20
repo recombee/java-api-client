@@ -16,7 +16,7 @@ import com.recombee.api_client.util.HTTPMethod;
  * Example: *Setting all the items that are older than a week as unavailable*
  *   ```
  *     {
- *       "filter": "'releaseDate' < now() - 7*24*3600",
+ *       "filter": "'releaseDate' &amp;lt; now() - 7*24*3600",
  *       "changes": {"available": false}
  *     }
  *   ```
