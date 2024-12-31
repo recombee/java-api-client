@@ -1,4 +1,4 @@
-package com.recombee.api_client.spring.boot._2.autoconfiguration;
+package com.recombee.api_client.spring.boot._3.autoconfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
