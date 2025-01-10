@@ -20,6 +20,10 @@ public class AddSeries extends Request {
      * ID of the series to be created.
      */
     protected String seriesId;
+    /**
+     * If set to `true`, the item will be created with the same ID as the series. Default is `true`.
+     */
+    protected Boolean cascadeCreate;
 
     /**
      * Construct the request
@@ -27,12 +31,24 @@ public class AddSeries extends Request {
      */
     public AddSeries (String seriesId) {
         this.seriesId = seriesId;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
+    /**
+     * @param cascadeCreate If set to `true`, the item will be created with the same ID as the series. Default is `true`.
+     */
+    public AddSeries setCascadeCreate(boolean cascadeCreate) {
+         this.cascadeCreate = cascadeCreate;
+         return this;
+    }
 
     public String getSeriesId() {
          return this.seriesId;
+    }
+
+    public boolean getCascadeCreate() {
+         if (this.cascadeCreate==null) return false;
+         return this.cascadeCreate;
     }
 
     /**
@@ -68,6 +84,9 @@ public class AddSeries extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        if (this.cascadeCreate!=null) {
+            params.put("cascadeCreate", this.cascadeCreate);
+        }
         return params;
     }
 

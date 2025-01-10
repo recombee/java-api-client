@@ -24,6 +24,7 @@ public class ListSeriesTest extends RecombeeTestCase {
         Series [] resp;
         Object resp2;
         // it 'lists entities'
+        waitForDataProcessing();
         resp = this.client.send(new ListSeries());
         assertArrayEquals (new Series[]{new Series("entity_id")},resp);
     }

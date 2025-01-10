@@ -21,10 +21,11 @@ public class ListItemsBatchTest extends RecombeeTestCase {
 
     @Test
     public void testListItems() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         Request[] requests = new Request[] {
             new ListItems(),
-            new ListItems()
+            new ListItems().setReturnProperties(true)
         };
 
         BatchResponse[] responses = this.client.send(new Batch(requests));

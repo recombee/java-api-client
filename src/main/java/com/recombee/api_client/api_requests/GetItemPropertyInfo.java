@@ -27,7 +27,7 @@ public class GetItemPropertyInfo extends Request {
      */
     public GetItemPropertyInfo (String propertyName) {
         this.propertyName = propertyName;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
 

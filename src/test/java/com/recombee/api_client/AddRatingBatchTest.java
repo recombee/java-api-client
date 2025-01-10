@@ -27,7 +27,6 @@ public class AddRatingBatchTest extends RecombeeTestCase {
             new AddRating("entity_id","entity_id",0),
             new AddRating("entity_id","nonex_id",-1),
             new AddRating("nonex_id","entity_id",0.5),
-            new AddRating("entity_id","entity_id",0).setTimestamp(new Date(-15)),
             new AddRating("entity_id","entity_id",-2),
             new AddRating("u_id","i_id",0.3).setCascadeCreate(true).setTimestamp(new Date(5)),
             new AddRating("u_id","i_id",0.3).setCascadeCreate(true).setTimestamp(new Date(5))
@@ -39,8 +38,7 @@ public class AddRatingBatchTest extends RecombeeTestCase {
         assertEquals(404,responses[2].getStatusCode());
         assertEquals(404,responses[3].getStatusCode());
         assertEquals(400,responses[4].getStatusCode());
-        assertEquals(400,responses[5].getStatusCode());
-        assertEquals(200,responses[6].getStatusCode());
-        assertEquals(409,responses[7].getStatusCode());
+        assertEquals(200,responses[5].getStatusCode());
+        assertEquals(409,responses[6].getStatusCode());
     }
 }

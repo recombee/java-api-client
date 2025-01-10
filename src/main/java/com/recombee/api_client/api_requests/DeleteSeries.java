@@ -21,6 +21,10 @@ public class DeleteSeries extends Request {
      * ID of the series to be deleted.
      */
     protected String seriesId;
+    /**
+     * If set to `true`, item with the same ID as seriesId will be also deleted. Default is `false`.
+     */
+    protected Boolean cascadeDelete;
 
     /**
      * Construct the request
@@ -28,12 +32,24 @@ public class DeleteSeries extends Request {
      */
     public DeleteSeries (String seriesId) {
         this.seriesId = seriesId;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
+    /**
+     * @param cascadeDelete If set to `true`, item with the same ID as seriesId will be also deleted. Default is `false`.
+     */
+    public DeleteSeries setCascadeDelete(boolean cascadeDelete) {
+         this.cascadeDelete = cascadeDelete;
+         return this;
+    }
 
     public String getSeriesId() {
          return this.seriesId;
+    }
+
+    public boolean getCascadeDelete() {
+         if (this.cascadeDelete==null) return false;
+         return this.cascadeDelete;
     }
 
     /**
@@ -69,6 +85,9 @@ public class DeleteSeries extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        if (this.cascadeDelete!=null) {
+            params.put("cascadeDelete", this.cascadeDelete);
+        }
         return params;
     }
 

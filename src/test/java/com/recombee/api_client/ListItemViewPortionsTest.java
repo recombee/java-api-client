@@ -24,6 +24,7 @@ public class ListItemViewPortionsTest extends InteractionsTestCase {
         ViewPortion [] resp;
         Object resp2;
         // it 'lists interactions'
+        waitForDataProcessing();
         resp = this.client.send(new ListItemViewPortions("item"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());

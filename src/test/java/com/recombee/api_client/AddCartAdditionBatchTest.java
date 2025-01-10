@@ -28,7 +28,6 @@ public class AddCartAdditionBatchTest extends RecombeeTestCase {
             new AddCartAddition("entity_id","entity_id").setTimestamp(parseDate("2013-10-29T09:38:41.341Z")),
             new AddCartAddition("entity_id","nonex_id"),
             new AddCartAddition("nonex_id","entity_id"),
-            new AddCartAddition("entity_id","entity_id").setTimestamp(new Date(-15)),
             new AddCartAddition("u_id2","i_id2").setCascadeCreate(true).setTimestamp(new Date(5)),
             new AddCartAddition("u_id2","i_id2").setCascadeCreate(true).setTimestamp(new Date(5))
         };
@@ -39,8 +38,7 @@ public class AddCartAdditionBatchTest extends RecombeeTestCase {
         assertEquals(200,responses[2].getStatusCode());
         assertEquals(404,responses[3].getStatusCode());
         assertEquals(404,responses[4].getStatusCode());
-        assertEquals(400,responses[5].getStatusCode());
-        assertEquals(200,responses[6].getStatusCode());
-        assertEquals(409,responses[7].getStatusCode());
+        assertEquals(200,responses[5].getStatusCode());
+        assertEquals(409,responses[6].getStatusCode());
     }
 }

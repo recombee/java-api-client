@@ -27,7 +27,7 @@ public class GetItemValues extends Request {
      */
     public GetItemValues (String itemId) {
         this.itemId = itemId;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
 

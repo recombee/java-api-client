@@ -24,10 +24,12 @@ public class ListItemsTest extends RecombeeTestCase {
         Item [] resp;
         Object resp2;
         // it 'lists entities'
+        waitForDataProcessing();
         resp = this.client.send(new ListItems());
         assertArrayEquals (new Item[]{new Item("entity_id")},resp);
         // it 'return properties'
-        resp = this.client.send(new ListItems());
+        waitForDataProcessing();
+        resp = this.client.send(new ListItems().setReturnProperties(true));
         assertEquals(1, resp.length);
     }
 }

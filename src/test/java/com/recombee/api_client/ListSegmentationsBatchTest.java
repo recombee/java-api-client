@@ -21,6 +21,7 @@ public class ListSegmentationsBatchTest extends RecombeeTestCase {
 
     @Test
     public void testListSegmentations() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         resp2 = this.client.send(new CreatePropertyBasedSegmentation("seg1","items","str_property"));
 

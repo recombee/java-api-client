@@ -24,6 +24,7 @@ public class ListItemPurchasesTest extends InteractionsTestCase {
         Purchase [] resp;
         Object resp2;
         // it 'lists interactions'
+        waitForDataProcessing();
         resp = this.client.send(new ListItemPurchases("item"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());

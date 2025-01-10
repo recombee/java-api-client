@@ -17,22 +17,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
-public class DeleteGroupBatchTest extends RecombeeTestCase {
+public class RecommendItemsToItemSegmentBatchTest extends RecombeeTestCase {
 
     @Test
-    public void testDeleteGroup() throws ApiException {
+    public void testRecommendItemsToItemSegment() throws ApiException {
         Object resp2;
         Request[] requests = new Request[] {
-            new DeleteGroup("entity_id"),
-            new DeleteGroup("entity_id"),
-            new DeleteGroup("***not_valid$$$"),
-            new DeleteGroup("valid_id")
+            new RecommendItemsToItemSegment("segment_id","entity_id",5).setScenario("scenario1").setCascadeCreate(true)
         };
 
         BatchResponse[] responses = this.client.send(new Batch(requests));
-        assertEquals(200,responses[0].getStatusCode());
-        assertEquals(404,responses[1].getStatusCode());
-        assertEquals(400,responses[2].getStatusCode());
-        assertEquals(404,responses[3].getStatusCode());
+        assertEquals(400,responses[0].getStatusCode());
     }
 }

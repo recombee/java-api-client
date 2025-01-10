@@ -24,6 +24,7 @@ public class ListUserDetailViewsTest extends InteractionsTestCase {
         DetailView [] resp;
         Object resp2;
         // it 'lists user interactions'
+        waitForDataProcessing();
         resp = this.client.send(new ListUserDetailViews("user"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());

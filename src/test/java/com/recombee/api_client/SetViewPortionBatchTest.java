@@ -27,7 +27,6 @@ public class SetViewPortionBatchTest extends RecombeeTestCase {
             new SetViewPortion("entity_id","entity_id",0),
             new SetViewPortion("entity_id","nonex_id",1),
             new SetViewPortion("nonex_id","entity_id",0.5),
-            new SetViewPortion("entity_id","entity_id",0).setTimestamp(new Date(-15)),
             new SetViewPortion("entity_id","entity_id",-2),
             new SetViewPortion("entity_id","entity_id",0.7).setSessionId("a****")
         };
@@ -39,6 +38,5 @@ public class SetViewPortionBatchTest extends RecombeeTestCase {
         assertEquals(404,responses[3].getStatusCode());
         assertEquals(400,responses[4].getStatusCode());
         assertEquals(400,responses[5].getStatusCode());
-        assertEquals(400,responses[6].getStatusCode());
     }
 }

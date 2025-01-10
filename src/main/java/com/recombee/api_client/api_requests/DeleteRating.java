@@ -37,7 +37,7 @@ public class DeleteRating extends Request {
     public DeleteRating (String userId,String itemId) {
         this.userId = userId;
         this.itemId = itemId;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
     /**

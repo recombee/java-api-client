@@ -24,6 +24,7 @@ public class ListUserBookmarksTest extends InteractionsTestCase {
         Bookmark [] resp;
         Object resp2;
         // it 'lists user interactions'
+        waitForDataProcessing();
         resp = this.client.send(new ListUserBookmarks("user"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());

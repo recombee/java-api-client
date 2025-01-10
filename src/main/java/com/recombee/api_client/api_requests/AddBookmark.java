@@ -49,7 +49,7 @@ public class AddBookmark extends Request {
     public AddBookmark (String userId,String itemId) {
         this.userId = userId;
         this.itemId = itemId;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
     /**

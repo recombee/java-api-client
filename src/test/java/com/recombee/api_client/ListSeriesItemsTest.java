@@ -24,6 +24,7 @@ public class ListSeriesItemsTest extends RecombeeTestCase {
         SeriesItem [] resp;
         Object resp2;
         // it 'lists set items'
+        waitForDataProcessing();
         resp = this.client.send(new ListSeriesItems("entity_id"));
         assertEquals(1, resp.length);
         assertEquals ("entity_id",resp[0].getItemId());

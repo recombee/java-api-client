@@ -37,7 +37,7 @@ public class DeletePurchase extends Request {
     public DeletePurchase (String userId,String itemId) {
         this.userId = userId;
         this.itemId = itemId;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
     /**

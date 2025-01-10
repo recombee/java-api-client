@@ -41,13 +41,6 @@ public class SetViewPortionTest extends RecombeeTestCase {
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());
         }
-        // it 'fails with invalid time'
-        try {
-            this.client.send(new SetViewPortion("entity_id","entity_id",0).setTimestamp(new Date(-15)));
-            fail("No exception thrown");
-        } catch (ResponseException ex) {
-            assertEquals(400,ex.getStatusCode());
-        }
         // it 'fails with invalid portion'
         try {
             this.client.send(new SetViewPortion("entity_id","entity_id",-2));

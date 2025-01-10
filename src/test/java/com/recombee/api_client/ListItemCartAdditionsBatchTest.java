@@ -21,6 +21,7 @@ public class ListItemCartAdditionsBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListItemCartAdditions() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         Request[] requests = new Request[] {
             new ListItemCartAdditions("item")

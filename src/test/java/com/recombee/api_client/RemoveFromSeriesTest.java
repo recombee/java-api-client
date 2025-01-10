@@ -23,18 +23,11 @@ public class RemoveFromSeriesTest extends RecombeeTestCase {
     public void testRemoveFromSeries() throws ApiException {
         String  resp;
         Object resp2;
-        // it 'fails when removing item which have different time'
-        try {
-            this.client.send(new RemoveFromSeries("entity_id","item","entity_id",0));
-            fail("No exception thrown");
-        } catch (ResponseException ex) {
-            assertEquals(404,ex.getStatusCode());
-        }
         // it 'does not fail when removing item that is contained in the set'
-        resp = this.client.send(new RemoveFromSeries("entity_id","item","entity_id",1));
+        resp = this.client.send(new RemoveFromSeries("entity_id","item","entity_id"));
         // it 'fails when removing item that is not contained in the set'
         try {
-            this.client.send(new RemoveFromSeries("entity_id","item","not_contained",1));
+            this.client.send(new RemoveFromSeries("entity_id","item","not_contained"));
             fail("No exception thrown");
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());

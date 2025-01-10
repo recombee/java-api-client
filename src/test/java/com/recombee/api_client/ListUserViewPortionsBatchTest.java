@@ -21,6 +21,7 @@ public class ListUserViewPortionsBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListUserViewPortions() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         Request[] requests = new Request[] {
             new ListUserViewPortions("user")

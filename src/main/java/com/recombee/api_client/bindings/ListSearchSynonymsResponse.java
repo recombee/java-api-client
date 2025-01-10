@@ -4,8 +4,8 @@ package com.recombee.api_client.bindings;
  This file is auto-generated, do not edit
 */
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Map;
 import java.util.Date;
 

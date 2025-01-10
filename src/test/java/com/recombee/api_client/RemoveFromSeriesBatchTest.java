@@ -23,14 +23,12 @@ public class RemoveFromSeriesBatchTest extends RecombeeTestCase {
     public void testRemoveFromSeries() throws ApiException {
         Object resp2;
         Request[] requests = new Request[] {
-            new RemoveFromSeries("entity_id","item","entity_id",0),
-            new RemoveFromSeries("entity_id","item","entity_id",1),
-            new RemoveFromSeries("entity_id","item","not_contained",1)
+            new RemoveFromSeries("entity_id","item","entity_id"),
+            new RemoveFromSeries("entity_id","item","not_contained")
         };
 
         BatchResponse[] responses = this.client.send(new Batch(requests));
-        assertEquals(404,responses[0].getStatusCode());
-        assertEquals(200,responses[1].getStatusCode());
-        assertEquals(404,responses[2].getStatusCode());
+        assertEquals(200,responses[0].getStatusCode());
+        assertEquals(404,responses[1].getStatusCode());
     }
 }

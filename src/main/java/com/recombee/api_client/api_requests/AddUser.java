@@ -27,7 +27,7 @@ public class AddUser extends Request {
      */
     public AddUser (String userId) {
         this.userId = userId;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
 

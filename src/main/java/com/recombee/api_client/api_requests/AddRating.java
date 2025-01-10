@@ -55,7 +55,7 @@ public class AddRating extends Request {
         this.userId = userId;
         this.itemId = itemId;
         this.rating = rating;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
     /**

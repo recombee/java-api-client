@@ -28,24 +28,18 @@ public class RemoveFromSeries extends Request {
      * ID of the item iff `itemType` is `item`. ID of the series iff `itemType` is `series`.
      */
     protected String itemId;
-    /**
-     * Time index of the item to be removed.
-     */
-    protected Double time;
 
     /**
      * Construct the request
      * @param seriesId ID of the series from which a series item is to be removed.
      * @param itemType Type of the item to be removed.
      * @param itemId ID of the item iff `itemType` is `item`. ID of the series iff `itemType` is `series`.
-     * @param time Time index of the item to be removed.
      */
-    public RemoveFromSeries (String seriesId,String itemType,String itemId,double time) {
+    public RemoveFromSeries (String seriesId,String itemType,String itemId) {
         this.seriesId = seriesId;
         this.itemType = itemType;
         this.itemId = itemId;
-        this.time = time;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
 
@@ -59,10 +53,6 @@ public class RemoveFromSeries extends Request {
 
     public String getItemId() {
          return this.itemId;
-    }
-
-    public double getTime() {
-         return this.time;
     }
 
     /**
@@ -88,9 +78,6 @@ public class RemoveFromSeries extends Request {
     @Override
     public Map<String, Object> getQueryParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("itemType", this.itemType.toString());
-        params.put("itemId", this.itemId.toString());
-        params.put("time", this.time.toString());
         return params;
     }
 
@@ -101,6 +88,8 @@ public class RemoveFromSeries extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("itemType", this.itemType);
+        params.put("itemId", this.itemId);
         return params;
     }
 

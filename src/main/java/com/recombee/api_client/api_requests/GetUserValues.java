@@ -27,7 +27,7 @@ public class GetUserValues extends Request {
      */
     public GetUserValues (String userId) {
         this.userId = userId;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
 

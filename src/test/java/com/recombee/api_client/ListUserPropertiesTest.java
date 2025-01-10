@@ -24,6 +24,7 @@ public class ListUserPropertiesTest extends RecombeeTestCase {
         PropertyInfo [] resp;
         Object resp2;
         // it 'lists properties'
+        waitForDataProcessing();
         resp = this.client.send(new ListUserProperties());
         assertEquals(2, resp.length);
     }

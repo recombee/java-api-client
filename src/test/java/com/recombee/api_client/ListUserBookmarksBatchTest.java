@@ -21,6 +21,7 @@ public class ListUserBookmarksBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListUserBookmarks() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         Request[] requests = new Request[] {
             new ListUserBookmarks("user")

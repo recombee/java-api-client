@@ -28,7 +28,7 @@ public class DeleteMoreItems extends Request {
      */
     public DeleteMoreItems (String filter) {
         this.filter = filter;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

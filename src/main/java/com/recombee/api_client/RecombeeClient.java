@@ -49,8 +49,6 @@ import com.recombee.api_client.api_requests.UpdateMoreItems;
 import com.recombee.api_client.api_requests.DeleteMoreItems;
 import com.recombee.api_client.api_requests.ListSeries;
 import com.recombee.api_client.api_requests.ListSeriesItems;
-import com.recombee.api_client.api_requests.ListGroups;
-import com.recombee.api_client.api_requests.ListGroupItems;
 import com.recombee.api_client.api_requests.GetUserValues;
 import com.recombee.api_client.api_requests.ListUsers;
 import com.recombee.api_client.api_requests.GetUserPropertyInfo;
@@ -75,6 +73,7 @@ import com.recombee.api_client.api_requests.RecommendUsersToItem;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToUser;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToItem;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToItemSegment;
+import com.recombee.api_client.api_requests.RecommendItemsToItemSegment;
 import com.recombee.api_client.api_requests.SearchItems;
 import com.recombee.api_client.api_requests.SearchItemSegments;
 import com.recombee.api_client.api_requests.AddSearchSynonym;
@@ -97,7 +96,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/4.1.5";
+    final String USER_AGENT = "recombee-java-api-client/5.0.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -207,26 +206,6 @@ public class RecombeeClient {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, SeriesItem[].class);
-        } catch (IOException e) {
-            e.printStackTrace();
-         }
-         return null;
-    }
-
-    public Group[] send(ListGroups request) throws ApiException {
-        String responseStr = sendRequest(request);
-        try {
-            return this.mapper.readValue(responseStr, Group[].class);
-        } catch (IOException e) {
-            e.printStackTrace();
-         }
-         return null;
-    }
-
-    public GroupItem[] send(ListGroupItems request) throws ApiException {
-        String responseStr = sendRequest(request);
-        try {
-            return this.mapper.readValue(responseStr, GroupItem[].class);
         } catch (IOException e) {
             e.printStackTrace();
          }
@@ -453,6 +432,16 @@ public class RecombeeClient {
          return null;
     }
 
+    public RecommendationResponse send(RecommendItemsToItemSegment request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
     public SearchResponse send(SearchItems request) throws ApiException {
         String responseStr = sendRequest(request);
         try {
@@ -591,6 +580,7 @@ public class RecombeeClient {
                             (request instanceof RecommendNextItems) ||
                             (request instanceof RecommendItemSegmentsToUser) ||
                             (request instanceof RecommendItemSegmentsToItem) ||
+                            (request instanceof RecommendItemsToItemSegment) ||
                             (request instanceof RecommendItemSegmentsToItemSegment) ||
                             (request instanceof SearchItemSegments))
                     {
@@ -610,7 +600,7 @@ public class RecombeeClient {
                     }
                     else if (request instanceof ListSegmentations)
                     {
-                        parsedResponse = mapper.convertValue(parsedResponse, ListSegmentations.class);
+                        parsedResponse = mapper.convertValue(parsedResponse, ListSegmentationsResponse.class);
                     }
                     /* Start of the generated code */
                     else if (request instanceof GetItemPropertyInfo)
@@ -640,22 +630,6 @@ public class RecombeeClient {
                         ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
                         SeriesItem[] ar = new SeriesItem[array.size()];
                         for(int j=0;j<ar.length;j++) ar[j] = new SeriesItem(array.get(j));
-                        parsedResponse = ar;
-                    }
-
-                    else if (request instanceof ListGroups)
-                    {
-                        ArrayList<String> array = (ArrayList<String>) parsedResponse;
-                        Group[] ar = new Group[array.size()];
-                        for(int j=0;j<ar.length;j++) ar[j] = new Group(array.get(j));
-                        parsedResponse = ar;
-                    }
-
-                    else if (request instanceof ListGroupItems)
-                    {
-                        ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
-                        GroupItem[] ar = new GroupItem[array.size()];
-                        for(int j=0;j<ar.length;j++) ar[j] = new GroupItem(array.get(j));
                         parsedResponse = ar;
                     }
 

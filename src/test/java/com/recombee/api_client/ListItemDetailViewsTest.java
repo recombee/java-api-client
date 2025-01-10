@@ -24,6 +24,7 @@ public class ListItemDetailViewsTest extends InteractionsTestCase {
         DetailView [] resp;
         Object resp2;
         // it 'lists interactions'
+        waitForDataProcessing();
         resp = this.client.send(new ListItemDetailViews("item"));
         assertEquals(1, resp.length);
         assertEquals ("item",resp[0].getItemId());

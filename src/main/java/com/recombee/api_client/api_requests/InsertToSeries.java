@@ -33,7 +33,7 @@ public class InsertToSeries extends Request {
      */
     protected Double time;
     /**
-     * Indicates that any non-existing entity specified within the request should be created (as if corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set to true, the behavior also depends on the `itemType`. Either item or series may be created if not present in the database.
+     * Indicates that any non-existing entity specified within the request should be created (as if corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set to true, the behavior also depends on the `itemType`. In case of `item`, an item is created, in case of `series` a series + corresponding item with the same ID is created.
      */
     protected Boolean cascadeCreate;
 
@@ -49,11 +49,11 @@ public class InsertToSeries extends Request {
         this.itemType = itemType;
         this.itemId = itemId;
         this.time = time;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
     /**
-     * @param cascadeCreate Indicates that any non-existing entity specified within the request should be created (as if corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set to true, the behavior also depends on the `itemType`. Either item or series may be created if not present in the database.
+     * @param cascadeCreate Indicates that any non-existing entity specified within the request should be created (as if corresponding PUT requests were invoked). This concerns both the `seriesId` and the `itemId`. If `cascadeCreate` is set to true, the behavior also depends on the `itemType`. In case of `item`, an item is created, in case of `series` a series + corresponding item with the same ID is created.
      */
     public InsertToSeries setCascadeCreate(boolean cascadeCreate) {
          this.cascadeCreate = cascadeCreate;

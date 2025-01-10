@@ -17,20 +17,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
-public class RemoveFromGroupTest extends RecombeeTestCase {
+public class RecommendItemsToItemSegmentTest extends RecombeeTestCase {
 
     @Test
-    public void testRemoveFromGroup() throws ApiException {
-        String  resp;
+    public void testRecommendItemsToItemSegment() throws ApiException {
+        RecommendationResponse  resp;
         Object resp2;
-        // it 'does not fail when removing item that is contained in the set'
-        resp = this.client.send(new RemoveFromGroup("entity_id","item","entity_id"));
-        // it 'fails when removing item that is not contained in the set'
+        // it 'rejects request to scenario which is not set up'
         try {
-            this.client.send(new RemoveFromGroup("entity_id","item","not_contained"));
+            this.client.send(new RecommendItemsToItemSegment("segment_id","entity_id",5).setScenario("scenario1").setCascadeCreate(true));
             fail("No exception thrown");
         } catch (ResponseException ex) {
-            assertEquals(404,ex.getStatusCode());
+            assertEquals(400,ex.getStatusCode());
         }
     }
 }

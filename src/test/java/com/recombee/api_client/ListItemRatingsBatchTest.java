@@ -21,6 +21,7 @@ public class ListItemRatingsBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListItemRatings() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         Request[] requests = new Request[] {
             new ListItemRatings("item")

@@ -16,7 +16,7 @@ import com.recombee.api_client.util.HTTPMethod;
  * Example: *Setting all the items that are older than a week as unavailable*
  *   ```
  *     {
- *       "filter": "'releaseDate' &amp;lt; now() - 7*24*3600",
+ *       "filter": "'releaseDate' &lt; now() - 7*24*3600",
  *       "changes": {"available": false}
  *     }
  *   ```
@@ -40,7 +40,7 @@ public class UpdateMoreItems extends Request {
     public UpdateMoreItems (String filter,Map<String, Object> changes) {
         this.filter = filter;
         this.changes = changes;
-        this.timeout = 1000;
+        this.timeout = 100000;
     }
 
 

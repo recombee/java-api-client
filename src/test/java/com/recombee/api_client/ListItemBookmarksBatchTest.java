@@ -21,6 +21,7 @@ public class ListItemBookmarksBatchTest extends InteractionsTestCase {
 
     @Test
     public void testListItemBookmarks() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         Request[] requests = new Request[] {
             new ListItemBookmarks("item")

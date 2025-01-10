@@ -24,6 +24,7 @@ public class ListSegmentationsTest extends RecombeeTestCase {
         ListSegmentationsResponse  resp;
         Object resp2;
         // it 'lists existing segmentations'
+        waitForDataProcessing();
         resp2 = this.client.send(new CreatePropertyBasedSegmentation("seg1","items","str_property"));
         resp = this.client.send(new ListSegmentations("items"));
         assertEquals(1, resp.getSegmentations().length);

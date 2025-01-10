@@ -21,6 +21,7 @@ public class ListItemPropertiesBatchTest extends RecombeeTestCase {
 
     @Test
     public void testListItemProperties() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         Request[] requests = new Request[] {
             new ListItemProperties()

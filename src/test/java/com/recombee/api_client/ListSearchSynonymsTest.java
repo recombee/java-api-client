@@ -24,6 +24,7 @@ public class ListSearchSynonymsTest extends RecombeeTestCase {
         ListSearchSynonymsResponse  resp;
         Object resp2;
         // it 'lists search synonyms'
+        waitForDataProcessing();
         resp2 = this.client.send(new AddSearchSynonym("sci-fi","science fiction"));
         resp = this.client.send(new ListSearchSynonyms());
         assertEquals(1, resp.getSynonyms().length);

@@ -29,7 +29,7 @@ public class DeleteItem extends Request {
      */
     public DeleteItem (String itemId) {
         this.itemId = itemId;
-        this.timeout = 1000;
+        this.timeout = 3000;
     }
 
 

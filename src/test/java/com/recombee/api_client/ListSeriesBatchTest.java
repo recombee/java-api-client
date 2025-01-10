@@ -21,6 +21,7 @@ public class ListSeriesBatchTest extends RecombeeTestCase {
 
     @Test
     public void testListSeries() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         Request[] requests = new Request[] {
             new ListSeries()

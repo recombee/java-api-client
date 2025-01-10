@@ -21,6 +21,7 @@ public class ListSearchSynonymsBatchTest extends RecombeeTestCase {
 
     @Test
     public void testListSearchSynonyms() throws ApiException {
+        waitForDataProcessing();
         Object resp2;
         resp2 = this.client.send(new AddSearchSynonym("sci-fi","science fiction"));
 

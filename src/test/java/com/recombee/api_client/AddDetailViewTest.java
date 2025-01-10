@@ -43,13 +43,6 @@ public class AddDetailViewTest extends RecombeeTestCase {
         } catch (ResponseException ex) {
             assertEquals(404,ex.getStatusCode());
         }
-        // it 'fails with invalid time'
-        try {
-            this.client.send(new AddDetailView("entity_id","entity_id").setTimestamp(new Date(-15)));
-            fail("No exception thrown");
-        } catch (ResponseException ex) {
-            assertEquals(400,ex.getStatusCode());
-        }
         // it 'really stores interaction to the system'
         resp = this.client.send(new AddDetailView("u_id2","i_id2").setCascadeCreate(true).setTimestamp(new Date(5)));
         try {
