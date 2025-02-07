@@ -24,7 +24,7 @@ If you are using Spring Boot, you can instead use the starter, which includes th
     <dependency>
         <groupId>com.recombee</groupId>
         <artifactId>api-client-spring-boot-2-starter</artifactId>
-        <version>4.1.0</version>
+        <version>5.0.0</version>
     </dependency>
 ```
 For the automatic configuration of the bean, you need to add the following properties:

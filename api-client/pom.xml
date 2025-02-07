@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.recombee</groupId>
         <artifactId>api-client-parent</artifactId>
-        <version>5.1.0-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>api-client</artifactId>
