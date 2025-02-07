@@ -17,6 +17,24 @@ The client is available in the [Maven Central Repository](https://mvnrepository.
     </dependency>
 ```
 
+### Spring Boot Starter
+If you are using Spring Boot, you can instead use the starter, which includes the api-client itself and an AutoConfiguration to create a RecombeeClient Bean. Add the following `<dependency>` entry to your project's POM:
+
+```xml
+    <dependency>
+        <groupId>com.recombee</groupId>
+        <artifactId>api-client-spring-boot-2-starter</artifactId>
+        <version>5.0.0</version>
+    </dependency>
+```
+For the automatic configuration of the bean, you need to add the following properties:
+
+```yaml
+com.recombee.client.database-id=my-database-id
+com.recombee.client.token=db-private-token
+com.recombee.client.region=US_WEST
+```
+
 ## Examples
 
 ### Basic example
@@ -39,6 +57,8 @@ import java.util.Random;
 public class BasicExample {
     public static void main(String[] args) {
 
+        // Create an instance of the client manually. If you are using Spring Boot with the starter,
+        // you can use dependency injection to get a fully configured instance of the RecombeeClient.
         RecombeeClient client = new RecombeeClient("--my-database-id--", "--db-private-token--").setRegion(Region.US_WEST);
         try {
 
