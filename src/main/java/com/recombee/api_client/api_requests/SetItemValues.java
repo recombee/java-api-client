@@ -31,6 +31,7 @@ public class SetItemValues extends SetValues {
     public SetItemValues (String itemId, Map<String, Object> values) {
         super(values);
         this.itemId = itemId;
+        this.timeout = 10000;
     }
 
     public String getItemId() {

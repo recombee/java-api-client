@@ -31,6 +31,7 @@ public class SetUserValues extends SetValues {
     public SetUserValues (String userId, Map<String, Object> values) {
         super(values);
         this.userId = userId;
+        this.timeout = 10000;
     }
 
     /**
