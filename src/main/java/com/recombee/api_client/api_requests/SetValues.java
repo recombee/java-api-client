@@ -30,6 +30,7 @@ public abstract class SetValues extends Request {
     public SetValues (Map<String, Object> values) {
         this.values = values;
         this.cascadeCreate = false;
+        this.timeout = 10000;
     }
 
     public Map<String, Object> getValues() {
