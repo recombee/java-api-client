@@ -17,7 +17,7 @@ import com.recombee.api_client.util.HTTPMethod;
 public class ListUsers extends Request {
 
     /**
-     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to filter users to be listed. Only the users for which the expression is *true* will be returned.
+     * Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter users to be listed. Only the users for which the expression is *true* will be returned.
      */
     protected String filter;
     /**
@@ -31,7 +31,7 @@ public class ListUsers extends Request {
     /**
      * With `returnProperties=true`, property values of the listed users are returned along with their IDs in a JSON dictionary. 
      * Example response:
-     * ```
+     * ```json
      *   [
      *     {
      *       "userId": "user-81",
@@ -50,7 +50,7 @@ public class ListUsers extends Request {
     /**
      * Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=country`:
-     * ```
+     * ```json
      *   [
      *     {
      *       "userId": "user-81",
@@ -73,7 +73,7 @@ public class ListUsers extends Request {
     }
 
     /**
-     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to filter users to be listed. Only the users for which the expression is *true* will be returned.
+     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter users to be listed. Only the users for which the expression is *true* will be returned.
      */
     public ListUsers setFilter(String filter) {
          this.filter = filter;
@@ -99,7 +99,7 @@ public class ListUsers extends Request {
     /**
      * @param returnProperties With `returnProperties=true`, property values of the listed users are returned along with their IDs in a JSON dictionary. 
      * Example response:
-     * ```
+     * ```json
      *   [
      *     {
      *       "userId": "user-81",
@@ -122,7 +122,7 @@ public class ListUsers extends Request {
     /**
      * @param includedProperties Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=country`:
-     * ```
+     * ```json
      *   [
      *     {
      *       "userId": "user-81",

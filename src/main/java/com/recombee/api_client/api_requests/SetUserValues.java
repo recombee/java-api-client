@@ -7,7 +7,7 @@ import java.util.HashMap;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Set/update (some) property values of a given user. The properties (columns) must be previously created by [Add user property](https://docs.recombee.com/api.html#add-user-property).
+ * Set/update (some) property values of a given user. The properties (columns) must be previously created by [Add user property](https://docs.recombee.com/api#add-user-property).
  */
 public class SetUserValues extends SetValues {
 

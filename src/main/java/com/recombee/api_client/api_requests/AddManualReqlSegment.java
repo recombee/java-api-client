@@ -13,7 +13,7 @@ import com.recombee.api_client.util.HTTPMethod;
 
 /**
  * Adds a new Segment into a Manual ReQL Segmentation.
- * The new Segment is defined by a [ReQL](https://docs.recombee.com/reql.html) filter that returns `true` for an item in case that this item belongs to the segment.
+ * The new Segment is defined by a [ReQL](https://docs.recombee.com/reql) filter that returns `true` for an item in case that this item belongs to the segment.
  */
 public class AddManualReqlSegment extends Request {
 

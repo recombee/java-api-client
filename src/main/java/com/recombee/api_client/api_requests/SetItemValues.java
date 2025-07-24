@@ -7,7 +7,7 @@ import java.util.HashMap;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Set/update (some) property values of a given item. The properties (columns) must be previously created by [Add item property](https://docs.recombee.com/api.html#add-item-property).
+ * Set/update (some) property values of a given item. The properties (columns) must be previously created by [Add item property](https://docs.recombee.com/api#add-item-property).
  */
 public class SetItemValues extends SetValues {
 

@@ -14,7 +14,7 @@ import com.recombee.api_client.util.HTTPMethod;
 /**
  * Updates (some) property values of all the items that pass the filter.
  * Example: *Setting all the items that are older than a week as unavailable*
- *   ```
+ *   ```json
  *     {
  *       "filter": "'releaseDate' &lt; now() - 7*24*3600",
  *       "changes": {"available": false}
@@ -24,7 +24,7 @@ import com.recombee.api_client.util.HTTPMethod;
 public class UpdateMoreItems extends Request {
 
     /**
-     * A [ReQL](https://docs.recombee.com/reql.html) expression, which returns `true` for the items that shall be updated.
+     * A [ReQL](https://docs.recombee.com/reql) expression, which returns `true` for the items that shall be updated.
      */
     protected String filter;
     /**
@@ -34,7 +34,7 @@ public class UpdateMoreItems extends Request {
 
     /**
      * Construct the request
-     * @param filter A [ReQL](https://docs.recombee.com/reql.html) expression, which returns `true` for the items that shall be updated.
+     * @param filter A [ReQL](https://docs.recombee.com/reql) expression, which returns `true` for the items that shall be updated.
      * @param changes A dictionary where the keys are properties that shall be updated.
      */
     public UpdateMoreItems (String filter,Map<String, Object> changes) {

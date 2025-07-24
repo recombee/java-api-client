@@ -12,7 +12,7 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Segment the items using multiple [ReQL](https://docs.recombee.com/reql.html) filters.
+ * Segment the items using multiple [ReQL](https://docs.recombee.com/reql) filters.
  * Use the Add Manual ReQL Items Segment endpoint to create the individual segments.
  */
 public class CreateManualReqlSegmentation extends Request {

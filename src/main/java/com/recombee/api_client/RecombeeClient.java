@@ -67,19 +67,20 @@ import com.recombee.api_client.api_requests.ListItemViewPortions;
 import com.recombee.api_client.api_requests.ListUserViewPortions;
 import com.recombee.api_client.api_requests.RecommendItemsToUser;
 import com.recombee.api_client.api_requests.RecommendItemsToItem;
+import com.recombee.api_client.api_requests.RecommendItemsToItemSegment;
 import com.recombee.api_client.api_requests.RecommendNextItems;
 import com.recombee.api_client.api_requests.RecommendUsersToUser;
 import com.recombee.api_client.api_requests.RecommendUsersToItem;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToUser;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToItem;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToItemSegment;
-import com.recombee.api_client.api_requests.RecommendItemsToItemSegment;
 import com.recombee.api_client.api_requests.SearchItems;
 import com.recombee.api_client.api_requests.SearchItemSegments;
 import com.recombee.api_client.api_requests.AddSearchSynonym;
 import com.recombee.api_client.api_requests.ListSearchSynonyms;
 import com.recombee.api_client.api_requests.ListSegmentations;
 import com.recombee.api_client.api_requests.GetSegmentation;
+import com.recombee.api_client.api_requests.ListScenarios;
 
 /* End of the generated code */
 /**
@@ -96,7 +97,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/5.0.0";
+    final String USER_AGENT = "recombee-java-api-client/5.1.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -372,6 +373,16 @@ public class RecombeeClient {
          return null;
     }
 
+    public RecommendationResponse send(RecommendItemsToItemSegment request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
     public RecommendationResponse send(RecommendNextItems request) throws ApiException {
         String responseStr = sendRequest(request);
         try {
@@ -423,16 +434,6 @@ public class RecombeeClient {
     }
 
     public RecommendationResponse send(RecommendItemSegmentsToItemSegment request) throws ApiException {
-        String responseStr = sendRequest(request);
-        try {
-            return this.mapper.readValue(responseStr, RecommendationResponse.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-         }
-         return null;
-    }
-
-    public RecommendationResponse send(RecommendItemsToItemSegment request) throws ApiException {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, RecommendationResponse.class);
@@ -496,6 +497,16 @@ public class RecombeeClient {
         String responseStr = sendRequest(request);
         try {
             return this.mapper.readValue(responseStr, Segmentation.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
+    public Scenario[] send(ListScenarios request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, Scenario[].class);
         } catch (IOException e) {
             e.printStackTrace();
          }
@@ -747,6 +758,14 @@ public class RecombeeClient {
                     {
                         Map<String, Object> obj = (Map<String, Object>) parsedResponse;
                         parsedResponse = new Segmentation(obj);
+                    }
+
+                    else if (request instanceof ListScenarios)
+                    {
+                        ArrayList<Map<String, Object>> array = (ArrayList<Map<String, Object>>) parsedResponse;
+                        Scenario[] ar = new Scenario[array.size()];
+                        for(int j=0;j<ar.length;j++) ar[j] = new Scenario(array.get(j));
+                        parsedResponse = ar;
                     }
                 /* End of the generated code */
                 }

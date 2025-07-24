@@ -17,7 +17,7 @@ import com.recombee.api_client.util.HTTPMethod;
 public class ListItems extends Request {
 
     /**
-     * Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to filter items to be listed. Only the items for which the expression is *true* will be returned.
+     * Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter items to be listed. Only the items for which the expression is *true* will be returned.
      */
     protected String filter;
     /**
@@ -31,7 +31,7 @@ public class ListItems extends Request {
     /**
      * With `returnProperties=true`, property values of the listed items are returned along with their IDs in a JSON dictionary. 
      * Example response:
-     * ```
+     * ```json
      *   [
      *     {
      *       "itemId": "tv-178",
@@ -54,7 +54,7 @@ public class ListItems extends Request {
     /**
      * Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=description,price`:
-     * ```
+     * ```json
      *   [
      *     {
      *       "itemId": "tv-178",
@@ -79,7 +79,7 @@ public class ListItems extends Request {
     }
 
     /**
-     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql.html) expression, which allows you to filter items to be listed. Only the items for which the expression is *true* will be returned.
+     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter items to be listed. Only the items for which the expression is *true* will be returned.
      */
     public ListItems setFilter(String filter) {
          this.filter = filter;
@@ -105,7 +105,7 @@ public class ListItems extends Request {
     /**
      * @param returnProperties With `returnProperties=true`, property values of the listed items are returned along with their IDs in a JSON dictionary. 
      * Example response:
-     * ```
+     * ```json
      *   [
      *     {
      *       "itemId": "tv-178",
@@ -132,7 +132,7 @@ public class ListItems extends Request {
     /**
      * @param includedProperties Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
      * Example response for `includedProperties=description,price`:
-     * ```
+     * ```json
      *   [
      *     {
      *       "itemId": "tv-178",

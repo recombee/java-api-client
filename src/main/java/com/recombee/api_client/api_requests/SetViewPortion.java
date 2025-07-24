@@ -34,7 +34,7 @@ public class SetViewPortion extends Request {
      */
     protected String sessionId;
     /**
-     * UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
+     * UTC timestamp of the view portion as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
      */
     protected Date timestamp;
     /**
@@ -72,7 +72,7 @@ public class SetViewPortion extends Request {
     }
 
     /**
-     * @param timestamp UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
+     * @param timestamp UTC timestamp of the view portion as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
      */
     public SetViewPortion setTimestamp(Date timestamp) {
          this.timestamp = timestamp;

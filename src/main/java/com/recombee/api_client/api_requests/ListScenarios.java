@@ -12,36 +12,26 @@ import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Deletes all the items that pass the filter.
- * If an item becomes obsolete/no longer available, it is meaningful to **keep it in the catalog** (along with all the interaction data, which are very useful) and **only exclude the item from recommendations**. In such a case, use [ReQL filter](https://docs.recombee.com/reql) instead of deleting the item completely.
+ * Get all [Scenarios](https://docs.recombee.com/scenarios) of the given database.
  */
-public class DeleteMoreItems extends Request {
+public class ListScenarios extends Request {
 
-    /**
-     * A [ReQL](https://docs.recombee.com/reql) expression, which returns `true` for the items that shall be updated.
-     */
-    protected String filter;
 
     /**
      * Construct the request
-     * @param filter A [ReQL](https://docs.recombee.com/reql) expression, which returns `true` for the items that shall be updated.
      */
-    public DeleteMoreItems (String filter) {
-        this.filter = filter;
-        this.timeout = 100000;
+    public ListScenarios () {
+        this.timeout = 10000;
     }
 
 
-    public String getFilter() {
-         return this.filter;
-    }
 
     /**
      * @return Used HTTP method
      */
     @Override
     public HTTPMethod getHTTPMethod() {
-        return HTTPMethod.DELETE;
+        return HTTPMethod.GET;
     }
 
     /**
@@ -49,7 +39,7 @@ public class DeleteMoreItems extends Request {
      */
     @Override
     public String getPath() {
-        return "/more-items/";
+        return "/scenarios/";
     }
 
     /**
@@ -69,7 +59,6 @@ public class DeleteMoreItems extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("filter", this.filter);
         return params;
     }
 
