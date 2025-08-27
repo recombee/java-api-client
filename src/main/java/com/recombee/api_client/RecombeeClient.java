@@ -949,7 +949,7 @@ public class RecombeeClient {
             return response.body().string();
         }
         catch (InterruptedIOException e) {
-            throw new ApiTimeoutException(request);
+            throw new ApiTimeoutException(request, e);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -1009,7 +1009,7 @@ public class RecombeeClient {
             throw new ResponseException(request, response.code(), response.body().string());
         } catch (IOException e) {
             e.printStackTrace();
-            throw new ResponseException(request, response.code(), "Failed to read the error from response");
+            throw new ResponseException(request, response.code(), "Failed to read the error from response", e);
         }
     }
 }
