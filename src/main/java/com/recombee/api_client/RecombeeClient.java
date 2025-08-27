@@ -917,6 +917,7 @@ public class RecombeeClient {
                 .connectTimeout(request.getTimeout(), TimeUnit.MILLISECONDS)
                 .readTimeout(request.getTimeout(), TimeUnit.MILLISECONDS)
                 .writeTimeout(request.getTimeout(), TimeUnit.MILLISECONDS)
+                .callTimeout(request.getTimeout() * 2, TimeUnit.MILLISECONDS)
                 .build();
 
 
