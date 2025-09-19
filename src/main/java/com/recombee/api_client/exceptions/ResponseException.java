@@ -5,7 +5,7 @@ import com.recombee.api_client.api_requests.Request;
 /**
  * Exception thrown when a request did not succeed (did not return 200 or 201)
  */
-public class ResponseException extends  ApiException {
+public class ResponseException extends ApiException {
 
     /**
      * Request which failed
@@ -17,7 +17,11 @@ public class ResponseException extends  ApiException {
     int statusCode;
 
     public ResponseException(Request request, int statusCode, String message) {
-        super(message);
+        this(request, statusCode, message, null);
+    }
+
+    public ResponseException(Request request, int statusCode, String message, Throwable cause) {
+        super(message, cause);
         this.request = request;
         this.statusCode = statusCode;
     }
