@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.recombee.api_client.bindings.Logic;
+import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -49,6 +50,14 @@ public class SetViewPortion extends Request {
      * A dictionary of additional data for the interaction.
      */
     protected Map<String, Object> additionalData;
+    /**
+     * Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+     */
+    protected Boolean autoPresented;
+    /**
+     * The duration (in seconds) that the user viewed the item. In update requests, this value may only increase and is required only if it has changed.
+     */
+    protected Double timeSpent;
 
     /**
      * Construct the request
@@ -103,6 +112,22 @@ public class SetViewPortion extends Request {
          return this;
     }
 
+    /**
+     * @param autoPresented Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+     */
+    public SetViewPortion setAutoPresented(boolean autoPresented) {
+         this.autoPresented = autoPresented;
+         return this;
+    }
+
+    /**
+     * @param timeSpent The duration (in seconds) that the user viewed the item. In update requests, this value may only increase and is required only if it has changed.
+     */
+    public SetViewPortion setTimeSpent(double timeSpent) {
+         this.timeSpent = timeSpent;
+         return this;
+    }
+
     public String getUserId() {
          return this.userId;
     }
@@ -134,6 +159,15 @@ public class SetViewPortion extends Request {
 
     public Map<String, Object> getAdditionalData() {
          return this.additionalData;
+    }
+
+    public boolean getAutoPresented() {
+         if (this.autoPresented==null) return false;
+         return this.autoPresented;
+    }
+
+    public double getTimeSpent() {
+         return this.timeSpent;
     }
 
     /**
@@ -186,6 +220,12 @@ public class SetViewPortion extends Request {
         }
         if (this.additionalData!=null) {
             params.put("additionalData", this.additionalData);
+        }
+        if (this.autoPresented!=null) {
+            params.put("autoPresented", this.autoPresented);
+        }
+        if (this.timeSpent!=null) {
+            params.put("timeSpent", this.timeSpent);
         }
         return params;
     }

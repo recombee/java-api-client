@@ -1,14 +1,11 @@
 package com.recombee.api_client.bindings;
 
-/*
- This file is auto-generated, do not edit
-*/
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Map;
-import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Logic extends RecombeeBinding {
     /**
      * Name of the logic that should be used
@@ -41,6 +38,22 @@ public class Logic extends RecombeeBinding {
 
     public Map<String, Object> getSettings() {
          return this.settings;
+    }
+
+    /**
+     * @param name Name of the logic that should be used
+     */
+    public Logic setName(String name) {
+         this.name = name;
+         return this;
+    }
+
+    /**
+     * @param settings Parameters passed to the logic
+     */
+    public Logic setSettings(Map<String, Object> settings) {
+         this.settings = settings;
+         return this;
     }
 
     @Override

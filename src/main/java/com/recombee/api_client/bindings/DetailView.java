@@ -34,6 +34,10 @@ public class DetailView extends RecombeeBinding {
      * A dictionary of additional data for the interaction.
      */
     protected Map<String, Object> additionalData;
+    /**
+     * Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+     */
+    protected Boolean autoPresented;
 
     public DetailView () {}
 
@@ -42,13 +46,14 @@ public class DetailView extends RecombeeBinding {
         this.itemId = itemId;
     }
 
-    public DetailView (String userId,String itemId,Date timestamp,long duration,String recommId,Map<String, Object> additionalData) {
+    public DetailView (String userId,String itemId,Date timestamp,long duration,String recommId,Map<String, Object> additionalData,boolean autoPresented) {
         this.userId = userId;
         this.itemId = itemId;
         this.timestamp = timestamp;
         this.duration = duration;
         this.recommId = recommId;
         this.additionalData = additionalData;
+        this.autoPresented = autoPresented;
     }
 
     public DetailView (Map<String, Object> jsonObject) {
@@ -57,6 +62,7 @@ public class DetailView extends RecombeeBinding {
         this.duration = (Long) jsonObject.get("duration");
         this.recommId = (String) jsonObject.get("recommId");
         this.additionalData = (Map<String, Object>) jsonObject.get("additionalData");
+        this.autoPresented = (Boolean) jsonObject.get("autoPresented");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -90,6 +96,11 @@ public class DetailView extends RecombeeBinding {
          return this.additionalData;
     }
 
+    public boolean getAutoPresented() {
+         if (this.autoPresented==null) return false;
+         return this.autoPresented;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -99,6 +110,7 @@ public class DetailView extends RecombeeBinding {
         append(this.duration).
         append(this.recommId).
         append(this.additionalData).
+        append(this.autoPresented).
         toHashCode();
     }
 
@@ -117,6 +129,7 @@ public class DetailView extends RecombeeBinding {
             append(this.duration, rhs.duration).
             append(this.recommId, rhs.recommId).
             append(this.additionalData, rhs.additionalData).
+            append(this.autoPresented, rhs.autoPresented).
             isEquals();
     }
 }

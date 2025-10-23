@@ -25,12 +25,14 @@ public class RecommendUsersToItemBatchTest extends RecommendationTestCase {
         Request[] requests = new Request[] {
             new RecommendUsersToItem("entity_id",9),
             new RecommendUsersToItem("nonexisting",9).setCascadeCreate(true),
-            new RecommendUsersToItem("nonexisting2",9).setCascadeCreate(true).setExpertSettings(new HashMap<String, Object>(){{}})
+            new RecommendUsersToItem("nonexisting2",9).setCascadeCreate(true).setExpertSettings(new HashMap<String, Object>(){{}}),
+            new RecommendUsersToItem("nonexisting2",9).setCascadeCreate(true).setReqlExpressions(new HashMap<String, String>(){{put("boolean","true");put("number","if ('answer' > 0) then 1 else 2");put("string","\"test\"");}})
         };
 
         BatchResponse[] responses = this.client.send(new Batch(requests));
         assertEquals(200,responses[0].getStatusCode());
         assertEquals(200,responses[1].getStatusCode());
         assertEquals(200,responses[2].getStatusCode());
+        assertEquals(200,responses[3].getStatusCode());
     }
 }

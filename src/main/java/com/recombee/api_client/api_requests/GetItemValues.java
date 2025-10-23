@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.recombee.api_client.bindings.Logic;
+import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**

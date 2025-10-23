@@ -74,6 +74,7 @@ import com.recombee.api_client.api_requests.RecommendUsersToItem;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToUser;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToItem;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToItemSegment;
+import com.recombee.api_client.api_requests.CompositeRecommendation;
 import com.recombee.api_client.api_requests.SearchItems;
 import com.recombee.api_client.api_requests.SearchItemSegments;
 import com.recombee.api_client.api_requests.AddSearchSynonym;
@@ -97,7 +98,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/5.1.2";
+    final String USER_AGENT = "recombee-java-api-client/6.0.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -443,6 +444,16 @@ public class RecombeeClient {
          return null;
     }
 
+    public CompositeRecommendationResponse send(CompositeRecommendation request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, CompositeRecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
     public SearchResponse send(SearchItems request) throws ApiException {
         String responseStr = sendRequest(request);
         try {
@@ -752,6 +763,12 @@ public class RecombeeClient {
                         ViewPortion[] ar = new ViewPortion[array.size()];
                         for(int j=0;j<ar.length;j++) ar[j] = new ViewPortion(array.get(j));
                         parsedResponse = ar;
+                    }
+
+                    else if (request instanceof CompositeRecommendation)
+                    {
+                        Map<String, Object> obj = (Map<String, Object>) parsedResponse;
+                        parsedResponse = new CompositeRecommendationResponse(obj);
                     }
 
                     else if (request instanceof GetSegmentation)

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.recombee.api_client.bindings.Logic;
+import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -132,6 +133,48 @@ public class RecommendItemsToItem extends Request {
      * Logic can also be set to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     protected Logic logic;
+    /**
+     * A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended item.
+     * This can be used to compute additional properties of the recommended items that are not stored in the database.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "isInUsersCity": "context_user[\"city\"] in 'cities'",
+     *     "distanceToUser": "earth_distance('location', context_user[\"location\"])",
+     *     "isFromSameCompany": "'company' == context_item[\"company\"]"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "restaurant-178",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": true,
+     *           "distanceToUser": 5200.2,
+     *           "isFromSameCompany": false
+     *         }
+     *       },
+     *       {
+     *         "id": "bar-42",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": false,
+     *           "distanceToUser": 2516.0,
+     *           "isFromSameCompany": true
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    protected Map<String, String> reqlExpressions;
     /**
      * **Expert option:** If *targetUserId* parameter is present, the recommendations are biased towards the given user. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get a user-based recommendation. The default value is `0`.
      */
@@ -302,6 +345,52 @@ public class RecommendItemsToItem extends Request {
     }
 
     /**
+     * @param reqlExpressions A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended item.
+     * This can be used to compute additional properties of the recommended items that are not stored in the database.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "isInUsersCity": "context_user[\"city\"] in 'cities'",
+     *     "distanceToUser": "earth_distance('location', context_user[\"location\"])",
+     *     "isFromSameCompany": "'company' == context_item[\"company\"]"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "restaurant-178",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": true,
+     *           "distanceToUser": 5200.2,
+     *           "isFromSameCompany": false
+     *         }
+     *       },
+     *       {
+     *         "id": "bar-42",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": false,
+     *           "distanceToUser": 2516.0,
+     *           "isFromSameCompany": true
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    public RecommendItemsToItem setReqlExpressions(Map<String, String> reqlExpressions) {
+         this.reqlExpressions = reqlExpressions;
+         return this;
+    }
+
+    /**
      * @param userImpact **Expert option:** If *targetUserId* parameter is present, the recommendations are biased towards the given user. Using *userImpact*, you may control this bias. For an extreme case of `userImpact=0.0`, the interactions made by the user are not taken into account at all (with the exception of history-based blacklisting), for `userImpact=1.0`, you'll get a user-based recommendation. The default value is `0`.
      */
     public RecommendItemsToItem setUserImpact(double userImpact) {
@@ -399,6 +488,10 @@ public class RecommendItemsToItem extends Request {
          return this.logic;
     }
 
+    public Map<String, String> getReqlExpressions() {
+         return this.reqlExpressions;
+    }
+
     public double getUserImpact() {
          return this.userImpact;
     }
@@ -483,6 +576,9 @@ public class RecommendItemsToItem extends Request {
         }
         if (this.logic!=null) {
             params.put("logic", this.logic);
+        }
+        if (this.reqlExpressions!=null) {
+            params.put("reqlExpressions", this.reqlExpressions);
         }
         if (this.userImpact!=null) {
             params.put("userImpact", this.userImpact);

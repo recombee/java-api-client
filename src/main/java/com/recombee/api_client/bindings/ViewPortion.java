@@ -38,6 +38,14 @@ public class ViewPortion extends RecombeeBinding {
      * A dictionary of additional data for the interaction.
      */
     protected Map<String, Object> additionalData;
+    /**
+     * Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+     */
+    protected Boolean autoPresented;
+    /**
+     * The duration (in seconds) that the user viewed the item. In update requests, this value may only increase and is required only if it has changed.
+     */
+    protected Double timeSpent;
 
     public ViewPortion () {}
 
@@ -47,7 +55,7 @@ public class ViewPortion extends RecombeeBinding {
         this.portion = portion;
     }
 
-    public ViewPortion (String userId,String itemId,double portion,String sessionId,Date timestamp,String recommId,Map<String, Object> additionalData) {
+    public ViewPortion (String userId,String itemId,double portion,String sessionId,Date timestamp,String recommId,Map<String, Object> additionalData,boolean autoPresented,double timeSpent) {
         this.userId = userId;
         this.itemId = itemId;
         this.portion = portion;
@@ -55,6 +63,8 @@ public class ViewPortion extends RecombeeBinding {
         this.timestamp = timestamp;
         this.recommId = recommId;
         this.additionalData = additionalData;
+        this.autoPresented = autoPresented;
+        this.timeSpent = timeSpent;
     }
 
     public ViewPortion (Map<String, Object> jsonObject) {
@@ -64,6 +74,8 @@ public class ViewPortion extends RecombeeBinding {
         this.sessionId = (String) jsonObject.get("sessionId");
         this.recommId = (String) jsonObject.get("recommId");
         this.additionalData = (Map<String, Object>) jsonObject.get("additionalData");
+        this.autoPresented = (Boolean) jsonObject.get("autoPresented");
+        this.timeSpent = (Double) jsonObject.get("timeSpent");
         Double epoch = 1000*(Double)jsonObject.get("timestamp");
         this.timestamp = new Date(epoch.longValue());
     }
@@ -101,6 +113,15 @@ public class ViewPortion extends RecombeeBinding {
          return this.additionalData;
     }
 
+    public boolean getAutoPresented() {
+         if (this.autoPresented==null) return false;
+         return this.autoPresented;
+    }
+
+    public double getTimeSpent() {
+         return this.timeSpent;
+    }
+
     @Override
     public int hashCode() {
     return new HashCodeBuilder(17, 31).
@@ -111,6 +132,8 @@ public class ViewPortion extends RecombeeBinding {
         append(this.timestamp).
         append(this.recommId).
         append(this.additionalData).
+        append(this.autoPresented).
+        append(this.timeSpent).
         toHashCode();
     }
 
@@ -130,6 +153,8 @@ public class ViewPortion extends RecombeeBinding {
             append(this.timestamp, rhs.timestamp).
             append(this.recommId, rhs.recommId).
             append(this.additionalData, rhs.additionalData).
+            append(this.autoPresented, rhs.autoPresented).
+            append(this.timeSpent, rhs.timeSpent).
             isEquals();
     }
 }

@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class ListSearchSynonymsResponse extends RecombeeBinding {
     /**
-     * Defined search synonyms.
+     * List of synonyms
      */
     protected SearchSynonym[] synonyms;
 

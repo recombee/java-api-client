@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.recombee.api_client.bindings.Logic;
+import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -91,12 +92,12 @@ public class RecommendUsersToUser extends Request {
      */
     protected String[] includedProperties;
     /**
-     * Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended items based on the values of their attributes.
+     * Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended users based on the values of their attributes.
      * Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     protected String filter;
     /**
-     * Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
+     * Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some users based on the values of their attributes.
      * Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     protected String booster;
@@ -107,6 +108,45 @@ public class RecommendUsersToUser extends Request {
      * Logic can also be set to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     protected Logic logic;
+    /**
+     * A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended user.
+     * This can be used to compute additional properties of the recommended users that are not stored in the database.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "isInUsersCity": "context_user[\"city\"] in 'cities'",
+     *     "distanceToUser": "earth_distance('location', context_user[\"location\"])"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "restaurant-178",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": true,
+     *           "distanceToUser": 5200.2
+     *         }
+     *       },
+     *       {
+     *         "id": "bar-42",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": false,
+     *           "distanceToUser": 2516.0
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    protected Map<String, String> reqlExpressions;
     /**
      * **Expert option:** Real number from [0.0, 1.0], which determines how mutually dissimilar the recommended users should be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
@@ -224,7 +264,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended items based on the values of their attributes.
+     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended users based on the values of their attributes.
      * Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToUser setFilter(String filter) {
@@ -233,7 +273,7 @@ public class RecommendUsersToUser extends Request {
     }
 
     /**
-     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
+     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some users based on the values of their attributes.
      * Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToUser setBooster(String booster) {
@@ -249,6 +289,49 @@ public class RecommendUsersToUser extends Request {
      */
     public RecommendUsersToUser setLogic(Logic logic) {
          this.logic = logic;
+         return this;
+    }
+
+    /**
+     * @param reqlExpressions A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended user.
+     * This can be used to compute additional properties of the recommended users that are not stored in the database.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "isInUsersCity": "context_user[\"city\"] in 'cities'",
+     *     "distanceToUser": "earth_distance('location', context_user[\"location\"])"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "restaurant-178",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": true,
+     *           "distanceToUser": 5200.2
+     *         }
+     *       },
+     *       {
+     *         "id": "bar-42",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": false,
+     *           "distanceToUser": 2516.0
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    public RecommendUsersToUser setReqlExpressions(Map<String, String> reqlExpressions) {
+         this.reqlExpressions = reqlExpressions;
          return this;
     }
 
@@ -338,6 +421,10 @@ public class RecommendUsersToUser extends Request {
          return this.logic;
     }
 
+    public Map<String, String> getReqlExpressions() {
+         return this.reqlExpressions;
+    }
+
     public double getDiversity() {
          return this.diversity;
     }
@@ -417,6 +504,9 @@ public class RecommendUsersToUser extends Request {
         }
         if (this.logic!=null) {
             params.put("logic", this.logic);
+        }
+        if (this.reqlExpressions!=null) {
+            params.put("reqlExpressions", this.reqlExpressions);
         }
         if (this.diversity!=null) {
             params.put("diversity", this.diversity);

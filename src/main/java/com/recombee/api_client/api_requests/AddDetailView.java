@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.recombee.api_client.bindings.Logic;
+import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -44,6 +45,10 @@ public class AddDetailView extends Request {
      * A dictionary of additional data for the interaction.
      */
     protected Map<String, Object> additionalData;
+    /**
+     * Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+     */
+    protected Boolean autoPresented;
 
     /**
      * Construct the request
@@ -96,6 +101,14 @@ public class AddDetailView extends Request {
          return this;
     }
 
+    /**
+     * @param autoPresented Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+     */
+    public AddDetailView setAutoPresented(boolean autoPresented) {
+         this.autoPresented = autoPresented;
+         return this;
+    }
+
     public String getUserId() {
          return this.userId;
     }
@@ -123,6 +136,11 @@ public class AddDetailView extends Request {
 
     public Map<String, Object> getAdditionalData() {
          return this.additionalData;
+    }
+
+    public boolean getAutoPresented() {
+         if (this.autoPresented==null) return false;
+         return this.autoPresented;
     }
 
     /**
@@ -174,6 +192,9 @@ public class AddDetailView extends Request {
         }
         if (this.additionalData!=null) {
             params.put("additionalData", this.additionalData);
+        }
+        if (this.autoPresented!=null) {
+            params.put("autoPresented", this.autoPresented);
         }
         return params;
     }

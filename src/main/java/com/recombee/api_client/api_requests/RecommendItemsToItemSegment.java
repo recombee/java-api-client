@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.recombee.api_client.bindings.Logic;
+import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -134,6 +135,45 @@ public class RecommendItemsToItemSegment extends Request {
      * Logic can also be set to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     protected Logic logic;
+    /**
+     * A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended item.
+     * This can be used to compute additional properties of the recommended items that are not stored in the database.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "isInUsersCity": "context_user[\"city\"] in 'cities'",
+     *     "distanceToUser": "earth_distance('location', context_user[\"location\"])"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "restaurant-178",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": true,
+     *           "distanceToUser": 5200.2
+     *         }
+     *       },
+     *       {
+     *         "id": "bar-42",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": false,
+     *           "distanceToUser": 2516.0
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    protected Map<String, String> reqlExpressions;
     /**
      * **Expert option:** If the *targetUserId* is provided:  Specifies the threshold of how relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend a number of items equal to *count* at any cost. If there is not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations being appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested relevance and may return less than *count* items when there is not enough data to fulfill it.
      */
@@ -296,6 +336,49 @@ public class RecommendItemsToItemSegment extends Request {
     }
 
     /**
+     * @param reqlExpressions A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended item.
+     * This can be used to compute additional properties of the recommended items that are not stored in the database.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "isInUsersCity": "context_user[\"city\"] in 'cities'",
+     *     "distanceToUser": "earth_distance('location', context_user[\"location\"])"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "restaurant-178",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": true,
+     *           "distanceToUser": 5200.2
+     *         }
+     *       },
+     *       {
+     *         "id": "bar-42",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": false,
+     *           "distanceToUser": 2516.0
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    public RecommendItemsToItemSegment setReqlExpressions(Map<String, String> reqlExpressions) {
+         this.reqlExpressions = reqlExpressions;
+         return this;
+    }
+
+    /**
      * @param minRelevance **Expert option:** If the *targetUserId* is provided:  Specifies the threshold of how relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend a number of items equal to *count* at any cost. If there is not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations being appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested relevance and may return less than *count* items when there is not enough data to fulfill it.
      */
     public RecommendItemsToItemSegment setMinRelevance(String minRelevance) {
@@ -377,6 +460,10 @@ public class RecommendItemsToItemSegment extends Request {
          return this.logic;
     }
 
+    public Map<String, String> getReqlExpressions() {
+         return this.reqlExpressions;
+    }
+
     public String getMinRelevance() {
          return this.minRelevance;
     }
@@ -454,6 +541,9 @@ public class RecommendItemsToItemSegment extends Request {
         }
         if (this.logic!=null) {
             params.put("logic", this.logic);
+        }
+        if (this.reqlExpressions!=null) {
+            params.put("reqlExpressions", this.reqlExpressions);
         }
         if (this.minRelevance!=null) {
             params.put("minRelevance", this.minRelevance);

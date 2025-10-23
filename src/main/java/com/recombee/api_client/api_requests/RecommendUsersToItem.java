@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import com.recombee.api_client.bindings.Logic;
+import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -23,7 +24,7 @@ public class RecommendUsersToItem extends Request {
      */
     protected String itemId;
     /**
-     * Number of items to be recommended (N for the top-N recommendation).
+     * Number of users to be recommended (N for the top-N recommendation).
      */
     protected Long count;
     /**
@@ -91,12 +92,12 @@ public class RecommendUsersToItem extends Request {
      */
     protected String[] includedProperties;
     /**
-     * Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended items based on the values of their attributes.
+     * Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended users based on the values of their attributes.
      * Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     protected String filter;
     /**
-     * Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
+     * Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some users based on the values of their attributes.
      * Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     protected String booster;
@@ -108,7 +109,49 @@ public class RecommendUsersToItem extends Request {
      */
     protected Logic logic;
     /**
-     * **Expert option:** Real number from [0.0, 1.0], which determines how mutually dissimilar the recommended items should be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
+     * A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended user.
+     * This can be used to compute additional properties of the recommended users that are not stored in the database.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "isInUsersCity": "context_user[\"city\"] in 'cities'",
+     *     "distanceToUser": "earth_distance('location', context_user[\"location\"])",
+     *     "isFromSameCompany": "'company' == context_item[\"company\"]"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "restaurant-178",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": true,
+     *           "distanceToUser": 5200.2,
+     *           "isFromSameCompany": false
+     *         }
+     *       },
+     *       {
+     *         "id": "bar-42",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": false,
+     *           "distanceToUser": 2516.0,
+     *           "isFromSameCompany": true
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    protected Map<String, String> reqlExpressions;
+    /**
+     * **Expert option:** Real number from [0.0, 1.0], which determines how mutually dissimilar the recommended users should be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     protected Double diversity;
     /**
@@ -123,7 +166,7 @@ public class RecommendUsersToItem extends Request {
     /**
      * Construct the request
      * @param itemId ID of the item for which the recommendations are to be generated.
-     * @param count Number of items to be recommended (N for the top-N recommendation).
+     * @param count Number of users to be recommended (N for the top-N recommendation).
      */
     public RecommendUsersToItem (String itemId,long count) {
         this.itemId = itemId;
@@ -212,7 +255,7 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended items based on the values of their attributes.
+     * @param filter Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended users based on the values of their attributes.
      * Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToItem setFilter(String filter) {
@@ -221,7 +264,7 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
+     * @param booster Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some users based on the values of their attributes.
      * Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
      */
     public RecommendUsersToItem setBooster(String booster) {
@@ -241,7 +284,53 @@ public class RecommendUsersToItem extends Request {
     }
 
     /**
-     * @param diversity **Expert option:** Real number from [0.0, 1.0], which determines how mutually dissimilar the recommended items should be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
+     * @param reqlExpressions A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended user.
+     * This can be used to compute additional properties of the recommended users that are not stored in the database.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "isInUsersCity": "context_user[\"city\"] in 'cities'",
+     *     "distanceToUser": "earth_distance('location', context_user[\"location\"])",
+     *     "isFromSameCompany": "'company' == context_item[\"company\"]"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "ce52ada4-e4d9-4885-943c-407db2dee837",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "restaurant-178",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": true,
+     *           "distanceToUser": 5200.2,
+     *           "isFromSameCompany": false
+     *         }
+     *       },
+     *       {
+     *         "id": "bar-42",
+     *         "reqlEvaluations": {
+     *           "isInUsersCity": false,
+     *           "distanceToUser": 2516.0,
+     *           "isFromSameCompany": true
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    public RecommendUsersToItem setReqlExpressions(Map<String, String> reqlExpressions) {
+         this.reqlExpressions = reqlExpressions;
+         return this;
+    }
+
+    /**
+     * @param diversity **Expert option:** Real number from [0.0, 1.0], which determines how mutually dissimilar the recommended users should be. The default value is 0.0, i.e., no diversification. Value 1.0 means maximal diversification.
      */
     public RecommendUsersToItem setDiversity(double diversity) {
          this.diversity = diversity;
@@ -300,6 +389,10 @@ public class RecommendUsersToItem extends Request {
 
     public Logic getLogic() {
          return this.logic;
+    }
+
+    public Map<String, String> getReqlExpressions() {
+         return this.reqlExpressions;
     }
 
     public double getDiversity() {
@@ -369,6 +462,9 @@ public class RecommendUsersToItem extends Request {
         }
         if (this.logic!=null) {
             params.put("logic", this.logic);
+        }
+        if (this.reqlExpressions!=null) {
+            params.put("reqlExpressions", this.reqlExpressions);
         }
         if (this.diversity!=null) {
             params.put("diversity", this.diversity);

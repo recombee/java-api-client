@@ -29,5 +29,7 @@ public class RecommendUsersToItemTest extends RecommendationTestCase {
         resp = this.client.send(new RecommendUsersToItem("nonexisting",9).setCascadeCreate(true));
         // it 'recommends with expert settings'
         resp = this.client.send(new RecommendUsersToItem("nonexisting2",9).setCascadeCreate(true).setExpertSettings(new HashMap<String, Object>(){{}}));
+        // it 'recommends with reql expressions'
+        resp = this.client.send(new RecommendUsersToItem("nonexisting2",9).setCascadeCreate(true).setReqlExpressions(new HashMap<String, String>(){{put("boolean","true");put("number","if ('answer' > 0) then 1 else 2");put("string","\"test\"");}}));
     }
 }
