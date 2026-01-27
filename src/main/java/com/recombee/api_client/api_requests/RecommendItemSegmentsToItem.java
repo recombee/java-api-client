@@ -82,6 +82,42 @@ public class RecommendItemSegmentsToItem extends Request {
      * If there is a custom AB-testing running, return the name of the group to which the request belongs.
      */
     protected Boolean returnAbGroup;
+    /**
+     * A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended Item Segment.
+     * This can be used to compute additional properties of the recommended Item Segments.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "countItems": "size(segment_items(\"categories\", 'segmentId'))"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "a7ac55a4-8d6e-4f19-addc-abac4164d8a8",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "category-fantasy-books",
+     *         "reqlEvaluations": {
+     *           "countItems": 486
+     *         }
+     *       },
+     *       {
+     *         "id": "category-sci-fi-costumes",
+     *         "reqlEvaluations": {
+     *           "countItems": 19
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    protected Map<String, String> reqlExpressions;
 
     /**
      * Construct the request
@@ -169,6 +205,46 @@ public class RecommendItemSegmentsToItem extends Request {
          return this;
     }
 
+    /**
+     * @param reqlExpressions A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended Item Segment.
+     * This can be used to compute additional properties of the recommended Item Segments.
+     * The keys are the names of the expressions, and the values are the actual ReQL expressions.
+     * Example request:
+     * ```json
+     * {
+     *   "reqlExpressions": {
+     *     "countItems": "size(segment_items(\"categories\", 'segmentId'))"
+     *   }
+     * }
+     * ```
+     * Example response:
+     * ```json
+     * {
+     *   "recommId": "a7ac55a4-8d6e-4f19-addc-abac4164d8a8",
+     *   "recomms": 
+     *     [
+     *       {
+     *         "id": "category-fantasy-books",
+     *         "reqlEvaluations": {
+     *           "countItems": 486
+     *         }
+     *       },
+     *       {
+     *         "id": "category-sci-fi-costumes",
+     *         "reqlEvaluations": {
+     *           "countItems": 19
+     *         }
+     *       }
+     *     ],
+     *    "numberNextRecommsCalls": 0
+     * }
+     * ```
+     */
+    public RecommendItemSegmentsToItem setReqlExpressions(Map<String, String> reqlExpressions) {
+         this.reqlExpressions = reqlExpressions;
+         return this;
+    }
+
     public String getItemId() {
          return this.itemId;
     }
@@ -209,6 +285,10 @@ public class RecommendItemSegmentsToItem extends Request {
     public boolean getReturnAbGroup() {
          if (this.returnAbGroup==null) return false;
          return this.returnAbGroup;
+    }
+
+    public Map<String, String> getReqlExpressions() {
+         return this.reqlExpressions;
     }
 
     /**
@@ -266,6 +346,9 @@ public class RecommendItemSegmentsToItem extends Request {
         }
         if (this.returnAbGroup!=null) {
             params.put("returnAbGroup", this.returnAbGroup);
+        }
+        if (this.reqlExpressions!=null) {
+            params.put("reqlExpressions", this.reqlExpressions);
         }
         return params;
     }
