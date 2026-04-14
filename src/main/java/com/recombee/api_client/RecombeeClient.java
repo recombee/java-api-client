@@ -74,6 +74,7 @@ import com.recombee.api_client.api_requests.RecommendUsersToItem;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToUser;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToItem;
 import com.recombee.api_client.api_requests.RecommendItemSegmentsToItemSegment;
+import com.recombee.api_client.api_requests.RecommendNextItemSegments;
 import com.recombee.api_client.api_requests.CompositeRecommendation;
 import com.recombee.api_client.api_requests.SearchItems;
 import com.recombee.api_client.api_requests.SearchItemSegments;
@@ -98,7 +99,7 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/6.1.0";
+    final String USER_AGENT = "recombee-java-api-client/6.2.0";
 
     private final OkHttpClient httpClient = new OkHttpClient();
 
@@ -444,6 +445,16 @@ public class RecombeeClient {
          return null;
     }
 
+    public RecommendationResponse send(RecommendNextItemSegments request) throws ApiException {
+        String responseStr = sendRequest(request);
+        try {
+            return this.mapper.readValue(responseStr, RecommendationResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+         }
+         return null;
+    }
+
     public CompositeRecommendationResponse send(CompositeRecommendation request) throws ApiException {
         String responseStr = sendRequest(request);
         try {
@@ -604,7 +615,8 @@ public class RecombeeClient {
                             (request instanceof RecommendItemSegmentsToItem) ||
                             (request instanceof RecommendItemsToItemSegment) ||
                             (request instanceof RecommendItemSegmentsToItemSegment) ||
-                            (request instanceof SearchItemSegments))
+                            (request instanceof SearchItemSegments) ||
+                            (request instanceof RecommendNextItemSegments))
                     {
                         parsedResponse = mapper.convertValue(parsedResponse, RecommendationResponse.class);
                     }

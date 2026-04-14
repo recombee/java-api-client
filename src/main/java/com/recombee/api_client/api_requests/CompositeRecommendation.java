@@ -13,7 +13,7 @@ import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
- * Composite Recommendation returns both a *source entity* (e.g., an Item or [Item Segment](https://docs.recombee.com/segmentations.html)) and a list of related recommendations in a single response.
+ * Composite Recommendation returns both a *source entity* (e.g., an Item or [Item Segment](https://docs.recombee.com/segmentations)) and a list of related recommendations in a single response.
  * It is ideal for use cases such as personalized homepage sections (*Articles from &lt;category&gt;*), *Because You Watched &lt;movie&gt;*, or *Artists Related to Your Favorite Artist &lt;artist&gt;*.
  * See detailed **examples and configuration guidance** in the [Composite Scenarios documentation](https://docs.recombee.com/scenarios#composite-recommendations).
  * **Structure**
@@ -63,6 +63,10 @@ public class CompositeRecommendation extends Request {
      * ID of the segment from `contextSegmentationId` for which the recommendations are to be generated.
      */
     protected String segmentId;
+    /**
+     * Search query provided by the user. It is used for the full-text search. Only applicable if the *scenario* corresponds to a search scenario.
+     */
+    protected String searchQuery;
     /**
      * If the entity for the source recommendation does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows, for example, rotations in the following recommendations for that entity, as the entity will be already known to the system.
      */
@@ -129,6 +133,14 @@ public class CompositeRecommendation extends Request {
     }
 
     /**
+     * @param searchQuery Search query provided by the user. It is used for the full-text search. Only applicable if the *scenario* corresponds to a search scenario.
+     */
+    public CompositeRecommendation setSearchQuery(String searchQuery) {
+         this.searchQuery = searchQuery;
+         return this;
+    }
+
+    /**
      * @param cascadeCreate If the entity for the source recommendation does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows, for example, rotations in the following recommendations for that entity, as the entity will be already known to the system.
      */
     public CompositeRecommendation setCascadeCreate(boolean cascadeCreate) {
@@ -182,6 +194,10 @@ public class CompositeRecommendation extends Request {
 
     public String getSegmentId() {
          return this.segmentId;
+    }
+
+    public String getSearchQuery() {
+         return this.searchQuery;
     }
 
     public boolean getCascadeCreate() {
@@ -247,6 +263,9 @@ public class CompositeRecommendation extends Request {
         }
         if (this.segmentId!=null) {
             params.put("segmentId", this.segmentId);
+        }
+        if (this.searchQuery!=null) {
+            params.put("searchQuery", this.searchQuery);
         }
         if (this.cascadeCreate!=null) {
             params.put("cascadeCreate", this.cascadeCreate);
