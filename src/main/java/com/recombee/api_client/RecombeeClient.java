@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import okhttp3.ConnectionPool;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -99,9 +100,13 @@ public class RecombeeClient {
 
     final int BATCH_MAX_SIZE = 10000; //Maximal number of requests within one batch request
 
-    final String USER_AGENT = "recombee-java-api-client/6.2.0";
+    final String USER_AGENT = "recombee-java-api-client/6.2.1";
 
-    private final OkHttpClient httpClient = new OkHttpClient();
+    private int connectionPoolMaxIdleConnections = 32;
+    private long connectionPoolKeepAliveDuration = 5;
+    private TimeUnit connectionPoolKeepAliveUnit = TimeUnit.MINUTES;
+
+    private OkHttpClient httpClient;
 
     public RecombeeClient(String databaseId, String token) {
         this.databaseId = databaseId;
@@ -113,6 +118,9 @@ public class RecombeeClient {
 
         if (System.getenv("RAPI_URI") != null)
             this.baseUri = System.getenv("RAPI_URI");
+
+
+        this.httpClient = buildHttpClient();
     }
 
     public NetworkApplicationProtocol getDefaultProtocol() {
@@ -147,6 +155,43 @@ public class RecombeeClient {
                 throw new IllegalArgumentException("Unknown region given");
         }
         return this;
+    }
+
+
+    /**
+     * Sets the maximum number of idle connections in the connection pool.
+     *
+     * @param maxIdleConnections maximum number of idle connections to keep in the pool
+     * @return this client instance for chaining
+     */
+    public RecombeeClient setConnectionPoolSize(int maxIdleConnections) {
+        this.connectionPoolMaxIdleConnections = maxIdleConnections;
+        this.httpClient = buildHttpClient();
+        return this;
+    }
+
+    /**
+     * Sets how long idle connections are kept alive in the connection pool.
+     *
+     * @param duration duration value
+     * @param unit     time unit of the duration
+     * @return this client instance for chaining
+     */
+    public RecombeeClient setConnectionPoolKeepAliveDuration(long duration, TimeUnit unit) {
+        this.connectionPoolKeepAliveDuration = duration;
+        this.connectionPoolKeepAliveUnit = unit;
+        this.httpClient = buildHttpClient();
+        return this;
+    }
+
+    private OkHttpClient buildHttpClient() {
+        ConnectionPool pool = new ConnectionPool(
+                connectionPoolMaxIdleConnections,
+                connectionPoolKeepAliveDuration,
+                connectionPoolKeepAliveUnit);
+        return new OkHttpClient.Builder()
+                .connectionPool(pool)
+                .build();
     }
 
     private String processRequestUri(Request request) {
