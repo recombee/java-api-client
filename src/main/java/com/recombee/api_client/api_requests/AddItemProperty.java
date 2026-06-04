@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
+import com.recombee.api_client.bindings.PropertyRole;
+import com.recombee.api_client.bindings.PropertyMetadata;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -23,29 +25,37 @@ public class AddItemProperty extends Request {
     protected String propertyName;
     /**
      * Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`, `image` or `imageList`.
-     * * `int`- Signed integer number.
+     * * `int` - Signed integer number.
      * * `double` - Floating point number. It uses 64-bit base-2 format (IEEE 754 standard).
      * * `string` - UTF-8 string.
      * * `boolean` - *true* / *false*
-     * * `timestamp` - Value representing date and time.
+     * * `timestamp` - Value representing date and time. ISO8601-1 pattern (string) or UTC epoch time (number).
      * * `set` - Set of strings.
      * * `image` - URL of an image (`jpeg`, `png` or `gif`).
-     * * `imageList` - List of URLs that refer to images. 
+     * * `imageList` - List of URLs that refer to images.
      */
     protected String type;
+    /**
+     * [Role](https://docs.recombee.com/api/property_roles_metadata#roles) to assign to the property.
+     */
+    protected PropertyRole role;
+    /**
+     * List of [metadata](https://docs.recombee.com/api/property_roles_metadata#metadata) entries to assign to the property.
+     */
+    protected PropertyMetadata[] metadata;
 
     /**
      * Construct the request
      * @param propertyName Name of the item property to be created. Currently, the following names are reserved: `id`, `itemid`, case-insensitively. Also, the length of the property name must not exceed 63 characters.
      * @param type Value type of the item property to be created. One of: `int`, `double`, `string`, `boolean`, `timestamp`, `set`, `image` or `imageList`.
-     * * `int`- Signed integer number.
+     * * `int` - Signed integer number.
      * * `double` - Floating point number. It uses 64-bit base-2 format (IEEE 754 standard).
      * * `string` - UTF-8 string.
      * * `boolean` - *true* / *false*
-     * * `timestamp` - Value representing date and time.
+     * * `timestamp` - Value representing date and time. ISO8601-1 pattern (string) or UTC epoch time (number).
      * * `set` - Set of strings.
      * * `image` - URL of an image (`jpeg`, `png` or `gif`).
-     * * `imageList` - List of URLs that refer to images. 
+     * * `imageList` - List of URLs that refer to images.
      */
     public AddItemProperty (String propertyName,String type) {
         this.propertyName = propertyName;
@@ -53,6 +63,21 @@ public class AddItemProperty extends Request {
         this.timeout = 100000;
     }
 
+    /**
+     * @param role [Role](https://docs.recombee.com/api/property_roles_metadata#roles) to assign to the property.
+     */
+    public AddItemProperty setRole(PropertyRole role) {
+         this.role = role;
+         return this;
+    }
+
+    /**
+     * @param metadata List of [metadata](https://docs.recombee.com/api/property_roles_metadata#metadata) entries to assign to the property.
+     */
+    public AddItemProperty setMetadata(PropertyMetadata[] metadata) {
+         this.metadata = metadata;
+         return this;
+    }
 
     public String getPropertyName() {
          return this.propertyName;
@@ -60,6 +85,14 @@ public class AddItemProperty extends Request {
 
     public String getType() {
          return this.type;
+    }
+
+    public PropertyRole getRole() {
+         return this.role;
+    }
+
+    public PropertyMetadata[] getMetadata() {
+         return this.metadata;
     }
 
     /**
@@ -85,7 +118,6 @@ public class AddItemProperty extends Request {
     @Override
     public Map<String, Object> getQueryParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("type", this.type.toString());
         return params;
     }
 
@@ -96,6 +128,13 @@ public class AddItemProperty extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("type", this.type);
+        if (this.role!=null) {
+            params.put("role", this.role);
+        }
+        if (this.metadata!=null) {
+            params.put("metadata", this.metadata);
+        }
         return params;
     }
 

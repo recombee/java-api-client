@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 import com.recombee.api_client.bindings.Logic;
 import com.recombee.api_client.bindings.CompositeRecommendationStageParameters;
+import com.recombee.api_client.bindings.PropertyRole;
+import com.recombee.api_client.bindings.PropertyMetadata;
 import com.recombee.api_client.util.HTTPMethod;
 
 /**
@@ -27,10 +29,18 @@ public class AddUserProperty extends Request {
      * * `double` - Floating point number. It uses 64-bit base-2 format (IEEE 754 standard).
      * * `string` - UTF-8 string.
      * * `boolean` - *true* / *false*
-     * * `timestamp` - Value representing date and time.
+     * * `timestamp` - Value representing date and time. ISO8601-1 pattern (string) or UTC epoch time (number).
      * * `set` - Set of strings.
      */
     protected String type;
+    /**
+     * [Role](https://docs.recombee.com/api/property_roles_metadata#roles) to assign to the property.
+     */
+    protected PropertyRole role;
+    /**
+     * List of [metadata](https://docs.recombee.com/api/property_roles_metadata#metadata) entries to assign to the property.
+     */
+    protected PropertyMetadata[] metadata;
 
     /**
      * Construct the request
@@ -40,7 +50,7 @@ public class AddUserProperty extends Request {
      * * `double` - Floating point number. It uses 64-bit base-2 format (IEEE 754 standard).
      * * `string` - UTF-8 string.
      * * `boolean` - *true* / *false*
-     * * `timestamp` - Value representing date and time.
+     * * `timestamp` - Value representing date and time. ISO8601-1 pattern (string) or UTC epoch time (number).
      * * `set` - Set of strings.
      */
     public AddUserProperty (String propertyName,String type) {
@@ -49,6 +59,21 @@ public class AddUserProperty extends Request {
         this.timeout = 100000;
     }
 
+    /**
+     * @param role [Role](https://docs.recombee.com/api/property_roles_metadata#roles) to assign to the property.
+     */
+    public AddUserProperty setRole(PropertyRole role) {
+         this.role = role;
+         return this;
+    }
+
+    /**
+     * @param metadata List of [metadata](https://docs.recombee.com/api/property_roles_metadata#metadata) entries to assign to the property.
+     */
+    public AddUserProperty setMetadata(PropertyMetadata[] metadata) {
+         this.metadata = metadata;
+         return this;
+    }
 
     public String getPropertyName() {
          return this.propertyName;
@@ -56,6 +81,14 @@ public class AddUserProperty extends Request {
 
     public String getType() {
          return this.type;
+    }
+
+    public PropertyRole getRole() {
+         return this.role;
+    }
+
+    public PropertyMetadata[] getMetadata() {
+         return this.metadata;
     }
 
     /**
@@ -81,7 +114,6 @@ public class AddUserProperty extends Request {
     @Override
     public Map<String, Object> getQueryParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("type", this.type.toString());
         return params;
     }
 
@@ -92,6 +124,13 @@ public class AddUserProperty extends Request {
     @Override
     public Map<String, Object> getBodyParameters() {
         HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("type", this.type);
+        if (this.role!=null) {
+            params.put("role", this.role);
+        }
+        if (this.metadata!=null) {
+            params.put("metadata", this.metadata);
+        }
         return params;
     }
 

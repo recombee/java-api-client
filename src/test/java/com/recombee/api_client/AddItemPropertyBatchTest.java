@@ -27,7 +27,11 @@ public class AddItemPropertyBatchTest extends RecombeeTestCase {
             new AddItemProperty("str","string"),
             new AddItemProperty("prop","integer"),
             new AddItemProperty("number2","int"),
-            new AddItemProperty("number2","int")
+            new AddItemProperty("number2","int"),
+            new AddItemProperty("title","string").setRole(new PropertyRole("title")),
+            new AddItemProperty("str4","string").setRole(new PropertyRole("summary")),
+            new AddItemProperty("str4","string").setRole(new PropertyRole("summary")),
+            new AddItemProperty("str5","string").setRole(new PropertyRole("titl"))
         };
 
         BatchResponse[] responses = this.client.send(new Batch(requests));
@@ -36,5 +40,9 @@ public class AddItemPropertyBatchTest extends RecombeeTestCase {
         assertEquals(400,responses[2].getStatusCode());
         assertEquals(201,responses[3].getStatusCode());
         assertEquals(409,responses[4].getStatusCode());
+        assertEquals(201,responses[5].getStatusCode());
+        assertEquals(201,responses[6].getStatusCode());
+        assertEquals(409,responses[7].getStatusCode());
+        assertEquals(404,responses[8].getStatusCode());
     }
 }
